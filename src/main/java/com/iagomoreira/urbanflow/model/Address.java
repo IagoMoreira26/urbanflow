@@ -2,9 +2,6 @@ package com.iagomoreira.urbanflow.model;
 
 import java.io.Serializable;
 
-import org.springframework.data.mongodb.core.mapping.Document;
-
-@Document
 public class Address implements Serializable {
 
 	private static final long serialVersionUID = 1L;

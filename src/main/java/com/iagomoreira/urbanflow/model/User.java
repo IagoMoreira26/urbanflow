@@ -22,13 +22,13 @@ public class User implements Serializable {
 
 	private Address address;
 	private LocalDateTime createdAt;
-	private LocalDateTime updateAt;
+	private LocalDateTime updatedAt;
 
 	public User() {
 	}
 
 	public User(String id, String name, String email, String password, String cpf, Address address,
-			LocalDateTime createdAt, LocalDateTime updateAt) {
+			LocalDateTime createdAt, LocalDateTime updatedAt) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -37,7 +37,7 @@ public class User implements Serializable {
 		this.cpf = cpf;
 		this.address = address;
 		this.createdAt = createdAt;
-		this.updateAt = updateAt;
+		this.updatedAt = updatedAt;
 	}
 
 	public String getId() {
@@ -96,12 +96,12 @@ public class User implements Serializable {
 		this.createdAt = createdAt;
 	}
 
-	public LocalDateTime getUpdateAt() {
-		return updateAt;
+	public LocalDateTime getUpdatedAt() {
+		return updatedAt;
 	}
 
-	public void setUpdateAt(LocalDateTime updateAt) {
-		this.updateAt = updateAt;
+	public void setUpdatedAt(LocalDateTime updatedAt) {
+		this.updatedAt = updatedAt;
 	}
 
 	@Override
