@@ -3,6 +3,7 @@ package com.iagomoreira.urbanflow.dto.user;
 import java.io.Serializable;
 
 import com.iagomoreira.urbanflow.dto.address.AddressDTO;
+import com.iagomoreira.urbanflow.validation.ValidCpf;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
@@ -20,7 +21,7 @@ public class CreateUserDTO implements Serializable {
 	private String email;
 
 	@NotBlank
-	@validCpf
+	@ValidCpf
 	private String cpf;
 
 	@NotBlank
