@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import com.iagomoreira.urbanflow.dto.address.AddressDTO;
 import com.iagomoreira.urbanflow.dto.user.CreateUserDTO;
 import com.iagomoreira.urbanflow.dto.user.UserResponseDTO;
+import com.iagomoreira.urbanflow.exception.DatabaseException;
+import com.iagomoreira.urbanflow.exception.ResourceNotFoundException;
 import com.iagomoreira.urbanflow.model.Address;
 import com.iagomoreira.urbanflow.model.User;
 import com.iagomoreira.urbanflow.repository.UserRepository;
@@ -33,11 +35,11 @@ public class UserService {
 	public UserResponseDTO createUser(CreateUserDTO dto) {
 
 		userRepository.findByEmail(dto.getEmail()).ifPresent(user -> {
-			throw new RuntimeException("Email already exists");
+			throw new DatabaseException("Email already exists");
 		});
 
 		userRepository.findByCpf(dto.getCpf()).ifPresent(user -> {
-			throw new RuntimeException("CPF already exists");
+			throw new DatabaseException("CPF already exists");
 		});
 
 		User user = fromDTO(dto);
@@ -49,7 +51,7 @@ public class UserService {
 
 	public UserResponseDTO findById(String id) {
 
-		User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+		User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
 		return new UserResponseDTO(user);
 	}
