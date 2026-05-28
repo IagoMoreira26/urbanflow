@@ -20,12 +20,12 @@ public class Request implements Serializable {
 	@Id
 	private String id;
 
-	private User user;
+	private String userId;
 	private String title;
 	private String description;
 	private LocalDateTime createdAt;
-	private Category category;
-	private SubCategory subCategory;
+	private String categoryId;
+	private String subCategoryId;
 	private RequestStatus status;
 	private PriorityLevel citizenPriority;
 
@@ -39,17 +39,17 @@ public class Request implements Serializable {
 	public Request() {
 	}
 
-	public Request(String id, User user, String title, String description, LocalDateTime createdAt, Category category,
-			SubCategory subCategory, RequestStatus status, PriorityLevel citizenPriority, Double latitude,
-			Double longitude, Address address, List<Legislation> legislations) {
+	public Request(String id, String userId, String title, String description, LocalDateTime createdAt,
+			String categoryId, String subCategoryId, RequestStatus status, PriorityLevel citizenPriority,
+			Double latitude, Double longitude, Address address, List<Legislation> legislations) {
 		super();
 		this.id = id;
-		this.user = user;
+		this.userId = userId;
 		this.title = title;
 		this.description = description;
 		this.createdAt = createdAt;
-		this.category = category;
-		this.subCategory = subCategory;
+		this.categoryId = categoryId;
+		this.subCategoryId = subCategoryId;
 		this.status = status;
 		this.citizenPriority = citizenPriority;
 		this.latitude = latitude;
@@ -66,12 +66,12 @@ public class Request implements Serializable {
 		this.id = id;
 	}
 
-	public User getUser() {
-		return user;
+	public String getUserId() {
+		return userId;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
 	public String getTitle() {
@@ -98,20 +98,20 @@ public class Request implements Serializable {
 		this.createdAt = createdAt;
 	}
 
-	public Category getCategory() {
-		return category;
+	public String getCategoryId() {
+		return categoryId;
 	}
 
-	public void setCategory(Category category) {
-		this.category = category;
+	public void setCategoryId(String categoryId) {
+		this.categoryId = categoryId;
 	}
 
-	public SubCategory getSubCategory() {
-		return subCategory;
+	public String getSubCategoryId() {
+		return subCategoryId;
 	}
 
-	public void setSubCategory(SubCategory subCategory) {
-		this.subCategory = subCategory;
+	public void setSubCategoryId(String subCategoryId) {
+		this.subCategoryId = subCategoryId;
 	}
 
 	public RequestStatus getStatus() {
