@@ -13,17 +13,17 @@ public class SubCategory implements Serializable {
 	private String id;
 	private String name;
 	private String description;
-	private Category category;
+	private String categoryId;
 
 	public SubCategory() {
 	}
 
-	public SubCategory(String id, String name, String description, Category category) {
+	public SubCategory(String id, String name, String description, String categoryId) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.description = description;
-		this.category = category;
+		this.categoryId = categoryId;
 	}
 
 	public String getId() {
@@ -50,12 +50,12 @@ public class SubCategory implements Serializable {
 		this.description = description;
 	}
 
-	public Category getCategory() {
-		return category;
+	public String getCategoryId() {
+		return categoryId;
 	}
 
-	public void setCategory(Category category) {
-		this.category = category;
+	public void setCategoryId(String categoryId) {
+		this.categoryId = categoryId;
 	}
 
 	@Override

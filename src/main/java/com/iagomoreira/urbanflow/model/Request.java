@@ -34,14 +34,14 @@ public class Request implements Serializable {
 
 	private Address address;
 
-	private List<Legislation> legislations = new ArrayList<>();
+	private List<String> legislationIds = new ArrayList<>();
 
 	public Request() {
 	}
 
 	public Request(String id, String userId, String title, String description, LocalDateTime createdAt,
 			String categoryId, String subCategoryId, RequestStatus status, PriorityLevel citizenPriority,
-			Double latitude, Double longitude, Address address, List<Legislation> legislations) {
+			Double latitude, Double longitude, Address address, List<String> legislationIds) {
 		super();
 		this.id = id;
 		this.userId = userId;
@@ -55,7 +55,7 @@ public class Request implements Serializable {
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.address = address;
-		this.legislations = legislations;
+		this.legislationIds = legislationIds;
 	}
 
 	public String getId() {
@@ -154,12 +154,12 @@ public class Request implements Serializable {
 		this.address = address;
 	}
 
-	public List<Legislation> getLegislations() {
-		return legislations;
+	public List<String> getLegislationIds() {
+		return legislationIds;
 	}
 
-	public void setLegislations(List<Legislation> legislations) {
-		this.legislations = legislations;
+	public void setLegislationIds(List<String> legislationIds) {
+		this.legislationIds = legislationIds;
 	}
 
 	@Override

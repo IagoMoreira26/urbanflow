@@ -18,7 +18,7 @@ public class GlobalExceptionHandler {
 	public ResponseEntity<StandardError> resourceNotFound(ResourceNotFoundException e, HttpServletRequest request) {
 
 		StandardError error = new StandardError(LocalDateTime.now(), HttpStatus.NOT_FOUND.value(), e.getMessage(),
-				request.getRequestURI());
+				request.getRequestURI(), null);
 
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
 	}
@@ -27,7 +27,7 @@ public class GlobalExceptionHandler {
 	public ResponseEntity<StandardError> databaseException(DatabaseException e, HttpServletRequest request) {
 
 		StandardError error = new StandardError(LocalDateTime.now(), HttpStatus.BAD_REQUEST.value(), e.getMessage(),
-				request.getRequestURI());
+				request.getRequestURI(), null);
 
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
 	}
@@ -42,6 +42,15 @@ public class GlobalExceptionHandler {
 
 			error.addError(fieldError.getField(), fieldError.getDefaultMessage());
 		}
+
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+	}
+
+	@ExceptionHandler(BusinessException.class)
+	public ResponseEntity<StandardError> businessException(BusinessException e, HttpServletRequest request) {
+
+		StandardError error = new StandardError(LocalDateTime.now(), HttpStatus.BAD_REQUEST.value(),
+				"Business Rule Violation", e.getMessage(), request.getRequestURI());
 
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
 	}

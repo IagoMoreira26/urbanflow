@@ -2,6 +2,7 @@ package com.iagomoreira.urbanflow.dto.request;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.iagomoreira.urbanflow.dto.address.AddressResponseDTO;
@@ -32,7 +33,7 @@ public class RequestDetailsDTO implements Serializable {
 	private String categoryId;
 	private String subCategoryId;
 
-	private List<Legislation> legislations;
+	private List<String> legislationIds;
 
 	public RequestDetailsDTO() {
 	}
@@ -59,7 +60,7 @@ public class RequestDetailsDTO implements Serializable {
 			this.address = new AddressResponseDTO(request.getAddress());
 		}
 
-		this.legislations = request.getLegislations();
+		this.legislationIds = request.getLegislationIds();
 	}
 
 	public String getId() {
@@ -106,7 +107,7 @@ public class RequestDetailsDTO implements Serializable {
 		return subCategoryId;
 	}
 
-	public List<Legislation> getLegislations() {
-		return legislations;
+	public List<String> getLegislationIds() {
+		return legislationIds;
 	}
 }

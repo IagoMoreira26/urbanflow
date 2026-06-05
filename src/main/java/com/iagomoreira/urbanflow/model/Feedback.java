@@ -16,20 +16,21 @@ public class Feedback implements Serializable {
 	private Integer rating;
 	private String comment;
 	private LocalDateTime createdAt;
-	private User user;
-	private Request request;
+	private String userId;
+	private String requestId;
 
 	public Feedback() {
 	}
 
-	public Feedback(String id, Integer rating, String comment, LocalDateTime createdAt, User user, Request request) {
+	public Feedback(String id, Integer rating, String comment, LocalDateTime createdAt, String userId,
+			String requestId) {
 		super();
 		this.id = id;
 		this.rating = rating;
 		this.comment = comment;
 		this.createdAt = createdAt;
-		this.user = user;
-		this.request = request;
+		this.userId = userId;
+		this.requestId = requestId;
 	}
 
 	public String getId() {
@@ -64,20 +65,20 @@ public class Feedback implements Serializable {
 		this.createdAt = createdAt;
 	}
 
-	public User getUser() {
-		return user;
+	public String getUserId() {
+		return userId;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public String getRequestId() {
+		return requestId;
 	}
 
-	public Request getRequest() {
-		return request;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
-	public void setRequest(Request request) {
-		this.request = request;
+	public void setRequestId(String requestId) {
+		this.requestId = requestId;
 	}
 
 	@Override

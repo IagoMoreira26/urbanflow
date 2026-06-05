@@ -12,7 +12,10 @@ import com.iagomoreira.urbanflow.exception.ResourceNotFoundException;
 import com.iagomoreira.urbanflow.model.Address;
 import com.iagomoreira.urbanflow.model.Request;
 import com.iagomoreira.urbanflow.model.enums.RequestStatus;
+import com.iagomoreira.urbanflow.repository.CategoryRepository;
 import com.iagomoreira.urbanflow.repository.RequestRepository;
+import com.iagomoreira.urbanflow.repository.SubCategoryRepository;
+import com.iagomoreira.urbanflow.repository.UserRepository;
 
 @Service
 public class RequestService {
@@ -20,7 +23,28 @@ public class RequestService {
 	@Autowired
 	private RequestRepository requestRepository;
 
+	@Autowired
+	private UserRepository userRepository;
+
+	@Autowired
+	private CategoryRepository categoryRepository;
+
+	@Autowired
+	private SubCategoryRepository subCategoryRepository;
+
 	public RequestResponseDTO createRequest(CreateRequestDTO dto) {
+
+		if (!userRepository.existsById(dto.getUserId())) {
+			throw new ResourceNotFoundException("User not found");
+		}
+
+		if (!categoryRepository.existsById(dto.getCategoryId())) {
+			throw new ResourceNotFoundException("Category not found");
+		}
+
+		if (!subCategoryRepository.existsById(dto.getSubCategoryId())) {
+			throw new ResourceNotFoundException("SubCategory not found");
+		}
 
 		Request request = fromDTO(dto);
 
