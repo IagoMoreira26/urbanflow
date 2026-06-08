@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import com.iagomoreira.urbanflow.dto.request.CreateRequestDTO;
 import com.iagomoreira.urbanflow.dto.request.RequestResponseDTO;
+import com.iagomoreira.urbanflow.dto.request.RequestStatisticsDTO;
 import com.iagomoreira.urbanflow.dto.request.UpdateRequestDTO;
 import com.iagomoreira.urbanflow.exception.BusinessException;
 import com.iagomoreira.urbanflow.exception.ResourceNotFoundException;
@@ -179,6 +180,32 @@ public class RequestService {
 		}
 
 		return requestRepository.findByUserId(userId).stream().map(RequestResponseDTO::new).toList();
+	}
+
+	public RequestStatisticsDTO getStatistics() {
+
+		List<Request> requests = requestRepository.findAll();
+
+		int totalRequests = requests.size();
+
+		if (totalRequests == 0) {
+
+			return new RequestStatisticsDTO(0, 0, 0, 0, 0, 0.0);
+		}
+
+		int receivedRequests = (int) requests.stream().filter(r -> r.getStatus() == RequestStatus.RECEIVED).count();
+
+		int inProgressRequests = (int) requests.stream().filter(r -> r.getStatus() == RequestStatus.IN_PROGRESS)
+				.count();
+
+		int resolvedRequests = (int) requests.stream().filter(r -> r.getStatus() == RequestStatus.RESOLVED).count();
+
+		int cancelledRequests = (int) requests.stream().filter(r -> r.getStatus() == RequestStatus.CANCELLED).count();
+
+		double resolutionRate = (resolvedRequests * 100.0) / totalRequests;
+
+		return new RequestStatisticsDTO(totalRequests, receivedRequests, inProgressRequests, resolvedRequests,
+				cancelledRequests, resolutionRate);
 	}
 
 	public List<RequestResponseDTO> search(RequestStatus status, String categoryId, String subCategoryId,

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.iagomoreira.urbanflow.dto.request.CreateRequestDTO;
 import com.iagomoreira.urbanflow.dto.request.RequestResponseDTO;
+import com.iagomoreira.urbanflow.dto.request.RequestStatisticsDTO;
 import com.iagomoreira.urbanflow.dto.request.UpdateRequestDTO;
 import com.iagomoreira.urbanflow.model.enums.RequestStatus;
 import com.iagomoreira.urbanflow.service.RequestService;
@@ -69,6 +70,12 @@ public class RequestController {
 	public List<RequestResponseDTO> findByUser(@PathVariable String userId) {
 
 		return requestService.findByUser(userId);
+	}
+
+	@GetMapping("/statistics")
+	public RequestStatisticsDTO getStatistics() {
+
+		return requestService.getStatistics();
 	}
 
 	@GetMapping("/search")
