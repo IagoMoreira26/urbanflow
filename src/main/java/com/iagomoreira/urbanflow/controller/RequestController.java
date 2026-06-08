@@ -16,10 +16,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.iagomoreira.urbanflow.dto.category.CategoryStatisticsDTO;
 import com.iagomoreira.urbanflow.dto.request.CreateRequestDTO;
 import com.iagomoreira.urbanflow.dto.request.RequestResponseDTO;
 import com.iagomoreira.urbanflow.dto.request.RequestStatisticsDTO;
 import com.iagomoreira.urbanflow.dto.request.UpdateRequestDTO;
+import com.iagomoreira.urbanflow.dto.subcategory.SubCategoryStatisticsDTO;
 import com.iagomoreira.urbanflow.model.enums.RequestStatus;
 import com.iagomoreira.urbanflow.service.RequestService;
 
@@ -76,6 +78,18 @@ public class RequestController {
 	public RequestStatisticsDTO getStatistics() {
 
 		return requestService.getStatistics();
+	}
+
+	@GetMapping("/statistics/category/{categoryId}")
+	public CategoryStatisticsDTO getCategoryStatistics(@PathVariable String categoryId) {
+
+		return requestService.getCategoryStatistics(categoryId);
+	}
+
+	@GetMapping("/statistics/subcategory/{subCategoryId}")
+	public SubCategoryStatisticsDTO getSubCategoryStatistics(@PathVariable String subCategoryId) {
+
+		return requestService.getSubCategoryStatistics(subCategoryId);
 	}
 
 	@GetMapping("/search")
