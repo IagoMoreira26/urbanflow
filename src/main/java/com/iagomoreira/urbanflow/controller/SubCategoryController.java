@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.iagomoreira.urbanflow.dto.subcategory.CreateSubCategoryDTO;
 import com.iagomoreira.urbanflow.dto.subcategory.SubCategoryResponseDTO;
+import com.iagomoreira.urbanflow.dto.subcategory.UpdateSubCategoryDTO;
 import com.iagomoreira.urbanflow.service.SubCategoryService;
 
 import jakarta.validation.Valid;
@@ -48,6 +50,12 @@ public class SubCategoryController {
 	public List<SubCategoryResponseDTO> findByCategory(@PathVariable String categoryId) {
 
 		return subCategoryService.findByCategory(categoryId);
+	}
+
+	@PutMapping("/{id}")
+	public SubCategoryResponseDTO update(@PathVariable String id, @Valid @RequestBody UpdateSubCategoryDTO dto) {
+
+		return subCategoryService.update(id, dto);
 	}
 
 	@DeleteMapping("/{id}")

@@ -36,7 +36,7 @@ public class GlobalExceptionHandler {
 	public ResponseEntity<ValidationError> validation(MethodArgumentNotValidException e, HttpServletRequest request) {
 
 		ValidationError error = new ValidationError(LocalDateTime.now(), HttpStatus.BAD_REQUEST.value(),
-				"Validation error", request.getRequestURI());
+				"Validation error", e.getMessage(), request.getRequestURI());
 
 		for (FieldError fieldError : e.getBindingResult().getFieldErrors()) {
 

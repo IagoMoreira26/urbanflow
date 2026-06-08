@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.iagomoreira.urbanflow.dto.request.CreateRequestDTO;
 import com.iagomoreira.urbanflow.dto.request.RequestResponseDTO;
+import com.iagomoreira.urbanflow.dto.request.UpdateRequestDTO;
 import com.iagomoreira.urbanflow.exception.ResourceNotFoundException;
 import com.iagomoreira.urbanflow.model.Address;
 import com.iagomoreira.urbanflow.model.Request;
@@ -105,5 +106,27 @@ public class RequestService {
 				.orElseThrow(() -> new ResourceNotFoundException("Request not found"));
 
 		return new RequestResponseDTO(request);
+	}
+
+	public RequestResponseDTO update(String id, UpdateRequestDTO dto) {
+
+		Request request = requestRepository.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Request not found"));
+
+		request.setTitle(dto.getTitle());
+		request.setDescription(dto.getDescription());
+
+		request = requestRepository.save(request);
+
+		return new RequestResponseDTO(request);
+	}
+
+	public void delete(String id) {
+
+		if (!requestRepository.existsById(id)) {
+			throw new ResourceNotFoundException("Request not found");
+		}
+
+		requestRepository.deleteById(id);
 	}
 }

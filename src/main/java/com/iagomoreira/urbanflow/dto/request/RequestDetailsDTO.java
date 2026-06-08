@@ -2,11 +2,9 @@ package com.iagomoreira.urbanflow.dto.request;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 import com.iagomoreira.urbanflow.dto.address.AddressResponseDTO;
-import com.iagomoreira.urbanflow.model.Legislation;
 import com.iagomoreira.urbanflow.model.Request;
 import com.iagomoreira.urbanflow.model.enums.PriorityLevel;
 import com.iagomoreira.urbanflow.model.enums.RequestStatus;

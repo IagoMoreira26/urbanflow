@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.iagomoreira.urbanflow.dto.address.AddressDTO;
 import com.iagomoreira.urbanflow.dto.user.CreateUserDTO;
+import com.iagomoreira.urbanflow.dto.user.UpdateUserDTO;
 import com.iagomoreira.urbanflow.dto.user.UserResponseDTO;
 import com.iagomoreira.urbanflow.exception.DatabaseException;
 import com.iagomoreira.urbanflow.exception.ResourceNotFoundException;
@@ -61,5 +62,44 @@ public class UserService {
 		List<User> users = userRepository.findAll();
 
 		return users.stream().map(UserResponseDTO::new).toList();
+	}
+
+	public UserResponseDTO update(String id, UpdateUserDTO dto) {
+
+		User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+		user.setName(dto.getName());
+		user.setEmail(dto.getEmail());
+		user.setPassword(dto.getPassword());
+
+		if (dto.getAddress() != null) {
+
+			Address address = new Address();
+
+			address.setCep(dto.getAddress().getCep());
+			address.setStreet(dto.getAddress().getStreet());
+			address.setNumber(dto.getAddress().getNumber());
+			address.setNeighborhood(dto.getAddress().getNeighborhood());
+			address.setCity(dto.getAddress().getCity());
+			address.setState(dto.getAddress().getState());
+			address.setComplement(dto.getAddress().getComplement());
+
+			user.setAddress(address);
+		}
+
+		user.setUpdatedAt(LocalDateTime.now());
+
+		user = userRepository.save(user);
+
+		return new UserResponseDTO(user);
+	}
+
+	public void delete(String id) {
+
+		if (!userRepository.existsById(id)) {
+			throw new ResourceNotFoundException("User not found");
+		}
+
+		userRepository.deleteById(id);
 	}
 }

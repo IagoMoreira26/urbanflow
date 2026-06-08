@@ -10,11 +10,11 @@ public class FeedbackStatisticsDTO implements Serializable {
 
 	private Integer totalFeedbacks;
 
-	private Long fiveStars;
-	private Long fourStars;
-	private Long threeStars;
-	private Long twoStars;
-	private Long oneStar;
+	private Integer fiveStars;
+	private Integer fourStars;
+	private Integer threeStars;
+	private Integer twoStars;
+	private Integer oneStar;
 
 	private Double satisfactionPercentage;
 
