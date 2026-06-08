@@ -114,6 +114,38 @@ public class RequestService {
 		return new RequestResponseDTO(request);
 	}
 
+	public List<RequestResponseDTO> findByStatus(RequestStatus status) {
+
+		return requestRepository.findByStatus(status).stream().map(RequestResponseDTO::new).toList();
+	}
+
+	public List<RequestResponseDTO> findByCategory(String categoryId) {
+
+		if (!categoryRepository.existsById(categoryId)) {
+			throw new ResourceNotFoundException("Category not found");
+		}
+
+		return requestRepository.findByCategoryId(categoryId).stream().map(RequestResponseDTO::new).toList();
+	}
+
+	public List<RequestResponseDTO> findBySubCategory(String subCategoryId) {
+
+		if (!subCategoryRepository.existsById(subCategoryId)) {
+			throw new ResourceNotFoundException("SubCategory not found");
+		}
+
+		return requestRepository.findBySubCategoryId(subCategoryId).stream().map(RequestResponseDTO::new).toList();
+	}
+
+	public List<RequestResponseDTO> findByUser(String userId) {
+
+		if (!userRepository.existsById(userId)) {
+			throw new ResourceNotFoundException("User not found");
+		}
+
+		return requestRepository.findByUserId(userId).stream().map(RequestResponseDTO::new).toList();
+	}
+
 	public RequestResponseDTO update(String id, UpdateRequestDTO dto) {
 
 		Request request = requestRepository.findById(id)

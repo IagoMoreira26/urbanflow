@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.iagomoreira.urbanflow.dto.request.CreateRequestDTO;
 import com.iagomoreira.urbanflow.dto.request.RequestResponseDTO;
 import com.iagomoreira.urbanflow.dto.request.UpdateRequestDTO;
+import com.iagomoreira.urbanflow.model.enums.RequestStatus;
 import com.iagomoreira.urbanflow.service.RequestService;
 
 import jakarta.validation.Valid;
@@ -42,6 +43,30 @@ public class RequestController {
 	@GetMapping("/{id}")
 	public RequestResponseDTO findById(@PathVariable String id) {
 		return requestService.findById(id);
+	}
+
+	@GetMapping("/status/{status}")
+	public List<RequestResponseDTO> findByStatus(@PathVariable RequestStatus status) {
+
+		return requestService.findByStatus(status);
+	}
+
+	@GetMapping("/category/{categoryId}")
+	public List<RequestResponseDTO> findByCategory(@PathVariable String categoryId) {
+
+		return requestService.findByCategory(categoryId);
+	}
+
+	@GetMapping("/subcategory/{subCategoryId}")
+	public List<RequestResponseDTO> findBySubCategory(@PathVariable String subCategoryId) {
+
+		return requestService.findBySubCategory(subCategoryId);
+	}
+
+	@GetMapping("/user/{userId}")
+	public List<RequestResponseDTO> findByUser(@PathVariable String userId) {
+
+		return requestService.findByUser(userId);
 	}
 
 	@PutMapping("/{id}")
