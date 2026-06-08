@@ -24,6 +24,17 @@ public class UpdateService {
 	@Autowired
 	private RequestRepository requestRepository;
 
+	private Update fromDTO(CreateUpdateDTO dto) {
+
+		Update update = new Update();
+
+		update.setStatus(dto.getStatus());
+		update.setDescription(dto.getDescription());
+		update.setRequestId(dto.getRequestId());
+
+		return update;
+	}
+
 	public UpdateResponseDTO create(CreateUpdateDTO dto) {
 
 		Request request = validateRequest(dto.getRequestId());
@@ -58,16 +69,5 @@ public class UpdateService {
 
 		return requestRepository.findById(requestId)
 				.orElseThrow(() -> new ResourceNotFoundException("Request not found"));
-	}
-
-	private Update fromDTO(CreateUpdateDTO dto) {
-
-		Update update = new Update();
-
-		update.setStatus(dto.getStatus());
-		update.setDescription(dto.getDescription());
-		update.setRequestId(dto.getRequestId());
-
-		return update;
 	}
 }

@@ -23,6 +23,17 @@ public class SubCategoryService {
 	@Autowired
 	private CategoryRepository categoryRepository;
 
+	private SubCategory fromDTO(CreateSubCategoryDTO dto) {
+
+		SubCategory subCategory = new SubCategory();
+
+		subCategory.setName(dto.getName());
+		subCategory.setDescription(dto.getDescription());
+		subCategory.setCategoryId(dto.getCategoryId());
+
+		return subCategory;
+	}
+
 	public SubCategoryResponseDTO create(CreateSubCategoryDTO dto) {
 
 		validateCategory(dto.getCategoryId());
@@ -63,17 +74,6 @@ public class SubCategoryService {
 	private SubCategory findEntityById(String id) {
 
 		return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("SubCategory not found"));
-	}
-
-	private SubCategory fromDTO(CreateSubCategoryDTO dto) {
-
-		SubCategory subCategory = new SubCategory();
-
-		subCategory.setName(dto.getName());
-		subCategory.setDescription(dto.getDescription());
-		subCategory.setCategoryId(dto.getCategoryId());
-
-		return subCategory;
 	}
 
 	public SubCategoryResponseDTO update(String id, UpdateSubCategoryDTO dto) {

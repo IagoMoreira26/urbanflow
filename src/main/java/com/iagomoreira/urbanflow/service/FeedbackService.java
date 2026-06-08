@@ -31,6 +31,19 @@ public class FeedbackService {
 	@Autowired
 	private RequestRepository requestRepository;
 
+	private Feedback fromDTO(CreateFeedbackDTO dto) {
+
+		Feedback feedback = new Feedback();
+
+		feedback.setRating(dto.getRating());
+		feedback.setComment(dto.getComment());
+
+		feedback.setUserId(dto.getUserId());
+		feedback.setRequestId(dto.getRequestId());
+
+		return feedback;
+	}
+
 	public FeedbackResponseDTO create(CreateFeedbackDTO dto) {
 
 		validateUser(dto.getUserId());
@@ -44,6 +57,11 @@ public class FeedbackService {
 		Feedback feedback = fromDTO(dto);
 
 		feedback.setCreatedAt(LocalDateTime.now());
+
+		if (feedbackRepository.existsByUserIdAndRequestId(dto.getUserId(), dto.getRequestId())) {
+
+			throw new BusinessException("Feedback already submitted");
+		}
 
 		feedback = feedbackRepository.save(feedback);
 
@@ -124,18 +142,5 @@ public class FeedbackService {
 
 		return new FeedbackStatisticsDTO(averageRating, totalFeedbacks, fiveStars, fourStars, threeStars, twoStars,
 				oneStar, satisfactionPercentage);
-	}
-
-	private Feedback fromDTO(CreateFeedbackDTO dto) {
-
-		Feedback feedback = new Feedback();
-
-		feedback.setRating(dto.getRating());
-		feedback.setComment(dto.getComment());
-
-		feedback.setUserId(dto.getUserId());
-		feedback.setRequestId(dto.getRequestId());
-
-		return feedback;
 	}
 }

@@ -23,6 +23,17 @@ public class MediaService {
 	@Autowired
 	private RequestRepository requestRepository;
 
+	private Media fromDTO(CreateMediaDTO dto) {
+
+		Media media = new Media();
+
+		media.setType(dto.getType());
+		media.setUrl(dto.getUrl());
+		media.setRequestId(dto.getRequestId());
+
+		return media;
+	}
+
 	public MediaResponseDTO create(CreateMediaDTO dto) {
 
 		validateRequest(dto.getRequestId());
@@ -62,16 +73,5 @@ public class MediaService {
 
 			throw new ResourceNotFoundException("Request not found");
 		}
-	}
-
-	private Media fromDTO(CreateMediaDTO dto) {
-
-		Media media = new Media();
-
-		media.setType(dto.getType());
-		media.setUrl(dto.getUrl());
-		media.setRequestId(dto.getRequestId());
-
-		return media;
 	}
 }

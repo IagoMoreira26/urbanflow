@@ -10,6 +10,7 @@ import com.iagomoreira.urbanflow.dto.address.AddressDTO;
 import com.iagomoreira.urbanflow.dto.user.CreateUserDTO;
 import com.iagomoreira.urbanflow.dto.user.UpdateUserDTO;
 import com.iagomoreira.urbanflow.dto.user.UserResponseDTO;
+import com.iagomoreira.urbanflow.exception.BusinessException;
 import com.iagomoreira.urbanflow.exception.DatabaseException;
 import com.iagomoreira.urbanflow.exception.ResourceNotFoundException;
 import com.iagomoreira.urbanflow.model.Address;
@@ -33,7 +34,7 @@ public class UserService {
 				LocalDateTime.now(), null);
 	}
 
-	public UserResponseDTO createUser(CreateUserDTO dto) {
+	public UserResponseDTO create(CreateUserDTO dto) {
 
 		userRepository.findByEmail(dto.getEmail()).ifPresent(user -> {
 			throw new DatabaseException("Email already exists");
@@ -42,6 +43,14 @@ public class UserService {
 		userRepository.findByCpf(dto.getCpf()).ifPresent(user -> {
 			throw new DatabaseException("CPF already exists");
 		});
+
+		if (userRepository.existsByEmail(dto.getEmail())) {
+			throw new BusinessException("Email already registered");
+		}
+
+		if (userRepository.existsByCpf(dto.getCpf())) {
+			throw new BusinessException("CPF already registered");
+		}
 
 		User user = fromDTO(dto);
 
@@ -67,6 +76,11 @@ public class UserService {
 	public UserResponseDTO update(String id, UpdateUserDTO dto) {
 
 		User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+		if (!user.getEmail().equals(dto.getEmail()) && userRepository.existsByEmail(dto.getEmail())) {
+
+			throw new BusinessException("Email already registered");
+		}
 
 		user.setName(dto.getName());
 		user.setEmail(dto.getEmail());

@@ -9,9 +9,11 @@ import org.springframework.stereotype.Service;
 import com.iagomoreira.urbanflow.dto.request.CreateRequestDTO;
 import com.iagomoreira.urbanflow.dto.request.RequestResponseDTO;
 import com.iagomoreira.urbanflow.dto.request.UpdateRequestDTO;
+import com.iagomoreira.urbanflow.exception.BusinessException;
 import com.iagomoreira.urbanflow.exception.ResourceNotFoundException;
 import com.iagomoreira.urbanflow.model.Address;
 import com.iagomoreira.urbanflow.model.Request;
+import com.iagomoreira.urbanflow.model.SubCategory;
 import com.iagomoreira.urbanflow.model.enums.RequestStatus;
 import com.iagomoreira.urbanflow.repository.CategoryRepository;
 import com.iagomoreira.urbanflow.repository.RequestRepository;
@@ -32,31 +34,6 @@ public class RequestService {
 
 	@Autowired
 	private SubCategoryRepository subCategoryRepository;
-
-	public RequestResponseDTO createRequest(CreateRequestDTO dto) {
-
-		if (!userRepository.existsById(dto.getUserId())) {
-			throw new ResourceNotFoundException("User not found");
-		}
-
-		if (!categoryRepository.existsById(dto.getCategoryId())) {
-			throw new ResourceNotFoundException("Category not found");
-		}
-
-		if (!subCategoryRepository.existsById(dto.getSubCategoryId())) {
-			throw new ResourceNotFoundException("SubCategory not found");
-		}
-
-		Request request = fromDTO(dto);
-
-		request.setCreatedAt(LocalDateTime.now());
-
-		request.setStatus(RequestStatus.RECEIVED);
-
-		Request savedRequest = requestRepository.save(request);
-
-		return new RequestResponseDTO(savedRequest);
-	}
 
 	private Request fromDTO(CreateRequestDTO dto) {
 
@@ -93,6 +70,35 @@ public class RequestService {
 		return request;
 	}
 
+	public RequestResponseDTO create(CreateRequestDTO dto) {
+
+		if (!userRepository.existsById(dto.getUserId())) {
+			throw new ResourceNotFoundException("User not found");
+		}
+
+		if (!categoryRepository.existsById(dto.getCategoryId())) {
+			throw new ResourceNotFoundException("Category not found");
+		}
+
+		SubCategory subCategory = subCategoryRepository.findById(dto.getSubCategoryId())
+				.orElseThrow(() -> new ResourceNotFoundException("SubCategory not found"));
+
+		if (!subCategory.getCategoryId().equals(dto.getCategoryId())) {
+
+			throw new BusinessException("SubCategory does not belong to the selected category");
+		}
+
+		Request request = fromDTO(dto);
+
+		request.setCreatedAt(LocalDateTime.now());
+
+		request.setStatus(RequestStatus.RECEIVED);
+
+		Request savedRequest = requestRepository.save(request);
+
+		return new RequestResponseDTO(savedRequest);
+	}
+
 	public List<RequestResponseDTO> findAll() {
 
 		List<Request> requests = requestRepository.findAll();
@@ -113,6 +119,11 @@ public class RequestService {
 		Request request = requestRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Request not found"));
 
+		if (request.getStatus() == RequestStatus.RESOLVED || request.getStatus() == RequestStatus.CANCELLED) {
+
+			throw new BusinessException("Resolved or cancelled requests cannot be modified");
+		}
+
 		request.setTitle(dto.getTitle());
 		request.setDescription(dto.getDescription());
 
@@ -123,8 +134,12 @@ public class RequestService {
 
 	public void delete(String id) {
 
-		if (!requestRepository.existsById(id)) {
-			throw new ResourceNotFoundException("Request not found");
+		Request request = requestRepository.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Request not found"));
+
+		if (request.getStatus() == RequestStatus.RESOLVED) {
+
+			throw new BusinessException("Resolved requests cannot be deleted");
 		}
 
 		requestRepository.deleteById(id);

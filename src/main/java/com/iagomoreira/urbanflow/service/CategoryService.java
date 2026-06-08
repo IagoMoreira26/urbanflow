@@ -19,6 +19,16 @@ public class CategoryService {
 	@Autowired
 	private CategoryRepository repository;
 
+	private Category fromDTO(CreateCategoryDTO dto) {
+
+		Category category = new Category();
+
+		category.setName(dto.getName());
+		category.setDescription(dto.getDescription());
+
+		return category;
+	}
+
 	public CategoryResponseDTO create(CreateCategoryDTO dto) {
 
 		Category category = fromDTO(dto);
@@ -43,16 +53,6 @@ public class CategoryService {
 	private Category findEntityById(String id) {
 
 		return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Category not found"));
-	}
-
-	private Category fromDTO(CreateCategoryDTO dto) {
-
-		Category category = new Category();
-
-		category.setName(dto.getName());
-		category.setDescription(dto.getDescription());
-
-		return category;
 	}
 
 	public CategoryResponseDTO update(String id, UpdateCategoryDTO dto) {

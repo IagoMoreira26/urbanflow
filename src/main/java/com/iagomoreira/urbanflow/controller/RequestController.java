@@ -31,7 +31,7 @@ public class RequestController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public RequestResponseDTO createRequest(@Valid @RequestBody CreateRequestDTO dto) {
-		return requestService.createRequest(dto);
+		return requestService.create(dto);
 	}
 
 	@GetMapping

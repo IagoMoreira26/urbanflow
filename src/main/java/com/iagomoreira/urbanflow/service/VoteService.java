@@ -12,6 +12,7 @@ import com.iagomoreira.urbanflow.dto.vote.RequestPriorityDTO;
 import com.iagomoreira.urbanflow.dto.vote.VoteResponseDTO;
 import com.iagomoreira.urbanflow.exception.BusinessException;
 import com.iagomoreira.urbanflow.exception.ResourceNotFoundException;
+import com.iagomoreira.urbanflow.model.Request;
 import com.iagomoreira.urbanflow.model.Vote;
 import com.iagomoreira.urbanflow.model.enums.PriorityLevel;
 import com.iagomoreira.urbanflow.repository.RequestRepository;
@@ -30,11 +31,24 @@ public class VoteService {
 	@Autowired
 	private RequestRepository requestRepository;
 
+	private Vote fromDTO(CreateVoteDTO dto) {
+
+		Vote vote = new Vote();
+
+		vote.setUserId(dto.getUserId());
+		vote.setRequestId(dto.getRequestId());
+		vote.setPriorityLevel(dto.getPriorityLevel());
+
+		return vote;
+	}
+
 	public VoteResponseDTO create(CreateVoteDTO dto) {
 
 		validateUser(dto.getUserId());
 
 		validateRequest(dto.getRequestId());
+
+		validateOwnVote(dto.getUserId(), dto.getRequestId());
 
 		validateDuplicateVote(dto.getUserId(), dto.getRequestId());
 
@@ -113,14 +127,14 @@ public class VoteService {
 		}
 	}
 
-	private Vote fromDTO(CreateVoteDTO dto) {
+	private void validateOwnVote(String userId, String requestId) {
 
-		Vote vote = new Vote();
+		Request request = requestRepository.findById(requestId)
+				.orElseThrow(() -> new ResourceNotFoundException("Request not found"));
 
-		vote.setUserId(dto.getUserId());
-		vote.setRequestId(dto.getRequestId());
-		vote.setPriorityLevel(dto.getPriorityLevel());
+		if (request.getUserId().equals(userId)) {
 
-		return vote;
+			throw new BusinessException("Users cannot vote on their own requests");
+		}
 	}
 }
