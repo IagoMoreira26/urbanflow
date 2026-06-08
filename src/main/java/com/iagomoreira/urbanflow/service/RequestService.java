@@ -2,8 +2,17 @@ package com.iagomoreira.urbanflow.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import com.iagomoreira.urbanflow.dto.request.CreateRequestDTO;
@@ -22,6 +31,9 @@ import com.iagomoreira.urbanflow.repository.UserRepository;
 
 @Service
 public class RequestService {
+
+	@Autowired
+	private MongoTemplate mongoTemplate;
 
 	@Autowired
 	private RequestRepository requestRepository;
@@ -68,6 +80,29 @@ public class RequestService {
 		}
 
 		return request;
+	}
+
+	public Page<RequestResponseDTO> search(RequestStatus status, String categoryId, String subCategoryId, String userId,
+			int page, int size, String sortBy, String direction) {
+
+		String validatedSortField = validateSortField(sortBy);
+
+		Criteria criteria = buildCriteria(status, categoryId, subCategoryId, userId);
+		Query query = new Query(criteria);
+
+		Sort sort = direction.equalsIgnoreCase("desc") ? Sort.by(validatedSortField).descending()
+				: Sort.by(validatedSortField).ascending();
+		query.with(sort);
+
+		long total = mongoTemplate.count(query, Request.class);
+
+		Pageable pageable = PageRequest.of(page, size, sort);
+		query.with(pageable);
+
+		List<Request> requests = mongoTemplate.find(query, Request.class);
+		List<RequestResponseDTO> content = requests.stream().map(RequestResponseDTO::new).toList();
+
+		return new PageImpl<>(content, pageable, total);
 	}
 
 	public RequestResponseDTO create(CreateRequestDTO dto) {
@@ -146,6 +181,14 @@ public class RequestService {
 		return requestRepository.findByUserId(userId).stream().map(RequestResponseDTO::new).toList();
 	}
 
+	public List<RequestResponseDTO> search(RequestStatus status, String categoryId, String subCategoryId,
+			String userId) {
+		Criteria criteria = buildCriteria(status, categoryId, subCategoryId, userId);
+		Query query = new Query(criteria);
+		List<Request> requests = mongoTemplate.find(query, Request.class);
+		return requests.stream().map(RequestResponseDTO::new).toList();
+	}
+
 	public RequestResponseDTO update(String id, UpdateRequestDTO dto) {
 
 		Request request = requestRepository.findById(id)
@@ -175,5 +218,27 @@ public class RequestService {
 		}
 
 		requestRepository.deleteById(id);
+	}
+
+	private Criteria buildCriteria(RequestStatus status, String categoryId, String subCategoryId, String userId) {
+		Criteria criteria = new Criteria();
+		if (status != null) {
+			criteria = criteria.and("status").is(status);
+		}
+		if (categoryId != null && !categoryId.isBlank()) {
+			criteria = criteria.and("categoryId").is(categoryId);
+		}
+		if (subCategoryId != null && !subCategoryId.isBlank()) {
+			criteria = criteria.and("subCategoryId").is(subCategoryId);
+		}
+		if (userId != null && !userId.isBlank()) {
+			criteria = criteria.and("userId").is(userId);
+		}
+		return criteria;
+	}
+
+	private String validateSortField(String sortBy) {
+		Set<String> allowedFields = Set.of("createdAt", "title", "status", "citizenPriority", "updatedAt");
+		return allowedFields.contains(sortBy) ? sortBy : "createdAt";
 	}
 }
