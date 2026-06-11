@@ -16,21 +16,14 @@ public class RequestDetailsDTO implements Serializable {
 	private String id;
 	private String title;
 	private String description;
-
 	private RequestStatus status;
-
 	private PriorityLevel citizenPriority;
-
 	private Double latitude;
 	private Double longitude;
-
 	private AddressResponseDTO address;
-
 	private LocalDateTime createdAt;
-
 	private String categoryId;
 	private String subCategoryId;
-
 	private List<String> legislationIds;
 
 	public RequestDetailsDTO() {

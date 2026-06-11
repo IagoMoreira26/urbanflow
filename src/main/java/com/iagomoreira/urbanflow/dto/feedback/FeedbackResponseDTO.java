@@ -13,7 +13,6 @@ public class FeedbackResponseDTO implements Serializable {
 	private Integer rating;
 	private String comment;
 	private LocalDateTime createdAt;
-
 	private String userId;
 	private String requestId;
 

@@ -7,9 +7,7 @@ public class TopCategoryDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private String categoryId;
-
 	private String categoryName;
-
 	private Integer totalRequests;
 
 	public TopCategoryDTO() {

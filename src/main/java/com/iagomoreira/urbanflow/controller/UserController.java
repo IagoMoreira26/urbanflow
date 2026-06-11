@@ -33,7 +33,6 @@ public class UserController {
 	public ResponseEntity<List<UserResponseDTO>> findAll() {
 
 		List<UserResponseDTO> users = userService.findAll();
-
 		return ResponseEntity.ok().body(users);
 	}
 
@@ -41,7 +40,6 @@ public class UserController {
 	public ResponseEntity<UserResponseDTO> findById(@PathVariable String id) {
 
 		UserResponseDTO user = userService.findById(id);
-
 		return ResponseEntity.ok().body(user);
 	}
 
@@ -49,20 +47,17 @@ public class UserController {
 	public ResponseEntity<UserResponseDTO> create(@RequestBody @Valid CreateUserDTO dto) {
 
 		UserResponseDTO response = userService.create(dto);
-
 		return ResponseEntity.status(HttpStatus.CREATED).body(response);
 	}
 
 	@PutMapping("/{id}")
 	public UserResponseDTO update(@PathVariable String id, @Valid @RequestBody UpdateUserDTO dto) {
-
 		return userService.update(id, dto);
 	}
 
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable String id) {
-
 		userService.delete(id);
 	}
 }

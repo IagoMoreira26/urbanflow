@@ -9,9 +9,7 @@ public class RequestPriorityDTO implements Serializable {
 	private Integer lowVotes;
 	private Integer mediumVotes;
 	private Integer highVotes;
-
 	private Integer totalVotes;
-
 	private Double lowPercentage;
 	private Double mediumPercentage;
 	private Double highPercentage;

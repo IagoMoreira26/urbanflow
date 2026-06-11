@@ -29,25 +29,21 @@ public class VoteController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public VoteResponseDTO create(@Valid @RequestBody CreateVoteDTO dto) {
-
 		return voteService.create(dto);
 	}
 
 	@GetMapping
 	public List<VoteResponseDTO> findAll() {
-
 		return voteService.findAll();
 	}
 
 	@GetMapping("/request/{requestId}")
 	public List<VoteResponseDTO> findByRequest(@PathVariable String requestId) {
-
 		return voteService.findByRequest(requestId);
 	}
 
 	@GetMapping("/request/{requestId}/priority")
 	public RequestPriorityDTO getRequestPriority(@PathVariable String requestId) {
-
 		return voteService.getRequestPriority(requestId);
 	}
 }

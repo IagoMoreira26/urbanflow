@@ -55,5 +55,4 @@ public class CpfValidator implements ConstraintValidator<ValidCpf, String> {
 
 		return secondDigit == (cpf.charAt(10) - '0');
 	}
-
 }

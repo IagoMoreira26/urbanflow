@@ -14,7 +14,6 @@ public class Media implements Serializable {
 
 	@Id
 	private String id;
-
 	private MediaType type;
 	private String url;
 	private LocalDateTime uploadedAt;

@@ -9,11 +9,8 @@ public class RequestFilterDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private RequestStatus status;
-
 	private String categoryId;
-
 	private String subCategoryId;
-
 	private String userId;
 
 	public RequestFilterDTO() {

@@ -22,25 +22,21 @@ public class MediaController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public MediaResponseDTO create(@Valid @RequestBody CreateMediaDTO dto) {
-
 		return mediaService.create(dto);
 	}
 
 	@GetMapping
 	public List<MediaResponseDTO> findAll() {
-
 		return mediaService.findAll();
 	}
 
 	@GetMapping("/{id}")
 	public MediaResponseDTO findById(@PathVariable String id) {
-
 		return mediaService.findById(id);
 	}
 
 	@GetMapping("/request/{requestId}")
 	public List<MediaResponseDTO> findByRequest(@PathVariable String requestId) {
-
 		return mediaService.findByRequest(requestId);
 	}
 }

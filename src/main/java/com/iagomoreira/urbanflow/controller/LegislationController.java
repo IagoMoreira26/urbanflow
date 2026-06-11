@@ -17,19 +17,16 @@ public class LegislationController {
 
 	@GetMapping
 	public List<LegislationResponseDTO> findAll() {
-
 		return legislationService.findAll();
 	}
 
 	@GetMapping("/{id}")
 	public LegislationResponseDTO findById(@PathVariable String id) {
-
 		return legislationService.findById(id);
 	}
 
 	@GetMapping("/search")
 	public List<LegislationResponseDTO> findByKeyword(@RequestParam String keyword) {
-
 		return legislationService.findByKeyword(keyword);
 	}
 }

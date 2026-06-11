@@ -29,25 +29,21 @@ public class FeedbackController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public FeedbackResponseDTO create(@Valid @RequestBody CreateFeedbackDTO dto) {
-
 		return feedbackService.create(dto);
 	}
 
 	@GetMapping
 	public List<FeedbackResponseDTO> findAll() {
-
 		return feedbackService.findAll();
 	}
 
 	@GetMapping("/request/{requestId}")
 	public List<FeedbackResponseDTO> findByRequest(@PathVariable String requestId) {
-
 		return feedbackService.findByRequest(requestId);
 	}
 
 	@GetMapping("/request/{requestId}/statistics")
 	public FeedbackStatisticsDTO getStatistics(@PathVariable String requestId) {
-
 		return feedbackService.getStatistics(requestId);
 	}
 }

@@ -31,7 +31,6 @@ public class CategoryController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public CategoryResponseDTO create(@Valid @RequestBody CreateCategoryDTO dto) {
-
 		return categoryService.create(dto);
 	}
 
@@ -42,20 +41,17 @@ public class CategoryController {
 
 	@GetMapping("/{id}")
 	public CategoryResponseDTO findById(@PathVariable String id) {
-
 		return categoryService.findById(id);
 	}
 
 	@PutMapping("/{id}")
 	public CategoryResponseDTO update(@PathVariable String id, @Valid @RequestBody UpdateCategoryDTO dto) {
-
 		return categoryService.update(id, dto);
 	}
 
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable String id) {
-
 		categoryService.delete(id);
 	}
 }

@@ -14,7 +14,6 @@ public class Update implements Serializable {
 
 	@Id
 	private String id;
-
 	private RequestStatus status;
 	private String description;
 	private LocalDateTime updatedAt;

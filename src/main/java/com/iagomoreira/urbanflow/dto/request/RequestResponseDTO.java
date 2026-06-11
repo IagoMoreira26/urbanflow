@@ -13,24 +13,16 @@ public class RequestResponseDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private String id;
-
 	private String title;
 	private String description;
-
 	private String userId;
-
 	private String categoryId;
 	private String subCategoryId;
-
 	private PriorityLevel citizenPriority;
-
 	private RequestStatus status;
-
 	private Double latitude;
 	private Double longitude;
-
 	private AddressResponseDTO address;
-
 	private LocalDateTime createdAt;
 
 	public RequestResponseDTO() {

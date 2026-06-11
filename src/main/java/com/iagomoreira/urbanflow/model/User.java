@@ -7,6 +7,8 @@ import java.util.Objects;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.iagomoreira.urbanflow.model.enums.Role;
+
 @Document(collection = "users")
 public class User implements Serializable {
 
@@ -14,12 +16,11 @@ public class User implements Serializable {
 
 	@Id
 	private String id;
-
 	private String name;
 	private String email;
 	private String password;
 	private String cpf;
-
+	private Role role;
 	private Address address;
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
@@ -27,7 +28,7 @@ public class User implements Serializable {
 	public User() {
 	}
 
-	public User(String id, String name, String email, String password, String cpf, Address address,
+	public User(String id, String name, String email, String password, String cpf, Role role, Address address,
 			LocalDateTime createdAt, LocalDateTime updatedAt) {
 		super();
 		this.id = id;
@@ -36,6 +37,7 @@ public class User implements Serializable {
 		this.password = password;
 		this.cpf = cpf;
 		this.address = address;
+		this.role = role;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
 	}
@@ -86,6 +88,14 @@ public class User implements Serializable {
 
 	public void setAddress(Address address) {
 		this.address = address;
+	}
+
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
 	}
 
 	public LocalDateTime getCreatedAt() {

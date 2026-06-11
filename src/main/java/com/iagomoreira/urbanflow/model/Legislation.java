@@ -13,7 +13,6 @@ public class Legislation implements Serializable {
 
 	@Id
 	private String id;
-
 	private String title;
 	private String description;
 	private String documentUrl;

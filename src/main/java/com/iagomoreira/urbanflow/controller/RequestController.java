@@ -52,63 +52,46 @@ public class RequestController {
 
 	@GetMapping("/status/{status}")
 	public List<RequestResponseDTO> findByStatus(@PathVariable RequestStatus status) {
-
 		return requestService.findByStatus(status);
 	}
 
 	@GetMapping("/category/{categoryId}")
 	public List<RequestResponseDTO> findByCategory(@PathVariable String categoryId) {
-
 		return requestService.findByCategory(categoryId);
 	}
 
 	@GetMapping("/subcategory/{subCategoryId}")
 	public List<RequestResponseDTO> findBySubCategory(@PathVariable String subCategoryId) {
-
 		return requestService.findBySubCategory(subCategoryId);
 	}
 
 	@GetMapping("/user/{userId}")
 	public List<RequestResponseDTO> findByUser(@PathVariable String userId) {
-
 		return requestService.findByUser(userId);
 	}
 
 	@GetMapping("/statistics")
 	public RequestStatisticsDTO getStatistics() {
-
 		return requestService.getStatistics();
 	}
 
 	@GetMapping("/statistics/category/{categoryId}")
 	public CategoryStatisticsDTO getCategoryStatistics(@PathVariable String categoryId) {
-
 		return requestService.getCategoryStatistics(categoryId);
 	}
 
 	@GetMapping("/statistics/subcategory/{subCategoryId}")
 	public SubCategoryStatisticsDTO getSubCategoryStatistics(@PathVariable String subCategoryId) {
-
 		return requestService.getSubCategoryStatistics(subCategoryId);
 	}
 
 	@GetMapping("/search")
 	public Page<RequestResponseDTO> search(
 
-			@RequestParam(required = false) RequestStatus status,
-
-			@RequestParam(required = false) String categoryId,
-
-			@RequestParam(required = false) String subCategoryId,
-
-			@RequestParam(required = false) String userId,
-
-			@RequestParam(defaultValue = "0") int page,
-
-			@RequestParam(defaultValue = "10") int size,
-
+			@RequestParam(required = false) RequestStatus status, @RequestParam(required = false) String categoryId,
+			@RequestParam(required = false) String subCategoryId, @RequestParam(required = false) String userId,
+			@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size,
 			@RequestParam(defaultValue = "createdAt") String sortBy,
-
 			@RequestParam(defaultValue = "desc") String direction) {
 
 		return requestService.search(status, categoryId, subCategoryId, userId, page, size, sortBy, direction);
@@ -116,14 +99,12 @@ public class RequestController {
 
 	@PutMapping("/{id}")
 	public RequestResponseDTO update(@PathVariable String id, @Valid @RequestBody UpdateRequestDTO dto) {
-
 		return requestService.update(id, dto);
 	}
 
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable String id) {
-
 		requestService.delete(id);
 	}
 }

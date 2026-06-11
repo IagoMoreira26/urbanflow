@@ -7,23 +7,14 @@ public class DashboardStatisticsDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Integer totalRequests;
-
 	private Integer receivedRequests;
-
 	private Integer inProgressRequests;
-
 	private Integer resolvedRequests;
-
 	private Integer cancelledRequests;
-
 	private Double resolutionRate;
-
 	private Integer totalUsers;
-
 	private Integer totalVotes;
-
 	private Integer totalFeedbacks;
-
 	private Double averageRating;
 
 	public DashboardStatisticsDTO() {

@@ -31,7 +31,6 @@ public class SubCategoryController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public SubCategoryResponseDTO create(@Valid @RequestBody CreateSubCategoryDTO dto) {
-
 		return subCategoryService.create(dto);
 	}
 
@@ -42,26 +41,22 @@ public class SubCategoryController {
 
 	@GetMapping("/{id}")
 	public SubCategoryResponseDTO findById(@PathVariable String id) {
-
 		return subCategoryService.findById(id);
 	}
 
 	@GetMapping("/category/{categoryId}")
 	public List<SubCategoryResponseDTO> findByCategory(@PathVariable String categoryId) {
-
 		return subCategoryService.findByCategory(categoryId);
 	}
 
 	@PutMapping("/{id}")
 	public SubCategoryResponseDTO update(@PathVariable String id, @Valid @RequestBody UpdateSubCategoryDTO dto) {
-
 		return subCategoryService.update(id, dto);
 	}
 
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable String id) {
-
 		subCategoryService.delete(id);
 	}
 }

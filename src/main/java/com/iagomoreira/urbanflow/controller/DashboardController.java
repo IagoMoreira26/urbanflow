@@ -21,19 +21,16 @@ public class DashboardController {
 
 	@GetMapping("/statistics")
 	public DashboardStatisticsDTO getStatistics() {
-
 		return dashboardService.getStatistics();
 	}
 
 	@GetMapping("/top-categories")
 	public List<TopCategoryDTO> getTopCategories() {
-
 		return dashboardService.getTopCategories();
 	}
 
 	@GetMapping("/top-subcategories")
 	public List<TopSubCategoryDTO> getTopSubCategories() {
-
 		return dashboardService.getTopSubCategories();
 	}
 }

@@ -7,5 +7,4 @@ import com.iagomoreira.urbanflow.model.Category;
 
 @Repository
 public interface CategoryRepository extends MongoRepository<Category, String> {
-
 }

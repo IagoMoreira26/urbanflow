@@ -19,7 +19,6 @@ public class GlobalExceptionHandler {
 
 		StandardError error = new StandardError(LocalDateTime.now(), HttpStatus.NOT_FOUND.value(), e.getMessage(),
 				request.getRequestURI(), null);
-
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
 	}
 
@@ -28,7 +27,6 @@ public class GlobalExceptionHandler {
 
 		StandardError error = new StandardError(LocalDateTime.now(), HttpStatus.BAD_REQUEST.value(), e.getMessage(),
 				request.getRequestURI(), null);
-
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
 	}
 
@@ -39,7 +37,6 @@ public class GlobalExceptionHandler {
 				"Validation error", e.getMessage(), request.getRequestURI());
 
 		for (FieldError fieldError : e.getBindingResult().getFieldErrors()) {
-
 			error.addError(fieldError.getField(), fieldError.getDefaultMessage());
 		}
 
@@ -51,7 +48,6 @@ public class GlobalExceptionHandler {
 
 		StandardError error = new StandardError(LocalDateTime.now(), HttpStatus.BAD_REQUEST.value(),
 				"Business Rule Violation", e.getMessage(), request.getRequestURI());
-
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
 	}
 }

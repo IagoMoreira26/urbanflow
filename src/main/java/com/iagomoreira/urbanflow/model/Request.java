@@ -19,7 +19,6 @@ public class Request implements Serializable {
 
 	@Id
 	private String id;
-
 	private String userId;
 	private String title;
 	private String description;
@@ -28,10 +27,8 @@ public class Request implements Serializable {
 	private String subCategoryId;
 	private RequestStatus status;
 	private PriorityLevel citizenPriority;
-
 	private Double latitude;
 	private Double longitude;
-
 	private Address address;
 
 	private List<String> legislationIds = new ArrayList<>();

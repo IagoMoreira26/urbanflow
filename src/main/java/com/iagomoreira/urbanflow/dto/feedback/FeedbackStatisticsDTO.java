@@ -7,9 +7,7 @@ public class FeedbackStatisticsDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Double averageRating;
-
 	private Integer totalFeedbacks;
-
 	private Integer fiveStars;
 	private Integer fourStars;
 	private Integer threeStars;

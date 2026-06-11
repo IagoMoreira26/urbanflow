@@ -14,7 +14,6 @@ public class Vote implements Serializable {
 
 	@Id
 	private String id;
-
 	private PriorityLevel priorityLevel;
 	private LocalDateTime createdAt;
 	private String userId;

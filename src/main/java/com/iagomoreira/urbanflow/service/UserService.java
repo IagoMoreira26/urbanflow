@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.iagomoreira.urbanflow.dto.address.AddressDTO;
@@ -15,6 +16,7 @@ import com.iagomoreira.urbanflow.exception.DatabaseException;
 import com.iagomoreira.urbanflow.exception.ResourceNotFoundException;
 import com.iagomoreira.urbanflow.model.Address;
 import com.iagomoreira.urbanflow.model.User;
+import com.iagomoreira.urbanflow.model.enums.Role;
 import com.iagomoreira.urbanflow.repository.UserRepository;
 
 @Service
@@ -23,6 +25,9 @@ public class UserService {
 	@Autowired
 	private UserRepository userRepository;
 
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+
 	public User fromDTO(CreateUserDTO dto) {
 
 		AddressDTO addressDTO = dto.getAddress();
@@ -30,8 +35,8 @@ public class UserService {
 		Address address = new Address(addressDTO.getCep(), addressDTO.getStreet(), addressDTO.getNumber(),
 				addressDTO.getNeighborhood(), addressDTO.getCity(), addressDTO.getState(), addressDTO.getComplement());
 
-		return new User(null, dto.getName(), dto.getEmail(), dto.getPassword(), dto.getCpf(), address,
-				LocalDateTime.now(), null);
+		return new User(null, dto.getName(), dto.getEmail(), passwordEncoder.encode(dto.getPassword()), dto.getCpf(),
+				Role.CITIZEN, address, LocalDateTime.now(), null);
 	}
 
 	public UserResponseDTO create(CreateUserDTO dto) {
@@ -84,7 +89,11 @@ public class UserService {
 
 		user.setName(dto.getName());
 		user.setEmail(dto.getEmail());
-		user.setPassword(dto.getPassword());
+
+		if (dto.getPassword() != null && !dto.getPassword().isBlank()) {
+
+			user.setPassword(passwordEncoder.encode(dto.getPassword()));
+		}
 
 		if (dto.getAddress() != null) {
 

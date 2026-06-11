@@ -12,7 +12,6 @@ public class Feedback implements Serializable {
 
 	@Id
 	private String id;
-
 	private Integer rating;
 	private String comment;
 	private LocalDateTime createdAt;

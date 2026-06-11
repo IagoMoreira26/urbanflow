@@ -22,19 +22,16 @@ public class UpdateController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public UpdateResponseDTO create(@Valid @RequestBody CreateUpdateDTO dto) {
-
 		return updateService.create(dto);
 	}
 
 	@GetMapping
 	public List<UpdateResponseDTO> findAll() {
-
 		return updateService.findAll();
 	}
 
 	@GetMapping("/request/{requestId}")
 	public List<UpdateResponseDTO> findByRequest(@PathVariable String requestId) {
-
 		return updateService.findByRequest(requestId);
 	}
 }
