@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +29,7 @@ public class SubCategoryController {
 	@Autowired
 	private SubCategoryService subCategoryService;
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public SubCategoryResponseDTO create(@Valid @RequestBody CreateSubCategoryDTO dto) {
@@ -49,11 +51,13 @@ public class SubCategoryController {
 		return subCategoryService.findByCategory(categoryId);
 	}
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@PutMapping("/{id}")
 	public SubCategoryResponseDTO update(@PathVariable String id, @Valid @RequestBody UpdateSubCategoryDTO dto) {
 		return subCategoryService.update(id, dto);
 	}
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable String id) {

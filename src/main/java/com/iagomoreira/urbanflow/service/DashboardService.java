@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.iagomoreira.urbanflow.dto.dashboard.DashboardOverviewDTO;
 import com.iagomoreira.urbanflow.dto.dashboard.DashboardStatisticsDTO;
 import com.iagomoreira.urbanflow.dto.dashboard.TopCategoryDTO;
 import com.iagomoreira.urbanflow.dto.dashboard.TopSubCategoryDTO;
@@ -98,5 +99,36 @@ public class DashboardService {
 					return new TopSubCategoryDTO(entry.getKey(),
 							subCategory != null ? subCategory.getName() : "Unknown", entry.getValue().intValue());
 				}).toList();
+	}
+
+	public DashboardOverviewDTO getOverview() {
+
+		long totalRequests = requestRepository.count();
+
+		long receivedRequests = requestRepository.findByStatus(RequestStatus.RECEIVED).size();
+
+		long underReviewRequests = requestRepository.findByStatus(RequestStatus.UNDER_REVIEW).size();
+
+		long approvedRequests = requestRepository.findByStatus(RequestStatus.APPROVED).size();
+
+		long inProgressRequests = requestRepository.findByStatus(RequestStatus.IN_PROGRESS).size();
+
+		long resolvedRequests = requestRepository.findByStatus(RequestStatus.RESOLVED).size();
+
+		long rejectedRequests = requestRepository.findByStatus(RequestStatus.REJECTED).size();
+
+		long cancelledRequests = requestRepository.findByStatus(RequestStatus.CANCELLED).size();
+
+		long totalUsers = userRepository.count();
+
+		long totalVotes = voteRepository.count();
+
+		List<Feedback> feedbacks = feedbackRepository.findAll();
+
+		double averageRating = feedbacks.stream().mapToInt(Feedback::getRating).average().orElse(0.0);
+
+		return new DashboardOverviewDTO(totalRequests, receivedRequests, underReviewRequests, approvedRequests,
+				inProgressRequests, resolvedRequests, cancelledRequests, rejectedRequests, totalUsers, totalVotes,
+				averageRating);
 	}
 }

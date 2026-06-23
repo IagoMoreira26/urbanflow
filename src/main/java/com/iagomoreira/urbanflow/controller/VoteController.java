@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,6 +27,7 @@ public class VoteController {
 	@Autowired
 	private VoteService voteService;
 
+	@PreAuthorize("hasRole('CITIZEN')")
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public VoteResponseDTO create(@Valid @RequestBody CreateVoteDTO dto) {

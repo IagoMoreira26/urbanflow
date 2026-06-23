@@ -36,11 +36,13 @@ public class CategoryController {
 		return categoryService.create(dto);
 	}
 
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping
 	public List<CategoryResponseDTO> findAll() {
 		return categoryService.findAll();
 	}
 
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/{id}")
 	public CategoryResponseDTO findById(@PathVariable String id) {
 		return categoryService.findById(id);
