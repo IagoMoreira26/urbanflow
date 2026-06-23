@@ -5,8 +5,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -21,6 +24,7 @@ import com.iagomoreira.urbanflow.dto.request.CreateRequestDTO;
 import com.iagomoreira.urbanflow.dto.request.RequestResponseDTO;
 import com.iagomoreira.urbanflow.dto.request.RequestStatisticsDTO;
 import com.iagomoreira.urbanflow.dto.request.UpdateRequestDTO;
+import com.iagomoreira.urbanflow.dto.request.UpdateRequestStatusDTO;
 import com.iagomoreira.urbanflow.dto.subcategory.SubCategoryStatisticsDTO;
 import com.iagomoreira.urbanflow.model.enums.RequestStatus;
 import com.iagomoreira.urbanflow.service.RequestService;
@@ -100,6 +104,14 @@ public class RequestController {
 	@PutMapping("/{id}")
 	public RequestResponseDTO update(@PathVariable String id, @Valid @RequestBody UpdateRequestDTO dto) {
 		return requestService.update(id, dto);
+	}
+
+	@PreAuthorize("hasAnyRole('ADMIN','PUBLIC_AGENT')")
+	@PatchMapping("/{id}/status")
+	public ResponseEntity<RequestResponseDTO> updateStatus(@PathVariable String id,
+			@Valid @RequestBody UpdateRequestStatusDTO dto) {
+
+		return ResponseEntity.ok(requestService.updateStatus(id, dto));
 	}
 
 	@DeleteMapping("/{id}")

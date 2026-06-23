@@ -20,18 +20,22 @@ import com.iagomoreira.urbanflow.dto.request.CreateRequestDTO;
 import com.iagomoreira.urbanflow.dto.request.RequestResponseDTO;
 import com.iagomoreira.urbanflow.dto.request.RequestStatisticsDTO;
 import com.iagomoreira.urbanflow.dto.request.UpdateRequestDTO;
+import com.iagomoreira.urbanflow.dto.request.UpdateRequestStatusDTO;
 import com.iagomoreira.urbanflow.dto.subcategory.SubCategoryStatisticsDTO;
 import com.iagomoreira.urbanflow.exception.BusinessException;
 import com.iagomoreira.urbanflow.exception.ResourceNotFoundException;
 import com.iagomoreira.urbanflow.model.Address;
 import com.iagomoreira.urbanflow.model.Category;
 import com.iagomoreira.urbanflow.model.Request;
+import com.iagomoreira.urbanflow.model.RequestHistory;
 import com.iagomoreira.urbanflow.model.SubCategory;
 import com.iagomoreira.urbanflow.model.enums.RequestStatus;
 import com.iagomoreira.urbanflow.repository.CategoryRepository;
+import com.iagomoreira.urbanflow.repository.RequestHistoryRepository;
 import com.iagomoreira.urbanflow.repository.RequestRepository;
 import com.iagomoreira.urbanflow.repository.SubCategoryRepository;
 import com.iagomoreira.urbanflow.repository.UserRepository;
+import com.iagomoreira.urbanflow.security.SecurityUtils;
 
 @Service
 public class RequestService {
@@ -50,6 +54,9 @@ public class RequestService {
 
 	@Autowired
 	private SubCategoryRepository subCategoryRepository;
+
+	@Autowired
+	private RequestHistoryRepository requestHistoryRepository;
 
 	private Request fromDTO(CreateRequestDTO dto) {
 
@@ -295,6 +302,40 @@ public class RequestService {
 		return new RequestResponseDTO(request);
 	}
 
+	public RequestResponseDTO updateStatus(String id, UpdateRequestStatusDTO dto) {
+
+		Request request = requestRepository.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Request not found"));
+
+		validateStatusTransition(request.getStatus(), dto.getStatus());
+
+		RequestStatus oldStatus = request.getStatus();
+
+		request.setStatus(dto.getStatus());
+
+		request.setCreatedAt(LocalDateTime.now());
+
+		RequestHistory history = new RequestHistory();
+
+		history.setRequestId(request.getId());
+
+		history.setOldStatus(oldStatus);
+
+		history.setNewStatus(dto.getStatus());
+
+		history.setChangedBy(SecurityUtils.getCurrentUserEmail());
+
+		history.setNote(dto.getNote());
+
+		history.setChangedAt(LocalDateTime.now());
+
+		requestHistoryRepository.save(history);
+
+		request = requestRepository.save(request);
+
+		return new RequestResponseDTO(request);
+	}
+
 	public void delete(String id) {
 
 		Request request = requestRepository.findById(id)
@@ -328,5 +369,53 @@ public class RequestService {
 	private String validateSortField(String sortBy) {
 		Set<String> allowedFields = Set.of("createdAt", "title", "status", "citizenPriority", "updatedAt");
 		return allowedFields.contains(sortBy) ? sortBy : "createdAt";
+	}
+
+	private void validateStatusTransition(RequestStatus current, RequestStatus next) {
+
+		switch (current) {
+
+		case RECEIVED:
+
+			if (next != RequestStatus.UNDER_REVIEW && next != RequestStatus.CANCELLED) {
+
+				throw new BusinessException("Invalid status transition");
+			}
+
+			break;
+
+		case UNDER_REVIEW:
+
+			if (next != RequestStatus.APPROVED && next != RequestStatus.REJECTED) {
+
+				throw new BusinessException("Invalid status transition");
+			}
+
+			break;
+
+		case APPROVED:
+
+			if (next != RequestStatus.IN_PROGRESS) {
+
+				throw new BusinessException("Invalid status transition");
+			}
+
+			break;
+
+		case IN_PROGRESS:
+
+			if (next != RequestStatus.RESOLVED) {
+
+				throw new BusinessException("Invalid status transition");
+			}
+
+			break;
+
+		case RESOLVED:
+		case REJECTED:
+		case CANCELLED:
+
+			throw new BusinessException("Request is already finalized");
+		}
 	}
 }
