@@ -27,7 +27,7 @@ import com.iagomoreira.urbanflow.dto.request.UpdateRequestDTO;
 import com.iagomoreira.urbanflow.dto.request.UpdateRequestStatusDTO;
 import com.iagomoreira.urbanflow.dto.subcategory.SubCategoryStatisticsDTO;
 import com.iagomoreira.urbanflow.model.enums.RequestStatus;
-import com.iagomoreira.urbanflow.service.RequestService;
+import com.iagomoreira.urbanflow.service.request.RequestService;
 
 import jakarta.validation.Valid;
 
@@ -74,6 +74,12 @@ public class RequestController {
 		return requestService.findByUser(userId);
 	}
 
+	@GetMapping("/department/{departmentId}")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('OPERATOR')")
+	public ResponseEntity<List<RequestResponseDTO>> findByDepartment(@PathVariable String departmentId) {
+		return ResponseEntity.ok(requestService.findByDepartment(departmentId));
+	}
+
 	@GetMapping("/statistics")
 	public RequestStatisticsDTO getStatistics() {
 		return requestService.getStatistics();
@@ -93,12 +99,13 @@ public class RequestController {
 	public Page<RequestResponseDTO> search(
 
 			@RequestParam(required = false) RequestStatus status, @RequestParam(required = false) String categoryId,
-			@RequestParam(required = false) String subCategoryId, @RequestParam(required = false) String userId,
-			@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size,
-			@RequestParam(defaultValue = "createdAt") String sortBy,
+			@RequestParam(required = false) String subCategoryId, @RequestParam(required = false) String departmentId,
+			@RequestParam(required = false) String userId, @RequestParam(defaultValue = "0") int page,
+			@RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "createdAt") String sortBy,
 			@RequestParam(defaultValue = "desc") String direction) {
 
-		return requestService.search(status, categoryId, subCategoryId, userId, page, size, sortBy, direction);
+		return requestService.search(status, categoryId, subCategoryId, departmentId, userId, page, size, sortBy,
+				direction);
 	}
 
 	@PutMapping("/{id}")
@@ -106,7 +113,7 @@ public class RequestController {
 		return requestService.update(id, dto);
 	}
 
-	@PreAuthorize("hasAnyRole('ADMIN','PUBLIC_AGENT')")
+	@PreAuthorize("hasAnyRole('ADMIN','OPERATOR')")
 	@PatchMapping("/{id}/status")
 	public ResponseEntity<RequestResponseDTO> updateStatus(@PathVariable String id,
 			@Valid @RequestBody UpdateRequestStatusDTO dto) {

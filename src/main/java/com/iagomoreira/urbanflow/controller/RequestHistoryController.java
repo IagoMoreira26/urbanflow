@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.iagomoreira.urbanflow.dto.requesthistory.RequestHistoryResponseDTO;
-import com.iagomoreira.urbanflow.service.RequestHistoryService;
+import com.iagomoreira.urbanflow.service.requesthistory.RequestHistoryService;
 
 @RestController
 @RequestMapping("/request-history")

@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.iagomoreira.urbanflow.dto.category.CategoryResponseDTO;
 import com.iagomoreira.urbanflow.dto.category.CreateCategoryDTO;
 import com.iagomoreira.urbanflow.dto.category.UpdateCategoryDTO;
-import com.iagomoreira.urbanflow.service.CategoryService;
+import com.iagomoreira.urbanflow.service.category.CategoryService;
 
 import jakarta.validation.Valid;
 

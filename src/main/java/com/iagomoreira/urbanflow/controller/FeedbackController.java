@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.iagomoreira.urbanflow.dto.feedback.CreateFeedbackDTO;
 import com.iagomoreira.urbanflow.dto.feedback.FeedbackResponseDTO;
 import com.iagomoreira.urbanflow.dto.feedback.FeedbackStatisticsDTO;
-import com.iagomoreira.urbanflow.service.FeedbackService;
+import com.iagomoreira.urbanflow.service.feedback.FeedbackService;
 
 import jakarta.validation.Valid;
 

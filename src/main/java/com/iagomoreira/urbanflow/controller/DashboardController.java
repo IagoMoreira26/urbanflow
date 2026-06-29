@@ -13,7 +13,7 @@ import com.iagomoreira.urbanflow.dto.dashboard.DashboardOverviewDTO;
 import com.iagomoreira.urbanflow.dto.dashboard.DashboardStatisticsDTO;
 import com.iagomoreira.urbanflow.dto.dashboard.TopCategoryDTO;
 import com.iagomoreira.urbanflow.dto.dashboard.TopSubCategoryDTO;
-import com.iagomoreira.urbanflow.service.DashboardService;
+import com.iagomoreira.urbanflow.service.dashboard.DashboardService;
 
 @RestController
 @RequestMapping("/dashboard")

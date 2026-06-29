@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.iagomoreira.urbanflow.dto.vote.CreateVoteDTO;
 import com.iagomoreira.urbanflow.dto.vote.RequestPriorityDTO;
 import com.iagomoreira.urbanflow.dto.vote.VoteResponseDTO;
-import com.iagomoreira.urbanflow.service.VoteService;
+import com.iagomoreira.urbanflow.service.vote.VoteService;
 
 import jakarta.validation.Valid;
 
