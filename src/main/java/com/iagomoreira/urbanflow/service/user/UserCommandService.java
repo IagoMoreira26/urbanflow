@@ -1,7 +1,6 @@
-package com.iagomoreira.urbanflow.service;
+package com.iagomoreira.urbanflow.service.user;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -11,16 +10,13 @@ import com.iagomoreira.urbanflow.dto.address.AddressDTO;
 import com.iagomoreira.urbanflow.dto.user.CreateUserDTO;
 import com.iagomoreira.urbanflow.dto.user.UpdateUserDTO;
 import com.iagomoreira.urbanflow.dto.user.UserResponseDTO;
-import com.iagomoreira.urbanflow.exception.BusinessException;
-import com.iagomoreira.urbanflow.exception.DatabaseException;
-import com.iagomoreira.urbanflow.exception.ResourceNotFoundException;
 import com.iagomoreira.urbanflow.model.Address;
 import com.iagomoreira.urbanflow.model.User;
 import com.iagomoreira.urbanflow.model.enums.Role;
 import com.iagomoreira.urbanflow.repository.UserRepository;
 
 @Service
-public class UserService {
+public class UserCommandService {
 
 	@Autowired
 	private UserRepository userRepository;
@@ -28,7 +24,10 @@ public class UserService {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
-	public User fromDTO(CreateUserDTO dto) {
+	@Autowired
+	private UserValidationService userValidationService;
+
+	private User fromDTO(CreateUserDTO dto) {
 
 		AddressDTO addressDTO = dto.getAddress();
 
@@ -36,25 +35,19 @@ public class UserService {
 				addressDTO.getNeighborhood(), addressDTO.getCity(), addressDTO.getState(), addressDTO.getComplement());
 
 		return new User(null, dto.getName(), dto.getEmail(), passwordEncoder.encode(dto.getPassword()), dto.getCpf(),
-				Role.CITIZEN, address, LocalDateTime.now(), null);
+				dto.getRole(), dto.getDepartmentId(), address, LocalDateTime.now(), null);
 	}
 
 	public UserResponseDTO create(CreateUserDTO dto) {
 
-		userRepository.findByEmail(dto.getEmail()).ifPresent(user -> {
-			throw new DatabaseException("Email already exists");
-		});
+		userValidationService.validateEmailAlreadyExists(dto.getEmail());
 
-		userRepository.findByCpf(dto.getCpf()).ifPresent(user -> {
-			throw new DatabaseException("CPF already exists");
-		});
+		userValidationService.validateCpfAlreadyExists(dto.getCpf());
 
-		if (userRepository.existsByEmail(dto.getEmail())) {
-			throw new BusinessException("Email already registered");
-		}
+		userValidationService.validateDepartment(dto.getRole(), dto.getDepartmentId());
 
-		if (userRepository.existsByCpf(dto.getCpf())) {
-			throw new BusinessException("CPF already registered");
+		if (dto.getRole() != Role.OPERATOR) {
+			dto.setDepartmentId(null);
 		}
 
 		User user = fromDTO(dto);
@@ -64,29 +57,17 @@ public class UserService {
 		return new UserResponseDTO(user);
 	}
 
-	public UserResponseDTO findById(String id) {
-
-		User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
-
-		return new UserResponseDTO(user);
-	}
-
-	public List<UserResponseDTO> findAll() {
-
-		List<User> users = userRepository.findAll();
-
-		return users.stream().map(UserResponseDTO::new).toList();
-	}
-
 	public UserResponseDTO update(String id, UpdateUserDTO dto) {
 
-		User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+		User user = userValidationService.validateUserExists(id);
 
-		if (!user.getEmail().equals(dto.getEmail()) && userRepository.existsByEmail(dto.getEmail())) {
+		userValidationService.validateEmailForUpdate(user, dto.getEmail());
 
-			throw new BusinessException("Email already registered");
+		userValidationService.validateDepartment(dto.getRole(), dto.getDepartmentId());
+
+		if (dto.getRole() != Role.OPERATOR) {
+			dto.setDepartmentId(null);
 		}
-
 		user.setName(dto.getName());
 		user.setEmail(dto.getEmail());
 
@@ -94,6 +75,9 @@ public class UserService {
 
 			user.setPassword(passwordEncoder.encode(dto.getPassword()));
 		}
+
+		user.setRole(dto.getRole());
+		user.setDepartmentId(dto.getDepartmentId());
 
 		if (dto.getAddress() != null) {
 
@@ -119,10 +103,7 @@ public class UserService {
 
 	public void delete(String id) {
 
-		if (!userRepository.existsById(id)) {
-			throw new ResourceNotFoundException("User not found");
-		}
-
+		userValidationService.validateUserExists(id);
 		userRepository.deleteById(id);
 	}
 }
