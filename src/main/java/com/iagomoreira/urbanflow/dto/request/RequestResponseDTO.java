@@ -23,6 +23,7 @@ public class RequestResponseDTO implements Serializable {
 	private Double latitude;
 	private Double longitude;
 	private AddressResponseDTO address;
+	private String departmentId;
 	private LocalDateTime createdAt;
 
 	public RequestResponseDTO() {
@@ -41,6 +42,7 @@ public class RequestResponseDTO implements Serializable {
 		this.latitude = request.getLatitude();
 		this.longitude = request.getLongitude();
 		this.createdAt = request.getCreatedAt();
+		this.departmentId = request.getDepartmentId();
 
 		if (request.getAddress() != null) {
 			this.address = new AddressResponseDTO(request.getAddress());
@@ -89,6 +91,10 @@ public class RequestResponseDTO implements Serializable {
 
 	public AddressResponseDTO getAddress() {
 		return address;
+	}
+
+	public String getDepartmentId() {
+		return departmentId;
 	}
 
 	public LocalDateTime getCreatedAt() {

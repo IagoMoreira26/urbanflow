@@ -14,6 +14,9 @@ public class CreateCategoryDTO implements Serializable {
 	@NotBlank(message = "Category description is required")
 	private String description;
 
+	@NotBlank
+	private String departmentId;
+
 	public CreateCategoryDTO() {
 	}
 
@@ -31,5 +34,13 @@ public class CreateCategoryDTO implements Serializable {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public String getDepartmentId() {
+		return departmentId;
+	}
+
+	public void setDepartmentId(String departmentId) {
+		this.departmentId = departmentId;
 	}
 }

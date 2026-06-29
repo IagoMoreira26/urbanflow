@@ -13,15 +13,17 @@ public class Category implements Serializable {
 	private String id;
 	private String name;
 	private String description;
+	private String departmentId;
 
 	public Category() {
 	}
 
-	public Category(String id, String name, String description) {
+	public Category(String id, String name, String description, String departmentId) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.description = description;
+		this.departmentId = departmentId;
 	}
 
 	public String getId() {
@@ -46,6 +48,14 @@ public class Category implements Serializable {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public String getDepartmentId() {
+		return departmentId;
+	}
+
+	public void setDepartmentId(String departmentId) {
+		this.departmentId = departmentId;
 	}
 
 	@Override

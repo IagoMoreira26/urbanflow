@@ -17,6 +17,9 @@ public class UpdateSubCategoryDTO implements Serializable {
 	@NotBlank
 	private String categoryId;
 
+	@NotBlank
+	private String departmentId;
+
 	public UpdateSubCategoryDTO() {
 	}
 
@@ -42,5 +45,13 @@ public class UpdateSubCategoryDTO implements Serializable {
 
 	public void setCategoryId(String categoryId) {
 		this.categoryId = categoryId;
+	}
+
+	public String getDepartmentId() {
+		return departmentId;
+	}
+
+	public void setDepartmentId(String departmentId) {
+		this.departmentId = departmentId;
 	}
 }

@@ -17,6 +17,9 @@ public class CreateSubCategoryDTO implements Serializable {
 	@NotBlank(message = "Category id is required")
 	private String categoryId;
 
+	@NotBlank(message = "Department is required")
+	private String departmentId;
+
 	public CreateSubCategoryDTO() {
 	}
 
@@ -42,5 +45,13 @@ public class CreateSubCategoryDTO implements Serializable {
 
 	public void setCategoryId(String categoryId) {
 		this.categoryId = categoryId;
+	}
+
+	public String getDepartmentId() {
+		return departmentId;
+	}
+
+	public void setDepartmentId(String departmentId) {
+		this.departmentId = departmentId;
 	}
 }

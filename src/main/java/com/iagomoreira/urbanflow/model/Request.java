@@ -23,6 +23,7 @@ public class Request implements Serializable {
 	private String title;
 	private String description;
 	private LocalDateTime createdAt;
+	private LocalDateTime updatedAt;
 	private String categoryId;
 	private String subCategoryId;
 	private RequestStatus status;
@@ -30,21 +31,23 @@ public class Request implements Serializable {
 	private Double latitude;
 	private Double longitude;
 	private Address address;
+	private String departmentId;
 
 	private List<String> legislationIds = new ArrayList<>();
 
 	public Request() {
 	}
 
-	public Request(String id, String userId, String title, String description, LocalDateTime createdAt,
+	public Request(String id, String userId, String title, String description, LocalDateTime createdAt, LocalDateTime updatedAt,
 			String categoryId, String subCategoryId, RequestStatus status, PriorityLevel citizenPriority,
-			Double latitude, Double longitude, Address address, List<String> legislationIds) {
+			Double latitude, Double longitude, Address address, String departmentId, List<String> legislationIds) {
 		super();
 		this.id = id;
 		this.userId = userId;
 		this.title = title;
 		this.description = description;
 		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
 		this.categoryId = categoryId;
 		this.subCategoryId = subCategoryId;
 		this.status = status;
@@ -52,6 +55,7 @@ public class Request implements Serializable {
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.address = address;
+		this.departmentId = departmentId;
 		this.legislationIds = legislationIds;
 	}
 
@@ -93,6 +97,14 @@ public class Request implements Serializable {
 
 	public void setCreatedAt(LocalDateTime createdAt) {
 		this.createdAt = createdAt;
+	}
+	
+	public LocalDateTime getUpdatedAt() {
+	    return updatedAt;
+	}
+	
+	public void setUpdatedAt(LocalDateTime updatedAt) {
+	    this.updatedAt = updatedAt;
 	}
 
 	public String getCategoryId() {
@@ -149,6 +161,14 @@ public class Request implements Serializable {
 
 	public void setAddress(Address address) {
 		this.address = address;
+	}
+
+	public String getDepartmentId() {
+		return departmentId;
+	}
+
+	public void setDepartmentId(String departmentId) {
+		this.departmentId = departmentId;
 	}
 
 	public List<String> getLegislationIds() {

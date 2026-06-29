@@ -18,4 +18,6 @@ public interface RequestRepository extends MongoRepository<Request, String> {
 	List<Request> findBySubCategoryId(String subCategoryId);
 
 	List<Request> findByUserId(String userId);
+	
+	List<Request> findByDepartmentId(String departmentId);
 }

@@ -14,16 +14,18 @@ public class SubCategory implements Serializable {
 	private String name;
 	private String description;
 	private String categoryId;
+	private String departmentId;
 
 	public SubCategory() {
 	}
 
-	public SubCategory(String id, String name, String description, String categoryId) {
+	public SubCategory(String id, String name, String description, String categoryId, String departmentId) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.categoryId = categoryId;
+		this.departmentId = departmentId;
 	}
 
 	public String getId() {
@@ -56,6 +58,14 @@ public class SubCategory implements Serializable {
 
 	public void setCategoryId(String categoryId) {
 		this.categoryId = categoryId;
+	}
+
+	public String getDepartmentId() {
+		return departmentId;
+	}
+
+	public void setDepartmentId(String departmentId) {
+		this.departmentId = departmentId;
 	}
 
 	@Override

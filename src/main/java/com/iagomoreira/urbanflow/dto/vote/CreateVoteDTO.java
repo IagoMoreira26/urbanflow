@@ -12,17 +12,10 @@ public class CreateVoteDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@NotBlank
-	private String userId;
-
-	@NotBlank
 	private String requestId;
 
 	@NotNull
 	private PriorityLevel priorityLevel;
-
-	public String getUserId() {
-		return userId;
-	}
 
 	public String getRequestId() {
 		return requestId;
@@ -30,10 +23,6 @@ public class CreateVoteDTO implements Serializable {
 
 	public PriorityLevel getPriorityLevel() {
 		return priorityLevel;
-	}
-
-	public void setUserId(String userId) {
-		this.userId = userId;
 	}
 
 	public void setRequestId(String requestId) {

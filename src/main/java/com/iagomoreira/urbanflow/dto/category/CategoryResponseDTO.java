@@ -11,6 +11,7 @@ public class CategoryResponseDTO implements Serializable {
 	private String id;
 	private String name;
 	private String description;
+	private String departmentId;
 
 	public CategoryResponseDTO() {
 	}
@@ -19,6 +20,7 @@ public class CategoryResponseDTO implements Serializable {
 		this.id = category.getId();
 		this.name = category.getName();
 		this.description = category.getDescription();
+		this.departmentId = category.getDepartmentId();
 	}
 
 	public String getId() {
@@ -31,5 +33,9 @@ public class CategoryResponseDTO implements Serializable {
 
 	public String getDescription() {
 		return description;
+	}
+	
+	public String getDepartmentId() {
+	    return departmentId;
 	}
 }

@@ -20,9 +20,6 @@ public class CreateRequestDTO implements Serializable {
 	private String description;
 
 	@NotBlank
-	private String userId;
-
-	@NotBlank
 	private String categoryId;
 
 	@NotBlank
@@ -57,14 +54,6 @@ public class CreateRequestDTO implements Serializable {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public String getUserId() {
-		return userId;
-	}
-
-	public void setUserId(String userId) {
-		this.userId = userId;
 	}
 
 	public String getCategoryId() {

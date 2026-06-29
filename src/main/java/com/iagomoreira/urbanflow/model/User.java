@@ -21,6 +21,7 @@ public class User implements Serializable {
 	private String password;
 	private String cpf;
 	private Role role;
+	private String departmentId;
 	private Address address;
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
@@ -28,8 +29,8 @@ public class User implements Serializable {
 	public User() {
 	}
 
-	public User(String id, String name, String email, String password, String cpf, Role role, Address address,
-			LocalDateTime createdAt, LocalDateTime updatedAt) {
+	public User(String id, String name, String email, String password, String cpf, Role role, String departmentId,
+			Address address, LocalDateTime createdAt, LocalDateTime updatedAt) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -38,6 +39,7 @@ public class User implements Serializable {
 		this.cpf = cpf;
 		this.address = address;
 		this.role = role;
+		this.departmentId = departmentId;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
 	}
@@ -80,6 +82,14 @@ public class User implements Serializable {
 
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
+	}
+
+	public String getDepartmentId() {
+		return departmentId;
+	}
+
+	public void setDepartmentId(String departmentId) {
+		this.departmentId = departmentId;
 	}
 
 	public Address getAddress() {

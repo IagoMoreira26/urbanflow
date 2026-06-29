@@ -12,6 +12,7 @@ public class SubCategoryResponseDTO implements Serializable {
 	private String name;
 	private String description;
 	private String categoryId;
+	private String departmentId;
 
 	public SubCategoryResponseDTO() {
 	}
@@ -21,6 +22,7 @@ public class SubCategoryResponseDTO implements Serializable {
 		this.id = subCategory.getId();
 		this.name = subCategory.getName();
 		this.description = subCategory.getDescription();
+		this.departmentId = subCategory.getDepartmentId();
 
 		if (subCategory.getCategoryId() != null) {
 			this.categoryId = subCategory.getCategoryId();
@@ -41,5 +43,9 @@ public class SubCategoryResponseDTO implements Serializable {
 
 	public String getCategoryId() {
 		return categoryId;
+	}
+
+	public String getDepartmentId() {
+		return departmentId;
 	}
 }

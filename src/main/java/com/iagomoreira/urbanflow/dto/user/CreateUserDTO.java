@@ -3,6 +3,7 @@ package com.iagomoreira.urbanflow.dto.user;
 import java.io.Serializable;
 
 import com.iagomoreira.urbanflow.dto.address.AddressDTO;
+import com.iagomoreira.urbanflow.model.enums.Role;
 import com.iagomoreira.urbanflow.validation.ValidCpf;
 
 import jakarta.validation.Valid;
@@ -26,6 +27,10 @@ public class CreateUserDTO implements Serializable {
 
 	@NotBlank
 	private String password;
+
+	private Role role;
+
+	private String departmentId;
 
 	@Valid
 	private AddressDTO address;
@@ -60,6 +65,22 @@ public class CreateUserDTO implements Serializable {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
+
+	public String getDepartmentId() {
+		return departmentId;
+	}
+
+	public void setDepartmentId(String departmentId) {
+		this.departmentId = departmentId;
 	}
 
 	public AddressDTO getAddress() {
