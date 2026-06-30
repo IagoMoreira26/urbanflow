@@ -2,11 +2,11 @@ package com.iagomoreira.urbanflow.service.feedback;
 
 import java.time.LocalDateTime;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.iagomoreira.urbanflow.dto.feedback.CreateFeedbackDTO;
 import com.iagomoreira.urbanflow.dto.feedback.FeedbackResponseDTO;
+import com.iagomoreira.urbanflow.mapper.FeedbackMapper;
 import com.iagomoreira.urbanflow.model.Feedback;
 import com.iagomoreira.urbanflow.model.Request;
 import com.iagomoreira.urbanflow.repository.FeedbackRepository;
@@ -14,41 +14,30 @@ import com.iagomoreira.urbanflow.repository.FeedbackRepository;
 @Service
 public class FeedbackCommandService {
 
-	@Autowired
-	private FeedbackRepository repository;
+	private final FeedbackRepository feedbackRepository;
+	private final FeedbackValidationService feedbackValidationService;
+	private final FeedbackMapper feedbackMapper;
 
-	@Autowired
-	private FeedbackValidationService validationService;
+	public FeedbackCommandService(FeedbackRepository feedbackRepository,
+			FeedbackValidationService feedbackValidationService, FeedbackMapper feedbackMapper) {
 
-	private Feedback fromDTO(CreateFeedbackDTO dto) {
-
-		Feedback feedback = new Feedback();
-
-		feedback.setRating(dto.getRating());
-		feedback.setComment(dto.getComment());
-
-		feedback.setUserId(dto.getUserId());
-		feedback.setRequestId(dto.getRequestId());
-
-		return feedback;
+		this.feedbackRepository = feedbackRepository;
+		this.feedbackValidationService = feedbackValidationService;
+		this.feedbackMapper = feedbackMapper;
 	}
 
 	public FeedbackResponseDTO create(CreateFeedbackDTO dto) {
 
-		validationService.validateUserExists(dto.getUserId());
+		feedbackValidationService.validateUserExists(dto.getUserId());
+		Request request = feedbackValidationService.validateRequestExists(dto.getRequestId());
 
-		Request request = validationService.validateRequestExists(dto.getRequestId());
+		feedbackValidationService.validateResolvedRequest(request);
+		feedbackValidationService.validateDuplicateFeedback(dto.getUserId(), dto.getRequestId());
 
-		validationService.validateResolvedRequest(request);
-
-		validationService.validateDuplicateFeedback(dto.getUserId(), dto.getRequestId());
-
-		Feedback feedback = fromDTO(dto);
+		Feedback feedback = feedbackMapper.toEntity(dto);
 
 		feedback.setCreatedAt(LocalDateTime.now());
-
-		feedback = repository.save(feedback);
-
+		feedback = feedbackRepository.save(feedback);
 		return new FeedbackResponseDTO(feedback);
 	}
 }

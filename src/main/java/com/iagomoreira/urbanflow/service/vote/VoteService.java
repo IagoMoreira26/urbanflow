@@ -2,7 +2,6 @@ package com.iagomoreira.urbanflow.service.vote;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.iagomoreira.urbanflow.dto.vote.CreateVoteDTO;
@@ -12,11 +11,14 @@ import com.iagomoreira.urbanflow.dto.vote.VoteResponseDTO;
 @Service
 public class VoteService {
 
-	@Autowired
-	private VoteCommandService voteCommandService;
+	private final VoteCommandService voteCommandService;
+	private final VoteQueryService voteQueryService;
 
-	@Autowired
-	private VoteQueryService voteQueryService;
+	public VoteService(VoteCommandService voteCommandService, VoteQueryService voteQueryService) {
+		super();
+		this.voteCommandService = voteCommandService;
+		this.voteQueryService = voteQueryService;
+	}
 
 	public VoteResponseDTO create(CreateVoteDTO dto) {
 		return voteCommandService.create(dto);

@@ -3,7 +3,6 @@ package com.iagomoreira.urbanflow.service.request;
 import java.util.List;
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -29,29 +28,29 @@ import com.iagomoreira.urbanflow.service.SecurityService;
 @Service
 public class RequestQueryService {
 
-	@Autowired
-	private MongoTemplate mongoTemplate;
+	private final MongoTemplate mongoTemplate;
+	private final RequestRepository requestRepository;
+	private final UserRepository userRepository;
+	private final CategoryRepository categoryRepository;
+	private final DepartmentRepository departmentRepository;
+	private final SubCategoryRepository subCategoryRepository;
+	private final SecurityService securityService;
+	private final RequestValidationService requestValidationService;
 
-	@Autowired
-	private RequestRepository requestRepository;
-
-	@Autowired
-	private UserRepository userRepository;
-
-	@Autowired
-	private CategoryRepository categoryRepository;
-
-	@Autowired
-	private DepartmentRepository departmentRepository;
-
-	@Autowired
-	private SubCategoryRepository subCategoryRepository;
-
-	@Autowired
-	private SecurityService securityService;
-
-	@Autowired
-	private RequestValidationService requestValidationService;
+	public RequestQueryService(MongoTemplate mongoTemplate, RequestRepository requestRepository,
+			UserRepository userRepository, CategoryRepository categoryRepository,
+			DepartmentRepository departmentRepository, SubCategoryRepository subCategoryRepository,
+			SecurityService securityService, RequestValidationService requestValidationService) {
+		super();
+		this.mongoTemplate = mongoTemplate;
+		this.requestRepository = requestRepository;
+		this.userRepository = userRepository;
+		this.categoryRepository = categoryRepository;
+		this.departmentRepository = departmentRepository;
+		this.subCategoryRepository = subCategoryRepository;
+		this.securityService = securityService;
+		this.requestValidationService = requestValidationService;
+	}
 
 	public List<RequestResponseDTO> findAll() {
 
@@ -74,7 +73,6 @@ public class RequestQueryService {
 				.orElseThrow(() -> new ResourceNotFoundException("Request not found"));
 
 		requestValidationService.validateRequestAccess(request);
-
 		return new RequestResponseDTO(request);
 	}
 
@@ -105,9 +103,7 @@ public class RequestQueryService {
 		if (!userRepository.existsById(userId)) {
 			throw new ResourceNotFoundException("User not found");
 		}
-
 		if (securityService.isCitizen() && !securityService.getAuthenticatedUserId().equals(userId)) {
-
 			throw new BusinessException("Access denied");
 		}
 
@@ -119,13 +115,10 @@ public class RequestQueryService {
 		if (!departmentRepository.existsById(departmentId)) {
 			throw new ResourceNotFoundException("Department not found");
 		}
-
 		if (securityService.isCitizen()) {
 			throw new BusinessException("Access denied");
 		}
-
 		if (securityService.isOperator() && !securityService.getAuthenticatedDepartmentId().equals(departmentId)) {
-
 			throw new BusinessException("Access denied");
 		}
 
@@ -141,7 +134,6 @@ public class RequestQueryService {
 			departmentId = securityService.getAuthenticatedDepartmentId();
 			userId = null;
 		}
-
 		if (securityService.isCitizen()) {
 			userId = securityService.getAuthenticatedUserId();
 			departmentId = null;
@@ -167,11 +159,11 @@ public class RequestQueryService {
 
 	public List<RequestResponseDTO> search(RequestStatus status, String categoryId, String subCategoryId,
 			String departmentId, String userId) {
+
 		if (securityService.isOperator()) {
 			departmentId = securityService.getAuthenticatedDepartmentId();
 			userId = null;
 		}
-
 		if (securityService.isCitizen()) {
 			userId = securityService.getAuthenticatedUserId();
 			departmentId = null;

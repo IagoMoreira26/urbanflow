@@ -1,6 +1,5 @@
 package com.iagomoreira.urbanflow.service.dashboard;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.iagomoreira.urbanflow.dto.dashboard.DashboardOverviewDTO;
@@ -10,58 +9,42 @@ import com.iagomoreira.urbanflow.model.enums.RequestStatus;
 @Service
 public class DashboardStatisticsService {
 
-	@Autowired
-	private DashboardMetricsService metrics;
+	private final DashboardMetricsService dashboardMetricsService;
+
+	public DashboardStatisticsService(DashboardMetricsService dashboardMetricsService) {
+		super();
+		this.dashboardMetricsService = dashboardMetricsService;
+	}
 
 	public DashboardStatisticsDTO getStatistics() {
 
 		return new DashboardStatisticsDTO(
 
-				(int) metrics.countRequests(),
+				(int) dashboardMetricsService.countRequests(),
+				(int) dashboardMetricsService.countByStatus(RequestStatus.RECEIVED),
+				(int) dashboardMetricsService.countByStatus(RequestStatus.IN_PROGRESS),
+				(int) dashboardMetricsService.countByStatus(RequestStatus.RESOLVED),
+				(int) dashboardMetricsService.countByStatus(RequestStatus.CANCELLED),
 
-				(int) metrics.countByStatus(RequestStatus.RECEIVED),
+				dashboardMetricsService.getResolutionRate(), (int) dashboardMetricsService.countUsers(),
+				(int) dashboardMetricsService.countVotes(), (int) dashboardMetricsService.countFeedbacks(),
 
-				(int) metrics.countByStatus(RequestStatus.IN_PROGRESS),
-
-				(int) metrics.countByStatus(RequestStatus.RESOLVED),
-
-				(int) metrics.countByStatus(RequestStatus.CANCELLED),
-
-				metrics.getResolutionRate(),
-
-				(int) metrics.countUsers(),
-
-				(int) metrics.countVotes(),
-
-				(int) metrics.countFeedbacks(),
-
-				metrics.getAverageRating());
+				dashboardMetricsService.getAverageRating());
 	}
 
 	public DashboardOverviewDTO getOverview() {
 
 		return new DashboardOverviewDTO(
 
-				metrics.countRequests(),
+				dashboardMetricsService.countRequests(), dashboardMetricsService.countByStatus(RequestStatus.RECEIVED),
+				dashboardMetricsService.countByStatus(RequestStatus.UNDER_REVIEW),
+				dashboardMetricsService.countByStatus(RequestStatus.APPROVED),
+				dashboardMetricsService.countByStatus(RequestStatus.IN_PROGRESS),
+				dashboardMetricsService.countByStatus(RequestStatus.RESOLVED),
+				dashboardMetricsService.countByStatus(RequestStatus.CANCELLED),
+				dashboardMetricsService.countByStatus(RequestStatus.REJECTED),
 
-				metrics.countByStatus(RequestStatus.RECEIVED),
-
-				metrics.countByStatus(RequestStatus.UNDER_REVIEW),
-
-				metrics.countByStatus(RequestStatus.APPROVED),
-
-				metrics.countByStatus(RequestStatus.IN_PROGRESS),
-
-				metrics.countByStatus(RequestStatus.RESOLVED),
-
-				metrics.countByStatus(RequestStatus.CANCELLED),
-
-				metrics.countByStatus(RequestStatus.REJECTED),
-
-				metrics.countUsers(),
-
-				metrics.countVotes(),
-
-				metrics.getAverageRating());
+				dashboardMetricsService.countUsers(), dashboardMetricsService.countVotes(),
+				dashboardMetricsService.getAverageRating());
 	}
 }

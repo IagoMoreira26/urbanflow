@@ -1,6 +1,5 @@
 package com.iagomoreira.urbanflow.service.subcategory;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.iagomoreira.urbanflow.exception.ResourceNotFoundException;
@@ -12,29 +11,30 @@ import com.iagomoreira.urbanflow.repository.SubCategoryRepository;
 @Service
 public class SubCategoryValidationService {
 
-	@Autowired
-	private SubCategoryRepository repository;
+	private final SubCategoryRepository subCategoryRepository;
+	private final CategoryRepository categoryRepository;
+	private final DepartmentRepository departmentRepository;
 
-	@Autowired
-	private CategoryRepository categoryRepository;
-
-	@Autowired
-	private DepartmentRepository departmentRepository;
+	public SubCategoryValidationService(SubCategoryRepository subCategoryRepository,
+			CategoryRepository categoryRepository, DepartmentRepository departmentRepository) {
+		super();
+		this.subCategoryRepository = subCategoryRepository;
+		this.categoryRepository = categoryRepository;
+		this.departmentRepository = departmentRepository;
+	}
 
 	public SubCategory validateSubCategoryExists(String id) {
-
-		return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("SubCategory not found"));
+		return subCategoryRepository.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("SubCategory not found"));
 	}
 
 	public void validateCategoryExists(String categoryId) {
-
 		if (!categoryRepository.existsById(categoryId)) {
 			throw new ResourceNotFoundException("Category not found");
 		}
 	}
 
 	public void validateDepartmentExists(String departmentId) {
-
 		if (!departmentRepository.existsById(departmentId)) {
 			throw new ResourceNotFoundException("Department not found");
 		}

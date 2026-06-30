@@ -2,66 +2,54 @@ package com.iagomoreira.urbanflow.service.department;
 
 import java.time.LocalDateTime;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.iagomoreira.urbanflow.dto.department.CreateDepartmentDTO;
 import com.iagomoreira.urbanflow.dto.department.DepartmentResponseDTO;
 import com.iagomoreira.urbanflow.dto.department.UpdateDepartmentDTO;
+import com.iagomoreira.urbanflow.mapper.DepartmentMapper;
 import com.iagomoreira.urbanflow.model.Department;
 import com.iagomoreira.urbanflow.repository.DepartmentRepository;
 
 @Service
 public class DepartmentCommandService {
 
-	@Autowired
-	private DepartmentRepository repository;
+	private final DepartmentRepository departmentRepository;
+	private final DepartmentValidationService departmentValidationService;
+	private final DepartmentMapper departmentMapper;
 
-	@Autowired
-	private DepartmentValidationService validationService;
-
-	private Department fromDTO(CreateDepartmentDTO dto) {
-
-		Department department = new Department();
-
-		department.setName(dto.getName());
-		department.setDescription(dto.getDescription());
-
-		return department;
+	public DepartmentCommandService(DepartmentRepository departmentRepository,
+			DepartmentValidationService departmentValidationService, DepartmentMapper departmentMapper) {
+		this.departmentRepository = departmentRepository;
+		this.departmentValidationService = departmentValidationService;
+		this.departmentMapper = departmentMapper;
 	}
 
 	public DepartmentResponseDTO create(CreateDepartmentDTO dto) {
 
-		validationService.validateDepartmentNameAlreadyExists(dto.getName());
-
-		Department department = fromDTO(dto);
+		departmentValidationService.validateDepartmentNameAlreadyExists(dto.getName());
+		Department department = departmentMapper.toEntity(dto);
 
 		department.setCreatedAt(LocalDateTime.now());
 
-		department = repository.save(department);
-
+		department = departmentRepository.save(department);
 		return new DepartmentResponseDTO(department);
 	}
 
 	public DepartmentResponseDTO update(String id, UpdateDepartmentDTO dto) {
 
-		Department department = validationService.validateDepartmentExists(id);
+		Department department = departmentValidationService.validateDepartmentExists(id);
+		departmentValidationService.validateDepartmentNameForUpdate(department, dto.getName());
 
-		validationService.validateDepartmentNameForUpdate(department, dto.getName());
-
-		department.setName(dto.getName());
-		department.setDescription(dto.getDescription());
+		departmentMapper.updateEntity(department, dto);
 		department.setUpdatedAt(LocalDateTime.now());
 
-		department = repository.save(department);
-
+		department = departmentRepository.save(department);
 		return new DepartmentResponseDTO(department);
 	}
 
 	public void delete(String id) {
-
-		validationService.validateDepartmentExists(id);
-
-		repository.deleteById(id);
+		departmentValidationService.validateDepartmentExists(id);
+		departmentRepository.deleteById(id);
 	}
 }

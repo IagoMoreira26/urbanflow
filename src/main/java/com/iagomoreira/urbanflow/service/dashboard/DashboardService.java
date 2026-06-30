@@ -2,7 +2,6 @@ package com.iagomoreira.urbanflow.service.dashboard;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.iagomoreira.urbanflow.dto.dashboard.DashboardOverviewDTO;
@@ -13,25 +12,29 @@ import com.iagomoreira.urbanflow.dto.dashboard.TopSubCategoryDTO;
 @Service
 public class DashboardService {
 
-	@Autowired
-	private DashboardQueryService queryService;
+	private final DashboardQueryService dashboardQueryService;
+	private final DashboardStatisticsService dashboardStatisticsService;
 
-	@Autowired
-	private DashboardStatisticsService statisticsService;
+	public DashboardService(DashboardQueryService dashboardQueryService,
+			DashboardStatisticsService dashboardStatisticsService) {
+		super();
+		this.dashboardQueryService = dashboardQueryService;
+		this.dashboardStatisticsService = dashboardStatisticsService;
+	}
 
 	public DashboardStatisticsDTO getStatistics() {
-		return statisticsService.getStatistics();
+		return dashboardStatisticsService.getStatistics();
 	}
 
 	public DashboardOverviewDTO getOverview() {
-		return statisticsService.getOverview();
+		return dashboardStatisticsService.getOverview();
 	}
 
 	public List<TopCategoryDTO> getTopCategories() {
-		return queryService.getTopCategories();
+		return dashboardQueryService.getTopCategories();
 	}
 
 	public List<TopSubCategoryDTO> getTopSubCategories() {
-		return queryService.getTopSubCategories();
+		return dashboardQueryService.getTopSubCategories();
 	}
 }

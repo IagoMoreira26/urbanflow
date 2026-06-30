@@ -2,7 +2,6 @@ package com.iagomoreira.urbanflow.service.dashboard;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.iagomoreira.urbanflow.model.Feedback;
@@ -16,17 +15,19 @@ import com.iagomoreira.urbanflow.repository.VoteRepository;
 @Service
 public class DashboardMetricsService {
 
-	@Autowired
-	private RequestRepository requestRepository;
+	private final RequestRepository requestRepository;
+	private final UserRepository userRepository;
+	private final VoteRepository voteRepository;
+	private final FeedbackRepository feedbackRepository;
 
-	@Autowired
-	private UserRepository userRepository;
-
-	@Autowired
-	private VoteRepository voteRepository;
-
-	@Autowired
-	private FeedbackRepository feedbackRepository;
+	public DashboardMetricsService(RequestRepository requestRepository, UserRepository userRepository,
+			VoteRepository voteRepository, FeedbackRepository feedbackRepository) {
+		super();
+		this.requestRepository = requestRepository;
+		this.userRepository = userRepository;
+		this.voteRepository = voteRepository;
+		this.feedbackRepository = feedbackRepository;
+	}
 
 	public List<Request> getRequests() {
 		return requestRepository.findAll();
@@ -57,7 +58,6 @@ public class DashboardMetricsService {
 	}
 
 	public double getAverageRating() {
-
 		return feedbackRepository.findAll().stream().mapToInt(Feedback::getRating).average().orElse(0.0);
 	}
 

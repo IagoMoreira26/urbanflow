@@ -2,7 +2,6 @@ package com.iagomoreira.urbanflow.service.feedback;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.iagomoreira.urbanflow.dto.feedback.CreateFeedbackDTO;
@@ -12,14 +11,17 @@ import com.iagomoreira.urbanflow.dto.feedback.FeedbackStatisticsDTO;
 @Service
 public class FeedbackService {
 
-	@Autowired
-	private FeedbackCommandService feedbackCommandService;
+	private final FeedbackCommandService feedbackCommandService;
+	private final FeedbackQueryService feedbackQueryService;
+	private final FeedbackStatisticsService feedbackStatisticsService;
 
-	@Autowired
-	private FeedbackQueryService feedbackQueryService;
-
-	@Autowired
-	private FeedbackStatisticsService feedbackStatisticsService;
+	public FeedbackService(FeedbackCommandService feedbackCommandService, FeedbackQueryService feedbackQueryService,
+			FeedbackStatisticsService feedbackStatisticsService) {
+		super();
+		this.feedbackCommandService = feedbackCommandService;
+		this.feedbackQueryService = feedbackQueryService;
+		this.feedbackStatisticsService = feedbackStatisticsService;
+	}
 
 	public FeedbackResponseDTO create(CreateFeedbackDTO dto) {
 		return feedbackCommandService.create(dto);

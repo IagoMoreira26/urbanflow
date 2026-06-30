@@ -2,7 +2,6 @@ package com.iagomoreira.urbanflow.service.legislation;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.iagomoreira.urbanflow.dto.legislation.LegislationResponseDTO;
@@ -10,8 +9,12 @@ import com.iagomoreira.urbanflow.dto.legislation.LegislationResponseDTO;
 @Service
 public class LegislationService {
 
-	@Autowired
-	private LegislationQueryService legislationQueryService;
+	private final LegislationQueryService legislationQueryService;
+
+	public LegislationService(LegislationQueryService legislationQueryService) {
+		super();
+		this.legislationQueryService = legislationQueryService;
+	}
 
 	public List<LegislationResponseDTO> findAll() {
 		return legislationQueryService.findAll();

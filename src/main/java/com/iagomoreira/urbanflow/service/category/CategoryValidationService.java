@@ -1,6 +1,5 @@
 package com.iagomoreira.urbanflow.service.category;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.iagomoreira.urbanflow.exception.ResourceNotFoundException;
@@ -11,19 +10,20 @@ import com.iagomoreira.urbanflow.repository.DepartmentRepository;
 @Service
 public class CategoryValidationService {
 
-	@Autowired
-	private CategoryRepository categoryRepository;
+	private final CategoryRepository categoryRepository;
+	private final DepartmentRepository departmentRepository;
 
-	@Autowired
-	private DepartmentRepository departmentRepository;
+	public CategoryValidationService(CategoryRepository categoryRepository, DepartmentRepository departmentRepository) {
+		super();
+		this.categoryRepository = categoryRepository;
+		this.departmentRepository = departmentRepository;
+	}
 
 	public Category validateCategoryExists(String id) {
-
 		return categoryRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Category not found"));
 	}
 
 	public void validateDepartmentExists(String departmentId) {
-
 		if (!departmentRepository.existsById(departmentId)) {
 			throw new ResourceNotFoundException("Department not found");
 		}

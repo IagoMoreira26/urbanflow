@@ -1,62 +1,51 @@
 package com.iagomoreira.urbanflow.service.category;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.iagomoreira.urbanflow.dto.category.CategoryResponseDTO;
 import com.iagomoreira.urbanflow.dto.category.CreateCategoryDTO;
 import com.iagomoreira.urbanflow.dto.category.UpdateCategoryDTO;
+import com.iagomoreira.urbanflow.mapper.CategoryMapper;
 import com.iagomoreira.urbanflow.model.Category;
 import com.iagomoreira.urbanflow.repository.CategoryRepository;
 
 @Service
 public class CategoryCommandService {
 
-	@Autowired
-	private CategoryRepository repository;
+	private final CategoryRepository categoryRepository;
+	private final CategoryValidationService categoryValidationService;
+	private final CategoryMapper categoryMapper;
 
-	@Autowired
-	private CategoryValidationService validationService;
+	public CategoryCommandService(CategoryRepository categoryRepository,
+			CategoryValidationService categoryValidationService, CategoryMapper categoryMapper) {
 
-	private Category fromDTO(CreateCategoryDTO dto) {
-
-		Category category = new Category();
-
-		category.setName(dto.getName());
-		category.setDescription(dto.getDescription());
-		category.setDepartmentId(dto.getDepartmentId());
-
-		return category;
+		this.categoryRepository = categoryRepository;
+		this.categoryValidationService = categoryValidationService;
+		this.categoryMapper = categoryMapper;
 	}
 
 	public CategoryResponseDTO create(CreateCategoryDTO dto) {
 
-		validationService.validateDepartmentExists(dto.getDepartmentId());
+		categoryValidationService.validateDepartmentExists(dto.getDepartmentId());
+		Category category = categoryMapper.toEntity(dto);
 
-		Category category = repository.save(fromDTO(dto));
-
+		category = categoryRepository.save(category);
 		return new CategoryResponseDTO(category);
 	}
 
 	public CategoryResponseDTO update(String id, UpdateCategoryDTO dto) {
 
-		Category category = validationService.validateCategoryExists(id);
+		Category category = categoryValidationService.validateCategoryExists(id);
+		categoryValidationService.validateDepartmentExists(dto.getDepartmentId());
 
-		validationService.validateDepartmentExists(dto.getDepartmentId());
+		categoryMapper.updateEntity(category, dto);
 
-		category.setName(dto.getName());
-		category.setDescription(dto.getDescription());
-		category.setDepartmentId(dto.getDepartmentId());
-
-		category = repository.save(category);
-
+		category = categoryRepository.save(category);
 		return new CategoryResponseDTO(category);
 	}
 
 	public void delete(String id) {
-
-		validationService.validateCategoryExists(id);
-
-		repository.deleteById(id);
+		categoryValidationService.validateCategoryExists(id);
+		categoryRepository.deleteById(id);
 	}
 }

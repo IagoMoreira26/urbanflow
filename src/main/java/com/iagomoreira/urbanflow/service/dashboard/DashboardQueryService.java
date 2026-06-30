@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.iagomoreira.urbanflow.dto.dashboard.TopCategoryDTO;
@@ -19,14 +18,17 @@ import com.iagomoreira.urbanflow.repository.SubCategoryRepository;
 @Service
 public class DashboardQueryService {
 
-	@Autowired
-	private RequestRepository requestRepository;
+	private final RequestRepository requestRepository;
+	private final CategoryRepository categoryRepository;
+	private final SubCategoryRepository subCategoryRepository;
 
-	@Autowired
-	private CategoryRepository categoryRepository;
-
-	@Autowired
-	private SubCategoryRepository subCategoryRepository;
+	public DashboardQueryService(RequestRepository requestRepository, CategoryRepository categoryRepository,
+			SubCategoryRepository subCategoryRepository) {
+		super();
+		this.requestRepository = requestRepository;
+		this.categoryRepository = categoryRepository;
+		this.subCategoryRepository = subCategoryRepository;
+	}
 
 	public List<TopCategoryDTO> getTopCategories() {
 

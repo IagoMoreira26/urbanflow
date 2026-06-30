@@ -2,7 +2,6 @@ package com.iagomoreira.urbanflow.service.department;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.iagomoreira.urbanflow.dto.department.CreateDepartmentDTO;
@@ -12,11 +11,15 @@ import com.iagomoreira.urbanflow.dto.department.UpdateDepartmentDTO;
 @Service
 public class DepartmentService {
 
-	@Autowired
-	private DepartmentCommandService departmentCommandService;
+	private final DepartmentCommandService departmentCommandService;
+	private final DepartmentQueryService departmentQueryService;
 
-	@Autowired
-	private DepartmentQueryService departmentQueryService;
+	public DepartmentService(DepartmentCommandService departmentCommandService,
+			DepartmentQueryService departmentQueryService) {
+		super();
+		this.departmentCommandService = departmentCommandService;
+		this.departmentQueryService = departmentQueryService;
+	}
 
 	public DepartmentResponseDTO create(CreateDepartmentDTO dto) {
 		return departmentCommandService.create(dto);

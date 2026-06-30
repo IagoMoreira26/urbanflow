@@ -2,7 +2,6 @@ package com.iagomoreira.urbanflow.service.request;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
@@ -18,17 +17,19 @@ import com.iagomoreira.urbanflow.model.enums.RequestStatus;
 @Service
 public class RequestService {
 
-	@Autowired
-	private RequestCommandService requestCommandService;
+	private final RequestCommandService requestCommandService;
+	private final RequestQueryService requestQueryService;
+	private final RequestWorkflowService requestWorkflowService;
+	private final RequestStatisticsService requestStatisticsService;
 
-	@Autowired
-	private RequestQueryService requestQueryService;
-
-	@Autowired
-	private RequestWorkflowService requestWorkflowService;
-
-	@Autowired
-	private RequestStatisticsService statisticsService;
+	public RequestService(RequestCommandService requestCommandService, RequestQueryService requestQueryService,
+			RequestWorkflowService requestWorkflowService, RequestStatisticsService requestStatisticsService) {
+		super();
+		this.requestCommandService = requestCommandService;
+		this.requestQueryService = requestQueryService;
+		this.requestWorkflowService = requestWorkflowService;
+		this.requestStatisticsService = requestStatisticsService;
+	}
 
 	public RequestResponseDTO create(CreateRequestDTO dto) {
 		return requestCommandService.create(dto);
@@ -76,26 +77,24 @@ public class RequestService {
 
 	public Page<RequestResponseDTO> search(RequestStatus status, String categoryId, String subCategoryId,
 			String departmentId, String userId, int page, int size, String sortBy, String direction) {
-
 		return requestQueryService.search(status, categoryId, subCategoryId, departmentId, userId, page, size, sortBy,
 				direction);
 	}
 
 	public List<RequestResponseDTO> search(RequestStatus status, String categoryId, String subCategoryId,
 			String departmentId, String userId) {
-
 		return requestQueryService.search(status, categoryId, subCategoryId, departmentId, userId);
 	}
 
 	public RequestStatisticsDTO getStatistics() {
-		return statisticsService.getStatistics();
+		return requestStatisticsService.getStatistics();
 	}
 
 	public CategoryStatisticsDTO getCategoryStatistics(String categoryId) {
-		return statisticsService.getCategoryStatistics(categoryId);
+		return requestStatisticsService.getCategoryStatistics(categoryId);
 	}
 
 	public SubCategoryStatisticsDTO getSubCategoryStatistics(String subCategoryId) {
-		return statisticsService.getSubCategoryStatistics(subCategoryId);
+		return requestStatisticsService.getSubCategoryStatistics(subCategoryId);
 	}
 }

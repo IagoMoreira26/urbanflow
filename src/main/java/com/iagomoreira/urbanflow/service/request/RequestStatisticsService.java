@@ -2,7 +2,6 @@ package com.iagomoreira.urbanflow.service.request;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.iagomoreira.urbanflow.dto.category.CategoryStatisticsDTO;
@@ -20,19 +19,21 @@ import com.iagomoreira.urbanflow.repository.SubCategoryRepository;
 @Service
 public class RequestStatisticsService {
 
-	@Autowired
-	private RequestRepository requestRepository;
+	private final RequestRepository requestRepository;
+	private final CategoryRepository categoryRepository;
+	private final SubCategoryRepository subCategoryRepository;
 
-	@Autowired
-	private CategoryRepository categoryRepository;
-
-	@Autowired
-	private SubCategoryRepository subCategoryRepository;
+	public RequestStatisticsService(RequestRepository requestRepository, CategoryRepository categoryRepository,
+			SubCategoryRepository subCategoryRepository) {
+		super();
+		this.requestRepository = requestRepository;
+		this.categoryRepository = categoryRepository;
+		this.subCategoryRepository = subCategoryRepository;
+	}
 
 	public RequestStatisticsDTO getStatistics() {
 
 		List<Request> requests = requestRepository.findAll();
-
 		int totalRequests = requests.size();
 
 		if (totalRequests == 0) {
@@ -41,12 +42,9 @@ public class RequestStatisticsService {
 		}
 
 		int receivedRequests = (int) requests.stream().filter(r -> r.getStatus() == RequestStatus.RECEIVED).count();
-
 		int inProgressRequests = (int) requests.stream().filter(r -> r.getStatus() == RequestStatus.IN_PROGRESS)
 				.count();
-
 		int resolvedRequests = (int) requests.stream().filter(r -> r.getStatus() == RequestStatus.RESOLVED).count();
-
 		int cancelledRequests = (int) requests.stream().filter(r -> r.getStatus() == RequestStatus.CANCELLED).count();
 
 		double resolutionRate = (resolvedRequests * 100.0) / totalRequests;
@@ -61,7 +59,6 @@ public class RequestStatisticsService {
 				.orElseThrow(() -> new ResourceNotFoundException("Category not found"));
 
 		List<Request> requests = requestRepository.findByCategoryId(categoryId);
-
 		int totalRequests = requests.size();
 
 		if (totalRequests == 0) {
@@ -70,14 +67,10 @@ public class RequestStatisticsService {
 		}
 
 		int receivedRequests = (int) requests.stream().filter(r -> r.getStatus() == RequestStatus.RECEIVED).count();
-
 		int inProgressRequests = (int) requests.stream().filter(r -> r.getStatus() == RequestStatus.IN_PROGRESS)
 				.count();
-
 		int resolvedRequests = (int) requests.stream().filter(r -> r.getStatus() == RequestStatus.RESOLVED).count();
-
 		int cancelledRequests = (int) requests.stream().filter(r -> r.getStatus() == RequestStatus.CANCELLED).count();
-
 		double resolutionRate = (resolvedRequests * 100.0) / totalRequests;
 
 		return new CategoryStatisticsDTO(category.getId(), category.getName(), totalRequests, receivedRequests,
@@ -90,7 +83,6 @@ public class RequestStatisticsService {
 				.orElseThrow(() -> new ResourceNotFoundException("SubCategory not found"));
 
 		List<Request> requests = requestRepository.findBySubCategoryId(subCategoryId);
-
 		int totalRequests = requests.size();
 
 		if (totalRequests == 0) {
@@ -99,14 +91,10 @@ public class RequestStatisticsService {
 		}
 
 		int receivedRequests = (int) requests.stream().filter(r -> r.getStatus() == RequestStatus.RECEIVED).count();
-
 		int inProgressRequests = (int) requests.stream().filter(r -> r.getStatus() == RequestStatus.IN_PROGRESS)
 				.count();
-
 		int resolvedRequests = (int) requests.stream().filter(r -> r.getStatus() == RequestStatus.RESOLVED).count();
-
 		int cancelledRequests = (int) requests.stream().filter(r -> r.getStatus() == RequestStatus.CANCELLED).count();
-
 		double resolutionRate = (resolvedRequests * 100.0) / totalRequests;
 
 		return new SubCategoryStatisticsDTO(subCategory.getId(), subCategory.getName(), totalRequests, receivedRequests,

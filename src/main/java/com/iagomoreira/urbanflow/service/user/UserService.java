@@ -2,7 +2,6 @@ package com.iagomoreira.urbanflow.service.user;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.iagomoreira.urbanflow.dto.user.CreateUserDTO;
@@ -12,11 +11,14 @@ import com.iagomoreira.urbanflow.dto.user.UserResponseDTO;
 @Service
 public class UserService {
 
-	@Autowired
-	private UserCommandService userCommandService;
+	private final UserCommandService userCommandService;
+	private final UserQueryService userQueryService;
 
-	@Autowired
-	private UserQueryService userQueryService;
+	public UserService(UserCommandService userCommandService, UserQueryService userQueryService) {
+		super();
+		this.userCommandService = userCommandService;
+		this.userQueryService = userQueryService;
+	}
 
 	public UserResponseDTO create(CreateUserDTO dto) {
 		return userCommandService.create(dto);

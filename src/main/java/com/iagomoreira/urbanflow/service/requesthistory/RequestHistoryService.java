@@ -2,7 +2,6 @@ package com.iagomoreira.urbanflow.service.requesthistory;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.iagomoreira.urbanflow.dto.requesthistory.RequestHistoryResponseDTO;
@@ -10,10 +9,14 @@ import com.iagomoreira.urbanflow.dto.requesthistory.RequestHistoryResponseDTO;
 @Service
 public class RequestHistoryService {
 
-	@Autowired
-	private RequestHistoryQueryService requestQueryService;
+	private final RequestHistoryQueryService requestHistoryQueryService;
+
+	public RequestHistoryService(RequestHistoryQueryService requestHistoryQueryService) {
+		super();
+		this.requestHistoryQueryService = requestHistoryQueryService;
+	}
 
 	public List<RequestHistoryResponseDTO> findByRequest(String requestId) {
-		return requestQueryService.findByRequest(requestId);
+		return requestHistoryQueryService.findByRequest(requestId);
 	}
 }

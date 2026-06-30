@@ -1,6 +1,5 @@
 package com.iagomoreira.urbanflow.service.feedback;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.iagomoreira.urbanflow.exception.BusinessException;
@@ -14,37 +13,36 @@ import com.iagomoreira.urbanflow.repository.UserRepository;
 @Service
 public class FeedbackValidationService {
 
-	@Autowired
-	private UserRepository userRepository;
+	private final UserRepository userRepository;
+	private final RequestRepository requestRepository;
+	private final FeedbackRepository feedbackRepository;
 
-	@Autowired
-	private RequestRepository requestRepository;
-
-	@Autowired
-	private FeedbackRepository feedbackRepository;
+	public FeedbackValidationService(UserRepository userRepository, RequestRepository requestRepository,
+			FeedbackRepository feedbackRepository) {
+		super();
+		this.userRepository = userRepository;
+		this.requestRepository = requestRepository;
+		this.feedbackRepository = feedbackRepository;
+	}
 
 	public void validateUserExists(String userId) {
-
 		if (!userRepository.existsById(userId)) {
 			throw new ResourceNotFoundException("User not found");
 		}
 	}
 
 	public Request validateRequestExists(String requestId) {
-
 		return requestRepository.findById(requestId)
 				.orElseThrow(() -> new ResourceNotFoundException("Request not found"));
 	}
 
 	public void validateResolvedRequest(Request request) {
-
 		if (request.getStatus() != RequestStatus.RESOLVED) {
 			throw new BusinessException("Feedback can only be submitted for resolved requests");
 		}
 	}
 
 	public void validateDuplicateFeedback(String userId, String requestId) {
-
 		if (feedbackRepository.existsByUserIdAndRequestId(userId, requestId)) {
 			throw new BusinessException("User has already submitted feedback for this request");
 		}

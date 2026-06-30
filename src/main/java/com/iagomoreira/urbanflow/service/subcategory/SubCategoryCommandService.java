@@ -1,66 +1,55 @@
 package com.iagomoreira.urbanflow.service.subcategory;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.iagomoreira.urbanflow.dto.subcategory.CreateSubCategoryDTO;
 import com.iagomoreira.urbanflow.dto.subcategory.SubCategoryResponseDTO;
 import com.iagomoreira.urbanflow.dto.subcategory.UpdateSubCategoryDTO;
+import com.iagomoreira.urbanflow.mapper.SubCategoryMapper;
 import com.iagomoreira.urbanflow.model.SubCategory;
 import com.iagomoreira.urbanflow.repository.SubCategoryRepository;
 
 @Service
 public class SubCategoryCommandService {
 
-	@Autowired
-	private SubCategoryRepository repository;
+	private final SubCategoryRepository subCategoryRepository;
+	private final SubCategoryValidationService subCategoryValidationService;
+	private final SubCategoryMapper subCategoryMapper;
 
-	@Autowired
-	private SubCategoryValidationService validationService;
+	public SubCategoryCommandService(SubCategoryRepository subCategoryRepository,
+			SubCategoryValidationService subCategoryValidationService, SubCategoryMapper subCategoryMapper) {
 
-	private SubCategory fromDTO(CreateSubCategoryDTO dto) {
-
-		SubCategory subCategory = new SubCategory();
-
-		subCategory.setName(dto.getName());
-		subCategory.setDescription(dto.getDescription());
-		subCategory.setCategoryId(dto.getCategoryId());
-		subCategory.setDepartmentId(dto.getDepartmentId());
-
-		return subCategory;
+		this.subCategoryRepository = subCategoryRepository;
+		this.subCategoryValidationService = subCategoryValidationService;
+		this.subCategoryMapper = subCategoryMapper;
 	}
 
 	public SubCategoryResponseDTO create(CreateSubCategoryDTO dto) {
 
-		validationService.validateCategoryExists(dto.getCategoryId());
-		validationService.validateDepartmentExists(dto.getDepartmentId());
+		subCategoryValidationService.validateCategoryExists(dto.getCategoryId());
+		subCategoryValidationService.validateDepartmentExists(dto.getDepartmentId());
 
-		SubCategory subCategory = repository.save(fromDTO(dto));
+		SubCategory subCategory = subCategoryMapper.toEntity(dto);
 
+		subCategory = subCategoryRepository.save(subCategory);
 		return new SubCategoryResponseDTO(subCategory);
 	}
 
 	public SubCategoryResponseDTO update(String id, UpdateSubCategoryDTO dto) {
 
-		SubCategory subCategory = validationService.validateSubCategoryExists(id);
+		SubCategory subCategory = subCategoryValidationService.validateSubCategoryExists(id);
+		subCategoryValidationService.validateCategoryExists(dto.getCategoryId());
+		subCategoryValidationService.validateDepartmentExists(dto.getDepartmentId());
 
-		validationService.validateCategoryExists(dto.getCategoryId());
-		validationService.validateDepartmentExists(dto.getDepartmentId());
+		subCategoryMapper.updateEntity(subCategory, dto);
 
-		subCategory.setName(dto.getName());
-		subCategory.setDescription(dto.getDescription());
-		subCategory.setCategoryId(dto.getCategoryId());
-		subCategory.setDepartmentId(dto.getDepartmentId());
-
-		subCategory = repository.save(subCategory);
-
+		subCategory = subCategoryRepository.save(subCategory);
 		return new SubCategoryResponseDTO(subCategory);
 	}
 
 	public void delete(String id) {
 
-		validationService.validateSubCategoryExists(id);
-
-		repository.deleteById(id);
+		subCategoryValidationService.validateSubCategoryExists(id);
+		subCategoryRepository.deleteById(id);
 	}
 }

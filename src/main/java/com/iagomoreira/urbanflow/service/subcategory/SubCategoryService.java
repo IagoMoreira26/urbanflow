@@ -2,7 +2,6 @@ package com.iagomoreira.urbanflow.service.subcategory;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.iagomoreira.urbanflow.dto.subcategory.CreateSubCategoryDTO;
@@ -12,11 +11,15 @@ import com.iagomoreira.urbanflow.dto.subcategory.UpdateSubCategoryDTO;
 @Service
 public class SubCategoryService {
 
-	@Autowired
-	private SubCategoryCommandService subCategoryCommandService;
+	private final SubCategoryCommandService subCategoryCommandService;
+	private final SubCategoryQueryService subCategoryQueryService;
 
-	@Autowired
-	private SubCategoryQueryService subCategoryQueryService;
+	public SubCategoryService(SubCategoryCommandService subCategoryCommandService,
+			SubCategoryQueryService subCategoryQueryService) {
+		super();
+		this.subCategoryCommandService = subCategoryCommandService;
+		this.subCategoryQueryService = subCategoryQueryService;
+	}
 
 	public SubCategoryResponseDTO create(CreateSubCategoryDTO dto) {
 		return subCategoryCommandService.create(dto);

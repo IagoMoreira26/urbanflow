@@ -2,7 +2,6 @@ package com.iagomoreira.urbanflow.service.media;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.iagomoreira.urbanflow.dto.media.CreateMediaDTO;
@@ -11,11 +10,14 @@ import com.iagomoreira.urbanflow.dto.media.MediaResponseDTO;
 @Service
 public class MediaService {
 
-	@Autowired
-	private MediaCommandService mediaCommandService;
+	private final MediaCommandService mediaCommandService;
+	private final MediaQueryService mediaQueryService;
 
-	@Autowired
-	private MediaQueryService mediaQueryService;
+	public MediaService(MediaCommandService mediaCommandService, MediaQueryService mediaQueryService) {
+		super();
+		this.mediaCommandService = mediaCommandService;
+		this.mediaQueryService = mediaQueryService;
+	}
 
 	public MediaResponseDTO create(CreateMediaDTO dto) {
 		return mediaCommandService.create(dto);
