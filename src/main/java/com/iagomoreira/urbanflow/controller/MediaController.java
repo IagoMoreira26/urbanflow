@@ -2,7 +2,6 @@ package com.iagomoreira.urbanflow.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,8 +21,12 @@ import jakarta.validation.Valid;
 @RequestMapping("/media")
 public class MediaController {
 
-	@Autowired
-	private MediaService mediaService;
+	private final MediaService mediaService;
+
+	public MediaController(MediaService mediaService) {
+		super();
+		this.mediaService = mediaService;
+	}
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)

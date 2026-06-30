@@ -2,7 +2,6 @@ package com.iagomoreira.urbanflow.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,8 +15,12 @@ import com.iagomoreira.urbanflow.service.legislation.LegislationService;
 @RequestMapping("/legislations")
 public class LegislationController {
 
-	@Autowired
-	private LegislationService legislationService;
+	private final LegislationService legislationService;
+
+	public LegislationController(LegislationService legislationService) {
+		super();
+		this.legislationService = legislationService;
+	}
 
 	@GetMapping
 	public List<LegislationResponseDTO> findAll() {

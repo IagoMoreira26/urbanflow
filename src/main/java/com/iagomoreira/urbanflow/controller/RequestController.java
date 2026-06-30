@@ -2,7 +2,6 @@ package com.iagomoreira.urbanflow.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,8 +34,12 @@ import jakarta.validation.Valid;
 @RequestMapping("/requests")
 public class RequestController {
 
-	@Autowired
-	private RequestService requestService;
+	private final RequestService requestService;
+
+	public RequestController(RequestService requestService) {
+		super();
+		this.requestService = requestService;
+	}
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
@@ -117,7 +120,6 @@ public class RequestController {
 	@PatchMapping("/{id}/status")
 	public ResponseEntity<RequestResponseDTO> updateStatus(@PathVariable String id,
 			@Valid @RequestBody UpdateRequestStatusDTO dto) {
-
 		return ResponseEntity.ok(requestService.updateStatus(id, dto));
 	}
 

@@ -2,7 +2,6 @@ package com.iagomoreira.urbanflow.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,8 +23,12 @@ import jakarta.validation.Valid;
 @RequestMapping("/feedbacks")
 public class FeedbackController {
 
-	@Autowired
-	private FeedbackService feedbackService;
+	private final FeedbackService feedbackService;
+
+	public FeedbackController(FeedbackService feedbackService) {
+		super();
+		this.feedbackService = feedbackService;
+	}
 
 	@PreAuthorize("hasRole('CITIZEN')")
 	@PostMapping

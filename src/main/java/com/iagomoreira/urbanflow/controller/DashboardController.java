@@ -2,7 +2,6 @@ package com.iagomoreira.urbanflow.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,8 +18,12 @@ import com.iagomoreira.urbanflow.service.dashboard.DashboardService;
 @RequestMapping("/dashboard")
 public class DashboardController {
 
-	@Autowired
-	private DashboardService dashboardService;
+	private final DashboardService dashboardService;
+
+	public DashboardController(DashboardService dashboardService) {
+		super();
+		this.dashboardService = dashboardService;
+	}
 
 	@GetMapping("/statistics")
 	public DashboardStatisticsDTO getStatistics() {
@@ -40,7 +43,6 @@ public class DashboardController {
 	@PreAuthorize("hasAnyRole('ADMIN','PUBLIC_AGENT')")
 	@GetMapping("/overview")
 	public ResponseEntity<DashboardOverviewDTO> overview() {
-
 		return ResponseEntity.ok(dashboardService.getOverview());
 	}
 }

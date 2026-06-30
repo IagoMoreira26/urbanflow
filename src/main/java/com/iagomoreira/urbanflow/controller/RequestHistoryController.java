@@ -2,7 +2,6 @@ package com.iagomoreira.urbanflow.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,13 +16,16 @@ import com.iagomoreira.urbanflow.service.requesthistory.RequestHistoryService;
 @RequestMapping("/request-history")
 public class RequestHistoryController {
 
-	@Autowired
-	private RequestHistoryService requestHistoryService;
+	private final RequestHistoryService requestHistoryService;
+
+	public RequestHistoryController(RequestHistoryService requestHistoryService) {
+		super();
+		this.requestHistoryService = requestHistoryService;
+	}
 
 	@PreAuthorize("hasAnyRole('ADMIN','PUBLIC_AGENT')")
 	@GetMapping("/request/{requestId}")
 	public ResponseEntity<List<RequestHistoryResponseDTO>> findByRequest(@PathVariable String requestId) {
-
 		return ResponseEntity.ok(requestHistoryService.findByRequest(requestId));
 	}
 }

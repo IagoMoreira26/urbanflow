@@ -2,7 +2,6 @@ package com.iagomoreira.urbanflow.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,8 +25,12 @@ import jakarta.validation.Valid;
 @RequestMapping("/categories")
 public class CategoryController {
 
-	@Autowired
-	private CategoryService categoryService;
+	private final CategoryService categoryService;
+
+	public CategoryController(CategoryService categoryService) {
+		super();
+		this.categoryService = categoryService;
+	}
 
 	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping
