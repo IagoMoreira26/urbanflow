@@ -1,6 +1,5 @@
 package com.iagomoreira.urbanflow.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,14 +15,17 @@ import com.iagomoreira.urbanflow.repository.UserRepository;
 @Service
 public class AuthService {
 
-	@Autowired
-	private AuthenticationManager authenticationManager;
+	private final AuthenticationManager authenticationManager;
+	private final UserRepository userRepository;
+	private final JWTService jwtService;
 
-	@Autowired
-	private UserRepository userRepository;
-
-	@Autowired
-	private JWTService jwtService;
+	public AuthService(AuthenticationManager authenticationManager, UserRepository userRepository,
+			JWTService jwtService) {
+		super();
+		this.authenticationManager = authenticationManager;
+		this.userRepository = userRepository;
+		this.jwtService = jwtService;
+	}
 
 	public UserResponseDTO getCurrentUser() {
 

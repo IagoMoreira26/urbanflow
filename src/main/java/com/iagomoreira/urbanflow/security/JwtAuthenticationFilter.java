@@ -2,7 +2,6 @@ package com.iagomoreira.urbanflow.security;
 
 import java.io.IOException;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,21 +20,24 @@ import jakarta.servlet.http.HttpServletResponse;
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-	@Autowired
-	private JWTService jwtService;
+	private final JWTService jwtService;
+	private final UserDetailsService userDetailsService;
 
-	@Autowired
-	private UserDetailsService userDetailsService;
+	public JwtAuthenticationFilter(JWTService jwtService, UserDetailsService userDetailsService) {
+		super();
+		this.jwtService = jwtService;
+		this.userDetailsService = userDetailsService;
+	}
 
 	@Override
-	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-			throws ServletException, IOException {
+	protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
+			FilterChain filterChain) throws ServletException, IOException {
 
-		String authHeader = request.getHeader("Authorization");
+		String authHeader = httpServletRequest.getHeader("Authorization");
 
 		if (authHeader == null || !authHeader.startsWith("Bearer ")) {
 
-			filterChain.doFilter(request, response);
+			filterChain.doFilter(httpServletRequest, httpServletResponse);
 			return;
 		}
 
@@ -52,12 +54,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 				UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
 						userDetails, null, userDetails.getAuthorities());
 
-				authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+				authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
 
 				SecurityContextHolder.getContext().setAuthentication(authentication);
 			}
 		}
 
-		filterChain.doFilter(request, response);
+		filterChain.doFilter(httpServletRequest, httpServletResponse);
 	}
 }

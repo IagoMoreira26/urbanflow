@@ -29,7 +29,6 @@ public class UserDetailsImplementation implements UserDetails {
 		this.password = user.getPassword();
 		this.departmentId = user.getDepartmentId();
 		this.role = user.getRole();
-
 		this.authorities = List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole().name()));
 	}
 

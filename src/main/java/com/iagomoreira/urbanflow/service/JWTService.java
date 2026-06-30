@@ -22,14 +22,12 @@ public class JWTService {
 	private Long expiration;
 
 	private SecretKey getSigningKey() {
-
 		return Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
 	}
 
 	public String generateToken(String email, String role) {
 
 		Date now = new Date();
-
 		Date expirationDate = new Date(now.getTime() + expiration);
 
 		return Jwts.builder().subject(email).claim("role", role).issuedAt(now).expiration(expirationDate)
@@ -37,17 +35,14 @@ public class JWTService {
 	}
 
 	public String extractUsername(String token) {
-
 		return extractAllClaims(token).getSubject();
 	}
 
 	public boolean isTokenValid(String token) {
-
 		return !extractAllClaims(token).getExpiration().before(new Date());
 	}
 
 	private Claims extractAllClaims(String token) {
-
 		return Jwts.parser().verifyWith(getSigningKey()).build().parseSignedClaims(token).getPayload();
 	}
 }
