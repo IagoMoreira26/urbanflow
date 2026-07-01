@@ -38,9 +38,10 @@ public class Request implements Serializable {
 	public Request() {
 	}
 
-	public Request(String id, String userId, String title, String description, LocalDateTime createdAt, LocalDateTime updatedAt,
-			String categoryId, String subCategoryId, RequestStatus status, PriorityLevel citizenPriority,
-			Double latitude, Double longitude, Address address, String departmentId, List<String> legislationIds) {
+	public Request(String id, String userId, String title, String description, LocalDateTime createdAt,
+			LocalDateTime updatedAt, String categoryId, String subCategoryId, RequestStatus status,
+			PriorityLevel citizenPriority, Double latitude, Double longitude, Address address, String departmentId,
+			List<String> legislationIds) {
 		super();
 		this.id = id;
 		this.userId = userId;
@@ -98,13 +99,13 @@ public class Request implements Serializable {
 	public void setCreatedAt(LocalDateTime createdAt) {
 		this.createdAt = createdAt;
 	}
-	
+
 	public LocalDateTime getUpdatedAt() {
-	    return updatedAt;
+		return updatedAt;
 	}
-	
+
 	public void setUpdatedAt(LocalDateTime updatedAt) {
-	    this.updatedAt = updatedAt;
+		this.updatedAt = updatedAt;
 	}
 
 	public String getCategoryId() {

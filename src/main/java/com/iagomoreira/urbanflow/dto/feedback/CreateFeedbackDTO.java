@@ -1,15 +1,11 @@
 package com.iagomoreira.urbanflow.dto.feedback;
 
-import java.io.Serializable;
-
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-public class CreateFeedbackDTO implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+public class CreateFeedbackDTO {
 
 	@Min(1)
 	@Max(5)
@@ -17,9 +13,6 @@ public class CreateFeedbackDTO implements Serializable {
 
 	@Size(max = 500)
 	private String comment;
-
-	@NotBlank
-	private String userId;
 
 	@NotBlank
 	private String requestId;
@@ -41,14 +34,6 @@ public class CreateFeedbackDTO implements Serializable {
 
 	public void setComment(String comment) {
 		this.comment = comment;
-	}
-
-	public String getUserId() {
-		return userId;
-	}
-
-	public void setUserId(String userId) {
-		this.userId = userId;
 	}
 
 	public String getRequestId() {

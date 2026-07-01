@@ -1,12 +1,8 @@
 package com.iagomoreira.urbanflow.dto.subcategory;
 
-import java.io.Serializable;
-
 import jakarta.validation.constraints.NotBlank;
 
-public class UpdateSubCategoryDTO implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+public class UpdateSubCategoryDTO {
 
 	@NotBlank
 	private String name;

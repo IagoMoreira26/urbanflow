@@ -13,22 +13,27 @@ public class TopCategoryDTO implements Serializable {
 	public TopCategoryDTO() {
 	}
 
-	public TopCategoryDTO(String categoryId, String categoryName, Integer totalRequests) {
-
-		this.categoryId = categoryId;
-		this.categoryName = categoryName;
-		this.totalRequests = totalRequests;
-	}
-
 	public String getCategoryId() {
 		return categoryId;
+	}
+
+	public void setCategoryId(String categoryId) {
+		this.categoryId = categoryId;
 	}
 
 	public String getCategoryName() {
 		return categoryName;
 	}
 
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
+
 	public Integer getTotalRequests() {
 		return totalRequests;
+	}
+
+	public void setTotalRequests(Integer totalRequests) {
+		this.totalRequests = totalRequests;
 	}
 }

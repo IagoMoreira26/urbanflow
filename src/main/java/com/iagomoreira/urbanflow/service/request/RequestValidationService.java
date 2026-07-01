@@ -10,27 +10,24 @@ import com.iagomoreira.urbanflow.model.SubCategory;
 import com.iagomoreira.urbanflow.model.enums.RequestStatus;
 import com.iagomoreira.urbanflow.repository.SubCategoryRepository;
 import com.iagomoreira.urbanflow.repository.UserRepository;
-import com.iagomoreira.urbanflow.service.SecurityService;
+import com.iagomoreira.urbanflow.service.security.AuthorizationService;
 
 @Service
 public class RequestValidationService {
 
-	private final SecurityService securityService;
+	private final AuthorizationService authorizationService;
 	private final UserRepository userRepository;
 	private final SubCategoryRepository subCategoryRepository;
 
-	public RequestValidationService(SecurityService securityService, UserRepository userRepository,
+	public RequestValidationService(AuthorizationService authorizationService, UserRepository userRepository,
 			SubCategoryRepository subCategoryRepository) {
-		super();
-		this.securityService = securityService;
+		this.authorizationService = authorizationService;
 		this.userRepository = userRepository;
 		this.subCategoryRepository = subCategoryRepository;
 	}
 
 	public void validateStatusTransition(RequestStatus current, RequestStatus next) {
-
 		switch (current) {
-
 		case RECEIVED:
 			if (next != RequestStatus.UNDER_REVIEW && next != RequestStatus.CANCELLED) {
 				throw new BusinessException("Invalid status transition");
@@ -63,18 +60,16 @@ public class RequestValidationService {
 	}
 
 	public void validateRequestAccess(Request request) {
-		securityService.validateRequestAccess(request);
+		authorizationService.validateRequestAccess(request);
 	}
 
 	public void validateAuthenticatedUser(String userId) {
-
 		if (!userRepository.existsById(userId)) {
 			throw new ResourceNotFoundException("Authenticated user not found");
 		}
 	}
 
 	public SubCategory validateSubCategory(CreateRequestDTO dto) {
-
 		SubCategory subCategory = subCategoryRepository.findById(dto.getSubCategoryId())
 				.orElseThrow(() -> new ResourceNotFoundException("SubCategory not found"));
 
@@ -86,14 +81,12 @@ public class RequestValidationService {
 	}
 
 	public void validateRequestEditable(Request request) {
-
 		if (request.getStatus() == RequestStatus.RESOLVED || request.getStatus() == RequestStatus.CANCELLED) {
 			throw new BusinessException("Resolved or cancelled requests cannot be modified");
 		}
 	}
 
 	public void validateRequestDeletion(Request request) {
-
 		if (request.getStatus() == RequestStatus.RESOLVED) {
 			throw new BusinessException("Resolved requests cannot be deleted");
 		}

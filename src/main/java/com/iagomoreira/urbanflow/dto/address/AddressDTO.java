@@ -1,12 +1,8 @@
 package com.iagomoreira.urbanflow.dto.address;
 
-import java.io.Serializable;
-
 import jakarta.validation.constraints.NotBlank;
 
-public class AddressDTO implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+public class AddressDTO {
 
 	@NotBlank
 	private String cep;

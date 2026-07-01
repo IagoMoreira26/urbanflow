@@ -22,64 +22,92 @@ public class DashboardOverviewDTO implements Serializable {
 	public DashboardOverviewDTO() {
 	}
 
-	public DashboardOverviewDTO(Long totalRequests, Long receivedRequests, Long underReviewRequests,
-			Long approvedRequests, Long inProgressRequests, Long resolvedRequests, Long cancelledRequests,
-			Long rejectedRequests, Long totalUsers, Long totalVotes, Double averageRating) {
-		super();
-		this.totalRequests = totalRequests;
-		this.receivedRequests = receivedRequests;
-		this.underReviewRequests = underReviewRequests;
-		this.approvedRequests = approvedRequests;
-		this.inProgressRequests = inProgressRequests;
-		this.resolvedRequests = resolvedRequests;
-		this.cancelledRequests = cancelledRequests;
-		this.rejectedRequests = rejectedRequests;
-		this.totalUsers = totalUsers;
-		this.totalVotes = totalVotes;
-		this.averageRating = averageRating;
-	}
-
 	public Long getTotalRequests() {
 		return totalRequests;
+	}
+
+	public void setTotalRequests(Long totalRequests) {
+		this.totalRequests = totalRequests;
 	}
 
 	public Long getReceivedRequests() {
 		return receivedRequests;
 	}
 
+	public void setReceivedRequests(Long receivedRequests) {
+		this.receivedRequests = receivedRequests;
+	}
+
 	public Long getUnderReviewRequests() {
 		return underReviewRequests;
+	}
+
+	public void setUnderReviewRequests(Long underReviewRequests) {
+		this.underReviewRequests = underReviewRequests;
 	}
 
 	public Long getApprovedRequests() {
 		return approvedRequests;
 	}
 
+	public void setApprovedRequests(Long approvedRequests) {
+		this.approvedRequests = approvedRequests;
+	}
+
 	public Long getInProgressRequests() {
 		return inProgressRequests;
+	}
+
+	public void setInProgressRequests(Long inProgressRequests) {
+		this.inProgressRequests = inProgressRequests;
 	}
 
 	public Long getResolvedRequests() {
 		return resolvedRequests;
 	}
 
+	public void setResolvedRequests(Long resolvedRequests) {
+		this.resolvedRequests = resolvedRequests;
+	}
+
 	public Long getCancelledRequests() {
 		return cancelledRequests;
+	}
+
+	public void setCancelledRequests(Long cancelledRequests) {
+		this.cancelledRequests = cancelledRequests;
 	}
 
 	public Long getRejectedRequests() {
 		return rejectedRequests;
 	}
 
+	public void setRejectedRequests(Long rejectedRequests) {
+		this.rejectedRequests = rejectedRequests;
+	}
+
 	public Long getTotalUsers() {
 		return totalUsers;
+	}
+
+	public void setTotalUsers(Long totalUsers) {
+		this.totalUsers = totalUsers;
 	}
 
 	public Long getTotalVotes() {
 		return totalVotes;
 	}
 
+	public void setTotalVotes(Long totalVotes) {
+		this.totalVotes = totalVotes;
+	}
+
 	public Double getAverageRating() {
 		return averageRating;
 	}
+
+	public void setAverageRating(Double averageRating) {
+		this.averageRating = averageRating;
+	}
+
 }

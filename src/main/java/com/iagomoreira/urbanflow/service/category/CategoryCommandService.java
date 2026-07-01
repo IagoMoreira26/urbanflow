@@ -18,30 +18,27 @@ public class CategoryCommandService {
 
 	public CategoryCommandService(CategoryRepository categoryRepository,
 			CategoryValidationService categoryValidationService, CategoryMapper categoryMapper) {
-
 		this.categoryRepository = categoryRepository;
 		this.categoryValidationService = categoryValidationService;
 		this.categoryMapper = categoryMapper;
 	}
 
 	public CategoryResponseDTO create(CreateCategoryDTO dto) {
-
 		categoryValidationService.validateDepartmentExists(dto.getDepartmentId());
 		Category category = categoryMapper.toEntity(dto);
 
 		category = categoryRepository.save(category);
-		return new CategoryResponseDTO(category);
+		return categoryMapper.toResponse(category);
 	}
 
 	public CategoryResponseDTO update(String id, UpdateCategoryDTO dto) {
-
 		Category category = categoryValidationService.validateCategoryExists(id);
 		categoryValidationService.validateDepartmentExists(dto.getDepartmentId());
 
 		categoryMapper.updateEntity(category, dto);
 
 		category = categoryRepository.save(category);
-		return new CategoryResponseDTO(category);
+		return categoryMapper.toResponse(category);
 	}
 
 	public void delete(String id) {

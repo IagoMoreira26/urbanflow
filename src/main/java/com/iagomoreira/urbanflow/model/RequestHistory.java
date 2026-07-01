@@ -16,17 +16,11 @@ public class RequestHistory implements Serializable {
 
 	@Id
 	private String id;
-
 	private String requestId;
-
 	private RequestStatus oldStatus;
-
 	private RequestStatus newStatus;
-
 	private String changedBy;
-
 	private String note;
-
 	private LocalDateTime changedAt;
 
 	public RequestHistory() {

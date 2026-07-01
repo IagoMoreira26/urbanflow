@@ -1,4 +1,4 @@
-package com.iagomoreira.urbanflow.service;
+package com.iagomoreira.urbanflow.service.auth;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
@@ -13,7 +13,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 
 @Service
-public class JWTService {
+public class TokenService {
 
 	@Value("${jwt.secret}")
 	private String secret;

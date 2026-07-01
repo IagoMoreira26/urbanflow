@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import com.iagomoreira.urbanflow.dto.request.RequestResponseDTO;
 import com.iagomoreira.urbanflow.exception.BusinessException;
 import com.iagomoreira.urbanflow.exception.ResourceNotFoundException;
+import com.iagomoreira.urbanflow.mapper.RequestMapper;
 import com.iagomoreira.urbanflow.model.Request;
 import com.iagomoreira.urbanflow.model.enums.RequestStatus;
 import com.iagomoreira.urbanflow.repository.CategoryRepository;
@@ -23,7 +24,7 @@ import com.iagomoreira.urbanflow.repository.DepartmentRepository;
 import com.iagomoreira.urbanflow.repository.RequestRepository;
 import com.iagomoreira.urbanflow.repository.SubCategoryRepository;
 import com.iagomoreira.urbanflow.repository.UserRepository;
-import com.iagomoreira.urbanflow.service.SecurityService;
+import com.iagomoreira.urbanflow.service.security.SecurityService;
 
 @Service
 public class RequestQueryService {
@@ -36,12 +37,13 @@ public class RequestQueryService {
 	private final SubCategoryRepository subCategoryRepository;
 	private final SecurityService securityService;
 	private final RequestValidationService requestValidationService;
+	private final RequestMapper requestMapper;
 
 	public RequestQueryService(MongoTemplate mongoTemplate, RequestRepository requestRepository,
 			UserRepository userRepository, CategoryRepository categoryRepository,
 			DepartmentRepository departmentRepository, SubCategoryRepository subCategoryRepository,
-			SecurityService securityService, RequestValidationService requestValidationService) {
-		super();
+			SecurityService securityService, RequestValidationService requestValidationService,
+			RequestMapper requestMapper) {
 		this.mongoTemplate = mongoTemplate;
 		this.requestRepository = requestRepository;
 		this.userRepository = userRepository;
@@ -50,10 +52,10 @@ public class RequestQueryService {
 		this.subCategoryRepository = subCategoryRepository;
 		this.securityService = securityService;
 		this.requestValidationService = requestValidationService;
+		this.requestMapper = requestMapper;
 	}
 
 	public List<RequestResponseDTO> findAll() {
-
 		List<Request> requests;
 
 		if (securityService.isAdmin()) {
@@ -64,42 +66,38 @@ public class RequestQueryService {
 			requests = requestRepository.findByUserId(securityService.getAuthenticatedUserId());
 		}
 
-		return requests.stream().map(RequestResponseDTO::new).toList();
+		return requests.stream().map(requestMapper::toResponse).toList();
 	}
 
 	public RequestResponseDTO findById(String id) {
-
 		Request request = requestRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Request not found"));
 
 		requestValidationService.validateRequestAccess(request);
-		return new RequestResponseDTO(request);
+		return requestMapper.toResponse(request);
 	}
 
 	public List<RequestResponseDTO> findByStatus(RequestStatus status) {
-		return requestRepository.findByStatus(status).stream().map(RequestResponseDTO::new).toList();
+		return requestRepository.findByStatus(status).stream().map(requestMapper::toResponse).toList();
 	}
 
 	public List<RequestResponseDTO> findByCategory(String categoryId) {
-
 		if (!categoryRepository.existsById(categoryId)) {
 			throw new ResourceNotFoundException("Category not found");
 		}
 
-		return requestRepository.findByCategoryId(categoryId).stream().map(RequestResponseDTO::new).toList();
+		return requestRepository.findByCategoryId(categoryId).stream().map(requestMapper::toResponse).toList();
 	}
 
 	public List<RequestResponseDTO> findBySubCategory(String subCategoryId) {
-
 		if (!subCategoryRepository.existsById(subCategoryId)) {
 			throw new ResourceNotFoundException("SubCategory not found");
 		}
 
-		return requestRepository.findBySubCategoryId(subCategoryId).stream().map(RequestResponseDTO::new).toList();
+		return requestRepository.findBySubCategoryId(subCategoryId).stream().map(requestMapper::toResponse).toList();
 	}
 
 	public List<RequestResponseDTO> findByUser(String userId) {
-
 		if (!userRepository.existsById(userId)) {
 			throw new ResourceNotFoundException("User not found");
 		}
@@ -107,11 +105,10 @@ public class RequestQueryService {
 			throw new BusinessException("Access denied");
 		}
 
-		return requestRepository.findByUserId(userId).stream().map(RequestResponseDTO::new).toList();
+		return requestRepository.findByUserId(userId).stream().map(requestMapper::toResponse).toList();
 	}
 
 	public List<RequestResponseDTO> findByDepartment(String departmentId) {
-
 		if (!departmentRepository.existsById(departmentId)) {
 			throw new ResourceNotFoundException("Department not found");
 		}
@@ -122,7 +119,7 @@ public class RequestQueryService {
 			throw new BusinessException("Access denied");
 		}
 
-		return requestRepository.findByDepartmentId(departmentId).stream().map(RequestResponseDTO::new).toList();
+		return requestRepository.findByDepartmentId(departmentId).stream().map(requestMapper::toResponse).toList();
 	}
 
 	public Page<RequestResponseDTO> search(RequestStatus status, String categoryId, String subCategoryId,
@@ -152,7 +149,7 @@ public class RequestQueryService {
 		query.with(pageable);
 
 		List<Request> requests = mongoTemplate.find(query, Request.class);
-		List<RequestResponseDTO> content = requests.stream().map(RequestResponseDTO::new).toList();
+		List<RequestResponseDTO> content = requests.stream().map(requestMapper::toResponse).toList();
 
 		return new PageImpl<>(content, pageable, total);
 	}
@@ -172,7 +169,7 @@ public class RequestQueryService {
 		Criteria criteria = buildCriteria(status, categoryId, subCategoryId, departmentId, userId);
 		Query query = new Query(criteria);
 		List<Request> requests = mongoTemplate.find(query, Request.class);
-		return requests.stream().map(RequestResponseDTO::new).toList();
+		return requests.stream().map(requestMapper::toResponse).toList();
 	}
 
 	private Criteria buildCriteria(RequestStatus status, String categoryId, String subCategoryId, String departmentId,

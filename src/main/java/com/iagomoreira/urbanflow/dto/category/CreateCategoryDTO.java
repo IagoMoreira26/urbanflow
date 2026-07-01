@@ -1,12 +1,8 @@
 package com.iagomoreira.urbanflow.dto.category;
 
-import java.io.Serializable;
-
 import jakarta.validation.constraints.NotBlank;
 
-public class CreateCategoryDTO implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+public class CreateCategoryDTO {
 
 	@NotBlank(message = "Category name is required")
 	private String name;
@@ -24,12 +20,12 @@ public class CreateCategoryDTO implements Serializable {
 		return name;
 	}
 
-	public String getDescription() {
-		return description;
-	}
-
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getDescription() {
+		return description;
 	}
 
 	public void setDescription(String description) {

@@ -1,8 +1,12 @@
 package com.iagomoreira.urbanflow.dto.department;
 
+import java.io.Serializable;
+
 import jakarta.validation.constraints.NotBlank;
 
-public class UpdateDepartmentDTO {
+public class UpdateDepartmentDTO implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@NotBlank
 	private String name;

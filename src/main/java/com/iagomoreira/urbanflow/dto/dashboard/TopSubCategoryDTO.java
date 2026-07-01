@@ -13,22 +13,27 @@ public class TopSubCategoryDTO implements Serializable {
 	public TopSubCategoryDTO() {
 	}
 
-	public TopSubCategoryDTO(String subCategoryId, String subCategoryName, Integer totalRequests) {
-
-		this.subCategoryId = subCategoryId;
-		this.subCategoryName = subCategoryName;
-		this.totalRequests = totalRequests;
-	}
-
 	public String getSubCategoryId() {
 		return subCategoryId;
+	}
+
+	public void setSubCategoryId(String subCategoryId) {
+		this.subCategoryId = subCategoryId;
 	}
 
 	public String getSubCategoryName() {
 		return subCategoryName;
 	}
 
+	public void setSubCategoryName(String subCategoryName) {
+		this.subCategoryName = subCategoryName;
+	}
+
 	public Integer getTotalRequests() {
 		return totalRequests;
+	}
+
+	public void setTotalRequests(Integer totalRequests) {
+		this.totalRequests = totalRequests;
 	}
 }

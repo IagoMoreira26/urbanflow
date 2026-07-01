@@ -3,7 +3,6 @@ package com.iagomoreira.urbanflow.dto.vote;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-import com.iagomoreira.urbanflow.model.Vote;
 import com.iagomoreira.urbanflow.model.enums.PriorityLevel;
 
 public class VoteResponseDTO implements Serializable {
@@ -17,14 +16,6 @@ public class VoteResponseDTO implements Serializable {
 	private LocalDateTime createdAt;
 
 	public VoteResponseDTO() {
-	}
-
-	public VoteResponseDTO(Vote vote) {
-		this.id = vote.getId();
-		this.userId = vote.getUserId();
-		this.requestId = vote.getRequestId();
-		this.priorityLevel = vote.getPriorityLevel();
-		this.createdAt = vote.getCreatedAt();
 	}
 
 	public String getId() {
@@ -53,5 +44,17 @@ public class VoteResponseDTO implements Serializable {
 
 	public LocalDateTime getCreatedAt() {
 		return createdAt;
+	}
+
+	public void setRequestId(String requestId) {
+		this.requestId = requestId;
+	}
+
+	public void setPriorityLevel(PriorityLevel priorityLevel) {
+		this.priorityLevel = priorityLevel;
+	}
+
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
 	}
 }

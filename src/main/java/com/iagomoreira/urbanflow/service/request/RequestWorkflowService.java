@@ -7,12 +7,13 @@ import org.springframework.stereotype.Service;
 import com.iagomoreira.urbanflow.dto.request.RequestResponseDTO;
 import com.iagomoreira.urbanflow.dto.request.UpdateRequestStatusDTO;
 import com.iagomoreira.urbanflow.exception.ResourceNotFoundException;
+import com.iagomoreira.urbanflow.mapper.RequestMapper;
 import com.iagomoreira.urbanflow.model.Request;
 import com.iagomoreira.urbanflow.model.RequestHistory;
 import com.iagomoreira.urbanflow.model.enums.RequestStatus;
 import com.iagomoreira.urbanflow.repository.RequestHistoryRepository;
 import com.iagomoreira.urbanflow.repository.RequestRepository;
-import com.iagomoreira.urbanflow.service.SecurityService;
+import com.iagomoreira.urbanflow.service.security.SecurityService;
 
 @Service
 public class RequestWorkflowService {
@@ -21,15 +22,17 @@ public class RequestWorkflowService {
 	private final RequestValidationService requestValidationService;
 	private final SecurityService securityService;
 	private final RequestHistoryRepository requestHistoryRepository;
+	private final RequestMapper requestMapper;
 
 	public RequestWorkflowService(RequestRepository requestRepository,
 			RequestValidationService requestValidationService, SecurityService securityService,
-			RequestHistoryRepository requestHistoryRepository) {
+			RequestHistoryRepository requestHistoryRepository, RequestMapper requestMapper) {
 		super();
 		this.requestRepository = requestRepository;
 		this.requestValidationService = requestValidationService;
 		this.securityService = securityService;
 		this.requestHistoryRepository = requestHistoryRepository;
+		this.requestMapper = requestMapper;
 	}
 
 	public RequestResponseDTO updateStatus(String id, UpdateRequestStatusDTO dto) {
@@ -46,7 +49,6 @@ public class RequestWorkflowService {
 		request.setUpdatedAt(LocalDateTime.now());
 
 		RequestHistory history = new RequestHistory();
-
 		history.setRequestId(request.getId());
 		history.setOldStatus(oldStatus);
 		history.setNewStatus(dto.getStatus());
@@ -57,6 +59,6 @@ public class RequestWorkflowService {
 		requestHistoryRepository.save(history);
 		request = requestRepository.save(request);
 
-		return new RequestResponseDTO(request);
+		return requestMapper.toResponse(request);
 	}
 }

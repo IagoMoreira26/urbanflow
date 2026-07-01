@@ -1,7 +1,5 @@
 package com.iagomoreira.urbanflow.dto.request;
 
-import java.io.Serializable;
-
 import com.iagomoreira.urbanflow.dto.address.AddressDTO;
 import com.iagomoreira.urbanflow.model.enums.PriorityLevel;
 
@@ -9,9 +7,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-public class CreateRequestDTO implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+public class CreateRequestDTO {
 
 	@NotBlank
 	private String title;

@@ -1,10 +1,8 @@
-package com.iagomoreira.urbanflow.service;
+package com.iagomoreira.urbanflow.service.security;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import com.iagomoreira.urbanflow.exception.BusinessException;
-import com.iagomoreira.urbanflow.model.Request;
 import com.iagomoreira.urbanflow.model.enums.Role;
 import com.iagomoreira.urbanflow.security.UserDetailsImplementation;
 
@@ -41,24 +39,5 @@ public class SecurityService {
 
 	public boolean isCitizen() {
 		return getAuthenticatedRole() == Role.CITIZEN;
-	}
-
-	public void validateRequestAccess(Request request) {
-
-		if (isAdmin()) {
-			return;
-		}
-		if (isOperator()) {
-			if (!getAuthenticatedDepartmentId().equals(request.getDepartmentId())) {
-				throw new BusinessException("Access denied");
-			}
-
-			return;
-		}
-		if (isCitizen()) {
-			if (!getAuthenticatedUserId().equals(request.getUserId())) {
-				throw new BusinessException("Access denied");
-			}
-		}
 	}
 }

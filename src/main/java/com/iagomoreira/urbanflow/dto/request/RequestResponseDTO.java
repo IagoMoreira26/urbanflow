@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import com.iagomoreira.urbanflow.dto.address.AddressResponseDTO;
-import com.iagomoreira.urbanflow.model.Request;
 import com.iagomoreira.urbanflow.model.enums.PriorityLevel;
 import com.iagomoreira.urbanflow.model.enums.RequestStatus;
 
@@ -29,75 +28,107 @@ public class RequestResponseDTO implements Serializable {
 	public RequestResponseDTO() {
 	}
 
-	public RequestResponseDTO(Request request) {
-
-		this.id = request.getId();
-		this.title = request.getTitle();
-		this.description = request.getDescription();
-		this.userId = request.getUserId();
-		this.categoryId = request.getCategoryId();
-		this.subCategoryId = request.getSubCategoryId();
-		this.citizenPriority = request.getCitizenPriority();
-		this.status = request.getStatus();
-		this.latitude = request.getLatitude();
-		this.longitude = request.getLongitude();
-		this.createdAt = request.getCreatedAt();
-		this.departmentId = request.getDepartmentId();
-
-		if (request.getAddress() != null) {
-			this.address = new AddressResponseDTO(request.getAddress());
-		}
-	}
-
 	public String getId() {
 		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public String getTitle() {
 		return title;
 	}
 
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
 	public String getDescription() {
 		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public String getUserId() {
 		return userId;
 	}
 
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
 	public String getCategoryId() {
 		return categoryId;
+	}
+
+	public void setCategoryId(String categoryId) {
+		this.categoryId = categoryId;
 	}
 
 	public String getSubCategoryId() {
 		return subCategoryId;
 	}
 
+	public void setSubCategoryId(String subCategoryId) {
+		this.subCategoryId = subCategoryId;
+	}
+
 	public PriorityLevel getCitizenPriority() {
 		return citizenPriority;
+	}
+
+	public void setCitizenPriority(PriorityLevel citizenPriority) {
+		this.citizenPriority = citizenPriority;
 	}
 
 	public RequestStatus getStatus() {
 		return status;
 	}
 
+	public void setStatus(RequestStatus status) {
+		this.status = status;
+	}
+
 	public Double getLatitude() {
 		return latitude;
+	}
+
+	public void setLatitude(Double latitude) {
+		this.latitude = latitude;
 	}
 
 	public Double getLongitude() {
 		return longitude;
 	}
 
+	public void setLongitude(Double longitude) {
+		this.longitude = longitude;
+	}
+
 	public AddressResponseDTO getAddress() {
 		return address;
+	}
+
+	public void setAddress(AddressResponseDTO address) {
+		this.address = address;
 	}
 
 	public String getDepartmentId() {
 		return departmentId;
 	}
 
+	public void setDepartmentId(String departmentId) {
+		this.departmentId = departmentId;
+	}
+
 	public LocalDateTime getCreatedAt() {
 		return createdAt;
+	}
+
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
 	}
 }

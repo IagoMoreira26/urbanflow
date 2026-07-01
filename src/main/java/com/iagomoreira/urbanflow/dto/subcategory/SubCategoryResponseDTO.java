@@ -2,8 +2,6 @@ package com.iagomoreira.urbanflow.dto.subcategory;
 
 import java.io.Serializable;
 
-import com.iagomoreira.urbanflow.model.SubCategory;
-
 public class SubCategoryResponseDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -17,35 +15,43 @@ public class SubCategoryResponseDTO implements Serializable {
 	public SubCategoryResponseDTO() {
 	}
 
-	public SubCategoryResponseDTO(SubCategory subCategory) {
-
-		this.id = subCategory.getId();
-		this.name = subCategory.getName();
-		this.description = subCategory.getDescription();
-		this.departmentId = subCategory.getDepartmentId();
-
-		if (subCategory.getCategoryId() != null) {
-			this.categoryId = subCategory.getCategoryId();
-		}
-	}
-
 	public String getId() {
 		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public String getName() {
 		return name;
 	}
 
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	public String getDescription() {
 		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public String getCategoryId() {
 		return categoryId;
 	}
 
+	public void setCategoryId(String categoryId) {
+		this.categoryId = categoryId;
+	}
+
 	public String getDepartmentId() {
 		return departmentId;
+	}
+
+	public void setDepartmentId(String departmentId) {
+		this.departmentId = departmentId;
 	}
 }

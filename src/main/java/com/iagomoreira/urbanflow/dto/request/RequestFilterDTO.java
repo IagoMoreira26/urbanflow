@@ -1,12 +1,8 @@
 package com.iagomoreira.urbanflow.dto.request;
 
-import java.io.Serializable;
-
 import com.iagomoreira.urbanflow.model.enums.RequestStatus;
 
-public class RequestFilterDTO implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+public class RequestFilterDTO {
 
 	private RequestStatus status;
 	private String categoryId;

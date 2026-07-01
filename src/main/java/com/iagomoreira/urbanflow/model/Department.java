@@ -14,13 +14,10 @@ public class Department implements Serializable {
 
 	@Id
 	private String id;
-
 	private String name;
-
 	private String description;
 
 	private LocalDateTime createdAt;
-
 	private LocalDateTime updatedAt;
 
 	public Department() {

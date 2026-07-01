@@ -1,15 +1,11 @@
 package com.iagomoreira.urbanflow.dto.update;
 
-import java.io.Serializable;
-
 import com.iagomoreira.urbanflow.model.enums.RequestStatus;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-public class CreateUpdateDTO implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+public class CreateUpdateDTO {
 
 	@NotNull
 	private RequestStatus status;

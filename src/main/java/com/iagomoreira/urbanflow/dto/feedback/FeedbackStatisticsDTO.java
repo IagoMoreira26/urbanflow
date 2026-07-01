@@ -19,48 +19,67 @@ public class FeedbackStatisticsDTO implements Serializable {
 	public FeedbackStatisticsDTO() {
 	}
 
-	public FeedbackStatisticsDTO(Double averageRating, Integer totalFeedbacks, Integer fiveStars, Integer fourStars,
-			Integer threeStars, Integer twoStars, Integer oneStar, Double satisfactionPercentage) {
-
-		this.averageRating = averageRating;
-		this.totalFeedbacks = totalFeedbacks;
-		this.fiveStars = fiveStars;
-		this.fourStars = fourStars;
-		this.threeStars = threeStars;
-		this.twoStars = twoStars;
-		this.oneStar = oneStar;
-		this.satisfactionPercentage = satisfactionPercentage;
-	}
-
 	public Double getAverageRating() {
 		return averageRating;
+	}
+
+	public void setAverageRating(Double averageRating) {
+		this.averageRating = averageRating;
 	}
 
 	public Integer getTotalFeedbacks() {
 		return totalFeedbacks;
 	}
 
+	public void setTotalFeedbacks(Integer totalFeedbacks) {
+		this.totalFeedbacks = totalFeedbacks;
+	}
+
 	public Integer getFiveStars() {
 		return fiveStars;
+	}
+
+	public void setFiveStars(Integer fiveStars) {
+		this.fiveStars = fiveStars;
 	}
 
 	public Integer getFourStars() {
 		return fourStars;
 	}
 
+	public void setFourStars(Integer fourStars) {
+		this.fourStars = fourStars;
+	}
+
 	public Integer getThreeStars() {
 		return threeStars;
+	}
+
+	public void setThreeStars(Integer threeStars) {
+		this.threeStars = threeStars;
 	}
 
 	public Integer getTwoStars() {
 		return twoStars;
 	}
 
+	public void setTwoStars(Integer twoStars) {
+		this.twoStars = twoStars;
+	}
+
 	public Integer getOneStar() {
 		return oneStar;
 	}
 
+	public void setOneStar(Integer oneStar) {
+		this.oneStar = oneStar;
+	}
+
 	public Double getSatisfactionPercentage() {
 		return satisfactionPercentage;
+	}
+
+	public void setSatisfactionPercentage(Double satisfactionPercentage) {
+		this.satisfactionPercentage = satisfactionPercentage;
 	}
 }

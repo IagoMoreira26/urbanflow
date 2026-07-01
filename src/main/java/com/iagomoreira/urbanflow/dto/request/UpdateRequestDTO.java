@@ -1,12 +1,8 @@
 package com.iagomoreira.urbanflow.dto.request;
 
-import java.io.Serializable;
-
 import jakarta.validation.constraints.NotBlank;
 
-public class UpdateRequestDTO implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+public class UpdateRequestDTO {
 
 	@NotBlank
 	private String title;

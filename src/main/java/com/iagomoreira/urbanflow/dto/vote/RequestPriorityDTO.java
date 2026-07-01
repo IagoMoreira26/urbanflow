@@ -17,68 +17,56 @@ public class RequestPriorityDTO implements Serializable {
 	public RequestPriorityDTO() {
 	}
 
-	public RequestPriorityDTO(Integer lowVotes, Integer mediumVotes, Integer highVotes, Integer totalVotes,
-			Double lowPercentage, Double mediumPercentage, Double highPercentage) {
-		super();
-		this.lowVotes = lowVotes;
-		this.mediumVotes = mediumVotes;
-		this.highVotes = highVotes;
-		this.totalVotes = totalVotes;
-		this.lowPercentage = lowPercentage;
-		this.mediumPercentage = mediumPercentage;
-		this.highPercentage = highPercentage;
-	}
-
 	public Integer getLowVotes() {
 		return lowVotes;
-	}
-
-	public Integer getMediumVotes() {
-		return mediumVotes;
-	}
-
-	public Integer getHighVotes() {
-		return highVotes;
-	}
-
-	public Integer getTotalVotes() {
-		return totalVotes;
-	}
-
-	public Double getLowPercentage() {
-		return lowPercentage;
-	}
-
-	public Double getMediumPercentage() {
-		return mediumPercentage;
-	}
-
-	public Double getHighPercentage() {
-		return highPercentage;
 	}
 
 	public void setLowVotes(Integer lowVotes) {
 		this.lowVotes = lowVotes;
 	}
 
+	public Integer getMediumVotes() {
+		return mediumVotes;
+	}
+
 	public void setMediumVotes(Integer mediumVotes) {
 		this.mediumVotes = mediumVotes;
+	}
+
+	public Integer getHighVotes() {
+		return highVotes;
 	}
 
 	public void setHighVotes(Integer highVotes) {
 		this.highVotes = highVotes;
 	}
 
+	public Integer getTotalVotes() {
+		return totalVotes;
+	}
+
 	public void setTotalVotes(Integer totalVotes) {
 		this.totalVotes = totalVotes;
+	}
+
+	public Double getLowPercentage() {
+		return lowPercentage;
 	}
 
 	public void setLowPercentage(Double lowPercentage) {
 		this.lowPercentage = lowPercentage;
 	}
 
+	public Double getMediumPercentage() {
+		return mediumPercentage;
+	}
+
 	public void setMediumPercentage(Double mediumPercentage) {
 		this.mediumPercentage = mediumPercentage;
+	}
+
+	public Double getHighPercentage() {
+		return highPercentage;
 	}
 
 	public void setHighPercentage(Double highPercentage) {

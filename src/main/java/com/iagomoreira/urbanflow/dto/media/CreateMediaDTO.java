@@ -1,15 +1,11 @@
 package com.iagomoreira.urbanflow.dto.media;
 
-import java.io.Serializable;
-
 import com.iagomoreira.urbanflow.model.enums.MediaType;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-public class CreateMediaDTO implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+public class CreateMediaDTO {
 
 	@NotNull
 	private MediaType type;

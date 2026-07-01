@@ -1,13 +1,9 @@
 package com.iagomoreira.urbanflow.dto.auth;
 
-import java.io.Serializable;
-
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
-public class LoginDTO implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+public class LoginDTO {
 
 	@NotBlank(message = "Email is required")
 	@Email(message = "Invalid email")

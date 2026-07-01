@@ -32,7 +32,7 @@ public class SubCategoryCommandService {
 		SubCategory subCategory = subCategoryMapper.toEntity(dto);
 
 		subCategory = subCategoryRepository.save(subCategory);
-		return new SubCategoryResponseDTO(subCategory);
+		return subCategoryMapper.toResponse(subCategory);
 	}
 
 	public SubCategoryResponseDTO update(String id, UpdateSubCategoryDTO dto) {
@@ -44,7 +44,7 @@ public class SubCategoryCommandService {
 		subCategoryMapper.updateEntity(subCategory, dto);
 
 		subCategory = subCategoryRepository.save(subCategory);
-		return new SubCategoryResponseDTO(subCategory);
+		return subCategoryMapper.toResponse(subCategory);
 	}
 
 	public void delete(String id) {

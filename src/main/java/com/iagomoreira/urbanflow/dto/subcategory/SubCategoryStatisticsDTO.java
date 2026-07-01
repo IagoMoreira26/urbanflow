@@ -18,49 +18,67 @@ public class SubCategoryStatisticsDTO implements Serializable {
 	public SubCategoryStatisticsDTO() {
 	}
 
-	public SubCategoryStatisticsDTO(String subCategoryId, String subCategoryName, Integer totalRequests,
-			Integer receivedRequests, Integer inProgressRequests, Integer resolvedRequests, Integer cancelledRequests,
-			Double resolutionRate) {
-
-		this.subCategoryId = subCategoryId;
-		this.subCategoryName = subCategoryName;
-		this.totalRequests = totalRequests;
-		this.receivedRequests = receivedRequests;
-		this.inProgressRequests = inProgressRequests;
-		this.resolvedRequests = resolvedRequests;
-		this.cancelledRequests = cancelledRequests;
-		this.resolutionRate = resolutionRate;
-	}
-
 	public String getSubCategoryId() {
 		return subCategoryId;
+	}
+
+	public void setSubCategoryId(String subCategoryId) {
+		this.subCategoryId = subCategoryId;
 	}
 
 	public String getSubCategoryName() {
 		return subCategoryName;
 	}
 
+	public void setSubCategoryName(String subCategoryName) {
+		this.subCategoryName = subCategoryName;
+	}
+
 	public Integer getTotalRequests() {
 		return totalRequests;
+	}
+
+	public void setTotalRequests(Integer totalRequests) {
+		this.totalRequests = totalRequests;
 	}
 
 	public Integer getReceivedRequests() {
 		return receivedRequests;
 	}
 
+	public void setReceivedRequests(Integer receivedRequests) {
+		this.receivedRequests = receivedRequests;
+	}
+
 	public Integer getInProgressRequests() {
 		return inProgressRequests;
+	}
+
+	public void setInProgressRequests(Integer inProgressRequests) {
+		this.inProgressRequests = inProgressRequests;
 	}
 
 	public Integer getResolvedRequests() {
 		return resolvedRequests;
 	}
 
+	public void setResolvedRequests(Integer resolvedRequests) {
+		this.resolvedRequests = resolvedRequests;
+	}
+
 	public Integer getCancelledRequests() {
 		return cancelledRequests;
 	}
 
+	public void setCancelledRequests(Integer cancelledRequests) {
+		this.cancelledRequests = cancelledRequests;
+	}
+
 	public Double getResolutionRate() {
 		return resolutionRate;
+	}
+
+	public void setResolutionRate(Double resolutionRate) {
+		this.resolutionRate = resolutionRate;
 	}
 }

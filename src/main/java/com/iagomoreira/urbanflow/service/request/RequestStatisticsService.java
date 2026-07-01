@@ -8,6 +8,9 @@ import com.iagomoreira.urbanflow.dto.category.CategoryStatisticsDTO;
 import com.iagomoreira.urbanflow.dto.request.RequestStatisticsDTO;
 import com.iagomoreira.urbanflow.dto.subcategory.SubCategoryStatisticsDTO;
 import com.iagomoreira.urbanflow.exception.ResourceNotFoundException;
+import com.iagomoreira.urbanflow.mapper.CategoryMapper;
+import com.iagomoreira.urbanflow.mapper.RequestMapper;
+import com.iagomoreira.urbanflow.mapper.SubCategoryMapper;
 import com.iagomoreira.urbanflow.model.Category;
 import com.iagomoreira.urbanflow.model.Request;
 import com.iagomoreira.urbanflow.model.SubCategory;
@@ -22,13 +25,20 @@ public class RequestStatisticsService {
 	private final RequestRepository requestRepository;
 	private final CategoryRepository categoryRepository;
 	private final SubCategoryRepository subCategoryRepository;
+	private final RequestMapper requestMapper;
+	private final CategoryMapper categoryMapper;
+	private final SubCategoryMapper subCategoryMapper;
 
 	public RequestStatisticsService(RequestRepository requestRepository, CategoryRepository categoryRepository,
-			SubCategoryRepository subCategoryRepository) {
+			SubCategoryRepository subCategoryRepository, RequestMapper requestMapper, CategoryMapper categoryMapper,
+			SubCategoryMapper subCategoryMapper) {
 		super();
 		this.requestRepository = requestRepository;
 		this.categoryRepository = categoryRepository;
 		this.subCategoryRepository = subCategoryRepository;
+		this.requestMapper = requestMapper;
+		this.categoryMapper = categoryMapper;
+		this.subCategoryMapper = subCategoryMapper;
 	}
 
 	public RequestStatisticsDTO getStatistics() {
@@ -38,7 +48,7 @@ public class RequestStatisticsService {
 
 		if (totalRequests == 0) {
 
-			return new RequestStatisticsDTO(0, 0, 0, 0, 0, 0.0);
+			return requestMapper.toStatisticsResponse(0, 0, 0, 0, 0, 0.0);
 		}
 
 		int receivedRequests = (int) requests.stream().filter(r -> r.getStatus() == RequestStatus.RECEIVED).count();
@@ -49,7 +59,7 @@ public class RequestStatisticsService {
 
 		double resolutionRate = (resolvedRequests * 100.0) / totalRequests;
 
-		return new RequestStatisticsDTO(totalRequests, receivedRequests, inProgressRequests, resolvedRequests,
+		return requestMapper.toStatisticsResponse(totalRequests, receivedRequests, inProgressRequests, resolvedRequests,
 				cancelledRequests, resolutionRate);
 	}
 
@@ -63,7 +73,7 @@ public class RequestStatisticsService {
 
 		if (totalRequests == 0) {
 
-			return new CategoryStatisticsDTO(category.getId(), category.getName(), 0, 0, 0, 0, 0, 0.0);
+			return categoryMapper.toStatisticsResponse(category.getId(), category.getName(), 0, 0, 0, 0, 0, 0.0);
 		}
 
 		int receivedRequests = (int) requests.stream().filter(r -> r.getStatus() == RequestStatus.RECEIVED).count();
@@ -73,8 +83,8 @@ public class RequestStatisticsService {
 		int cancelledRequests = (int) requests.stream().filter(r -> r.getStatus() == RequestStatus.CANCELLED).count();
 		double resolutionRate = (resolvedRequests * 100.0) / totalRequests;
 
-		return new CategoryStatisticsDTO(category.getId(), category.getName(), totalRequests, receivedRequests,
-				inProgressRequests, resolvedRequests, cancelledRequests, resolutionRate);
+		return categoryMapper.toStatisticsResponse(category.getId(), category.getName(), totalRequests,
+				receivedRequests, inProgressRequests, resolvedRequests, cancelledRequests, resolutionRate);
 	}
 
 	public SubCategoryStatisticsDTO getSubCategoryStatistics(String subCategoryId) {
@@ -87,7 +97,8 @@ public class RequestStatisticsService {
 
 		if (totalRequests == 0) {
 
-			return new SubCategoryStatisticsDTO(subCategory.getId(), subCategory.getName(), 0, 0, 0, 0, 0, 0.0);
+			return subCategoryMapper.toStatisticsResponse(subCategory.getId(), subCategory.getName(), 0, 0, 0, 0, 0,
+					0.0);
 		}
 
 		int receivedRequests = (int) requests.stream().filter(r -> r.getStatus() == RequestStatus.RECEIVED).count();
@@ -97,7 +108,7 @@ public class RequestStatisticsService {
 		int cancelledRequests = (int) requests.stream().filter(r -> r.getStatus() == RequestStatus.CANCELLED).count();
 		double resolutionRate = (resolvedRequests * 100.0) / totalRequests;
 
-		return new SubCategoryStatisticsDTO(subCategory.getId(), subCategory.getName(), totalRequests, receivedRequests,
-				inProgressRequests, resolvedRequests, cancelledRequests, resolutionRate);
+		return subCategoryMapper.toStatisticsResponse(subCategory.getId(), subCategory.getName(), totalRequests,
+				receivedRequests, inProgressRequests, resolvedRequests, cancelledRequests, resolutionRate);
 	}
 }

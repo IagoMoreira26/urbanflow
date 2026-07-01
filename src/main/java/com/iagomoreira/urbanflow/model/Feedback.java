@@ -68,12 +68,12 @@ public class Feedback implements Serializable {
 		return userId;
 	}
 
-	public String getRequestId() {
-		return requestId;
-	}
-
 	public void setUserId(String userId) {
 		this.userId = userId;
+	}
+
+	public String getRequestId() {
+		return requestId;
 	}
 
 	public void setRequestId(String requestId) {

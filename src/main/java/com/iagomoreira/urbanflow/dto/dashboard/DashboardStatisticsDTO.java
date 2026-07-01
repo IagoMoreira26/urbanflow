@@ -20,59 +20,83 @@ public class DashboardStatisticsDTO implements Serializable {
 	public DashboardStatisticsDTO() {
 	}
 
-	public DashboardStatisticsDTO(Integer totalRequests, Integer receivedRequests, Integer inProgressRequests,
-			Integer resolvedRequests, Integer cancelledRequests, Double resolutionRate, Integer totalUsers,
-			Integer totalVotes, Integer totalFeedbacks, Double averageRating) {
-
-		this.totalRequests = totalRequests;
-		this.receivedRequests = receivedRequests;
-		this.inProgressRequests = inProgressRequests;
-		this.resolvedRequests = resolvedRequests;
-		this.cancelledRequests = cancelledRequests;
-		this.resolutionRate = resolutionRate;
-		this.totalUsers = totalUsers;
-		this.totalVotes = totalVotes;
-		this.totalFeedbacks = totalFeedbacks;
-		this.averageRating = averageRating;
-	}
-
 	public Integer getTotalRequests() {
 		return totalRequests;
+	}
+
+	public void setTotalRequests(Integer totalRequests) {
+		this.totalRequests = totalRequests;
 	}
 
 	public Integer getReceivedRequests() {
 		return receivedRequests;
 	}
 
+	public void setReceivedRequests(Integer receivedRequests) {
+		this.receivedRequests = receivedRequests;
+	}
+
 	public Integer getInProgressRequests() {
 		return inProgressRequests;
+	}
+
+	public void setInProgressRequests(Integer inProgressRequests) {
+		this.inProgressRequests = inProgressRequests;
 	}
 
 	public Integer getResolvedRequests() {
 		return resolvedRequests;
 	}
 
+	public void setResolvedRequests(Integer resolvedRequests) {
+		this.resolvedRequests = resolvedRequests;
+	}
+
 	public Integer getCancelledRequests() {
 		return cancelledRequests;
+	}
+
+	public void setCancelledRequests(Integer cancelledRequests) {
+		this.cancelledRequests = cancelledRequests;
 	}
 
 	public Double getResolutionRate() {
 		return resolutionRate;
 	}
 
+	public void setResolutionRate(Double resolutionRate) {
+		this.resolutionRate = resolutionRate;
+	}
+
 	public Integer getTotalUsers() {
 		return totalUsers;
+	}
+
+	public void setTotalUsers(Integer totalUsers) {
+		this.totalUsers = totalUsers;
 	}
 
 	public Integer getTotalVotes() {
 		return totalVotes;
 	}
 
+	public void setTotalVotes(Integer totalVotes) {
+		this.totalVotes = totalVotes;
+	}
+
 	public Integer getTotalFeedbacks() {
 		return totalFeedbacks;
 	}
 
+	public void setTotalFeedbacks(Integer totalFeedbacks) {
+		this.totalFeedbacks = totalFeedbacks;
+	}
+
 	public Double getAverageRating() {
 		return averageRating;
+	}
+
+	public void setAverageRating(Double averageRating) {
+		this.averageRating = averageRating;
 	}
 }

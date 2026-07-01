@@ -1,11 +1,10 @@
 package com.iagomoreira.urbanflow.mapper;
 
-import java.time.LocalDateTime;
-
 import org.springframework.stereotype.Component;
 
 import com.iagomoreira.urbanflow.dto.user.CreateUserDTO;
 import com.iagomoreira.urbanflow.dto.user.UpdateUserDTO;
+import com.iagomoreira.urbanflow.dto.user.UserResponseDTO;
 import com.iagomoreira.urbanflow.model.User;
 
 @Component
@@ -25,10 +24,10 @@ public class UserMapper {
 		user.setEmail(dto.getEmail());
 		user.setPassword(encodedPassword);
 		user.setCpf(dto.getCpf());
-		user.setRole(dto.getRole());
-		user.setDepartmentId(dto.getDepartmentId());
-		user.setAddress(addressMapper.toEntity(dto.getAddress()));
-		user.setCreatedAt(LocalDateTime.now());
+
+		if (dto.getAddress() != null) {
+			user.setAddress(addressMapper.toEntity(dto.getAddress()));
+		}
 
 		return user;
 	}
@@ -37,13 +36,26 @@ public class UserMapper {
 
 		user.setName(dto.getName());
 		user.setEmail(dto.getEmail());
-		user.setRole(dto.getRole());
-		user.setDepartmentId(dto.getDepartmentId());
 
 		if (dto.getAddress() != null) {
 			user.setAddress(addressMapper.toEntity(dto.getAddress()));
 		}
+	}
 
-		user.setUpdatedAt(LocalDateTime.now());
+	public UserResponseDTO toResponse(User user) {
+		UserResponseDTO dto = new UserResponseDTO();
+		dto.setId(user.getId());
+		dto.setName(user.getName());
+		dto.setEmail(user.getEmail());
+		dto.setRole(user.getRole());
+		dto.setDepartmentId(user.getDepartmentId());
+
+		if (user.getAddress() != null) {
+			dto.setAddress(addressMapper.toResponse(user.getAddress()));
+		}
+
+		dto.setCreatedAt(user.getCreatedAt());
+		dto.setUpdatedAt(user.getUpdatedAt());
+		return dto;
 	}
 }

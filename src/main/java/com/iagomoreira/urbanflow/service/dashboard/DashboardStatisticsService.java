@@ -4,21 +4,25 @@ import org.springframework.stereotype.Service;
 
 import com.iagomoreira.urbanflow.dto.dashboard.DashboardOverviewDTO;
 import com.iagomoreira.urbanflow.dto.dashboard.DashboardStatisticsDTO;
+import com.iagomoreira.urbanflow.mapper.DashboardMapper;
 import com.iagomoreira.urbanflow.model.enums.RequestStatus;
 
 @Service
 public class DashboardStatisticsService {
 
 	private final DashboardMetricsService dashboardMetricsService;
+	private final DashboardMapper dashboardMapper;
 
-	public DashboardStatisticsService(DashboardMetricsService dashboardMetricsService) {
+	public DashboardStatisticsService(DashboardMetricsService dashboardMetricsService,
+			DashboardMapper dashboardMapper) {
 		super();
 		this.dashboardMetricsService = dashboardMetricsService;
+		this.dashboardMapper = dashboardMapper;
 	}
 
 	public DashboardStatisticsDTO getStatistics() {
 
-		return new DashboardStatisticsDTO(
+		return dashboardMapper.toStatisticsResponse(
 
 				(int) dashboardMetricsService.countRequests(),
 				(int) dashboardMetricsService.countByStatus(RequestStatus.RECEIVED),
@@ -34,7 +38,7 @@ public class DashboardStatisticsService {
 
 	public DashboardOverviewDTO getOverview() {
 
-		return new DashboardOverviewDTO(
+		return dashboardMapper.toOverviewResponse(
 
 				dashboardMetricsService.countRequests(), dashboardMetricsService.countByStatus(RequestStatus.RECEIVED),
 				dashboardMetricsService.countByStatus(RequestStatus.UNDER_REVIEW),
