@@ -43,6 +43,11 @@ public class UserMapper {
 	}
 
 	public UserResponseDTO toResponse(User user) {
+
+		if (user == null) {
+			return null;
+		}
+
 		UserResponseDTO dto = new UserResponseDTO();
 		dto.setId(user.getId());
 		dto.setName(user.getName());

@@ -18,6 +18,11 @@ public class MediaMapper {
 	}
 
 	public MediaResponseDTO toResponse(Media media) {
+
+		if (media == null) {
+			return null;
+		}
+
 		MediaResponseDTO dto = new MediaResponseDTO();
 		dto.setId(media.getId());
 		dto.setType(media.getType());

@@ -9,6 +9,11 @@ import com.iagomoreira.urbanflow.model.Legislation;
 public class LegislationMapper {
 
 	public LegislationResponseDTO toResponse(Legislation legislation) {
+
+		if (legislation == null) {
+			return null;
+		}
+
 		LegislationResponseDTO dto = new LegislationResponseDTO();
 		dto.setId(legislation.getId());
 		dto.setTitle(legislation.getTitle());

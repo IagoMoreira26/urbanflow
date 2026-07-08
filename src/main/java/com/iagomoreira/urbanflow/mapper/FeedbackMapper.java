@@ -19,6 +19,11 @@ public class FeedbackMapper {
 	}
 
 	public FeedbackResponseDTO toResponse(Feedback feedback) {
+
+		if (feedback == null) {
+			return null;
+		}
+
 		FeedbackResponseDTO dto = new FeedbackResponseDTO();
 		dto.setId(feedback.getId());
 		dto.setRating(feedback.getRating());

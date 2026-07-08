@@ -31,6 +31,11 @@ public class SubCategoryMapper {
 	}
 
 	public SubCategoryResponseDTO toResponse(SubCategory subCategory) {
+
+		if (subCategory == null) {
+			return null;
+		}
+
 		SubCategoryResponseDTO dto = new SubCategoryResponseDTO();
 		dto.setId(subCategory.getId());
 		dto.setName(subCategory.getName());

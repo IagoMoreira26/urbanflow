@@ -19,6 +19,11 @@ public class UpdateMapper {
 	}
 
 	public UpdateResponseDTO toResponse(Update update) {
+
+		if (update == null) {
+			return null;
+		}
+
 		UpdateResponseDTO dto = new UpdateResponseDTO();
 		dto.setId(update.getId());
 		dto.setStatus(update.getStatus());

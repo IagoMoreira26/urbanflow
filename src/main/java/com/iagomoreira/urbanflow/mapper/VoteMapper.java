@@ -22,6 +22,11 @@ public class VoteMapper {
 	}
 
 	public VoteResponseDTO toResponse(Vote vote) {
+
+		if (vote == null) {
+			return null;
+		}
+
 		VoteResponseDTO dto = new VoteResponseDTO();
 		dto.setId(vote.getId());
 		dto.setUserId(vote.getUserId());

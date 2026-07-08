@@ -26,6 +26,11 @@ public class CategoryMapper {
 	}
 
 	public CategoryResponseDTO toResponse(Category category) {
+
+		if (category == null) {
+			return null;
+		}
+
 		CategoryResponseDTO dto = new CategoryResponseDTO();
 		dto.setId(category.getId());
 		dto.setName(category.getName());

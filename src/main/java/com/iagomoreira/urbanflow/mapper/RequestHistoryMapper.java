@@ -9,6 +9,11 @@ import com.iagomoreira.urbanflow.model.RequestHistory;
 public class RequestHistoryMapper {
 
 	public RequestHistoryResponseDTO toResponse(RequestHistory history) {
+
+		if (history == null) {
+			return null;
+		}
+
 		RequestHistoryResponseDTO dto = new RequestHistoryResponseDTO();
 		dto.setId(history.getId());
 		dto.setOldStatus(history.getOldStatus());

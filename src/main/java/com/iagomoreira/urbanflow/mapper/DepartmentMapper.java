@@ -23,6 +23,11 @@ public class DepartmentMapper {
 	}
 
 	public DepartmentResponseDTO toResponse(Department department) {
+
+		if (department == null) {
+			return null;
+		}
+
 		DepartmentResponseDTO dto = new DepartmentResponseDTO();
 		dto.setId(department.getId());
 		dto.setName(department.getName());
