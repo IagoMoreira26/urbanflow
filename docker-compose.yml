@@ -1,0 +1,24 @@
+services:
+
+  mongo:
+    image: mongo:7
+    container_name: urbanflow-mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  urbanflow:
+    build: .
+    container_name: urbanflow-api
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongo
+    environment:
+      SPRING_DATA_MONGODB_URI: mongodb://mongo:27017/urbanflow
+
+volumes:
+  mongo_data:

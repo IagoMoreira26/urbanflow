@@ -34,3 +34,12 @@ build/
 
 ### Application properties (local configuration) ###
 src/main/resources/application.properties
+
+### Docker ###
+# Ignora pastas de volumes locais (ex: dados do banco de dados do compose)
+*/data/
+*db_data/
+*.data/
+
+# Ignora o arquivo de credenciais do Docker se houver
+.env

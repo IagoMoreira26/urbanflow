@@ -41,6 +41,7 @@ public class UserController {
 	}
 
 	@GetMapping
+	@PreAuthorize("hasRole('ADMIN')")
 	@Operation(summary = "List all users", description = "Returns a list of all users")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "Users retrieved", content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserResponseDTO.class))) })
@@ -49,6 +50,7 @@ public class UserController {
 	}
 
 	@GetMapping("/{id}")
+	@PreAuthorize("hasRole('ADMIN') or @securityService.getAuthenticatedUserId().equals(#id)")
 	@Operation(summary = "Get user by ID", description = "Returns a single user")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "User found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserResponseDTO.class))),
@@ -59,7 +61,7 @@ public class UserController {
 	}
 
 	@GetMapping("/operators/department/{departmentId}")
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasAnyRole('ADMIN','OPERATOR')")
 	@Operation(summary = "Get operators by department", description = "Returns operators belonging to a department (admin only)")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "Operators retrieved", content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserResponseDTO.class))),
@@ -81,6 +83,7 @@ public class UserController {
 	}
 
 	@PutMapping("/{id}")
+	@PreAuthorize("hasRole('ADMIN') or @securityService.getAuthenticatedUserId().equals(#id)")
 	@Operation(summary = "Update a user", description = "Updates an existing user")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "User updated", content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserResponseDTO.class))),
@@ -93,6 +96,7 @@ public class UserController {
 	}
 
 	@DeleteMapping("/{id}")
+	@PreAuthorize("hasRole('ADMIN') or @securityService.getAuthenticatedUserId().equals(#id)")
 	@Operation(summary = "Delete a user", description = "Deletes a user by ID")
 	@ApiResponses(value = { @ApiResponse(responseCode = "204", description = "User deleted", content = @Content),
 			@ApiResponse(responseCode = "404", description = "User not found", content = @Content) })
